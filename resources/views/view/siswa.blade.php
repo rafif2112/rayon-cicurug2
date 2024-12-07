@@ -96,6 +96,10 @@
             if (window.location.search.includes('search=')) {
                 document.getElementById('foto-siswa').scrollIntoView({ behavior: 'smooth' });
             }
+
+            if (window.location.search.includes('kategori=')) {
+                document.getElementById('foto-siswa').scrollIntoView({ behavior: 'smooth' });
+            }
         });
     </script>
 </x-layout>
