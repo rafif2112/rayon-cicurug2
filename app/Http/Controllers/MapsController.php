@@ -9,14 +9,14 @@ class MapsController extends Controller
     public function index()
     {
         // data rumah dengan database
-        $rumah = Map::all();
+        $rumah = Map::with('siswa')->get();
         return view('view.about', compact('rumah'));
     }
 
     public function admin()
     {
         // data rumah dengan database
-        $rumah = Map::all();
+        $rumah = Map::with('siswa')->get();
         return view('admin.maps.index', compact('rumah'));
     }
 

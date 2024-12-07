@@ -22,7 +22,7 @@
                                         <div class="flex text-sm text-gray-600">
                                             <label for="gambar" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                                 <span>Unggah file</span>
-                                                <input id="gambar" name="gambar" type="file" class="sr-only" required>
+                                                <input id="gambar" name="gambar" type="file" value="{{ old('gambar') }}" class="sr-only" required>
                                             </label>
                                             <p class="pl-1">atau seret dan lepas</p>
                                         </div>
@@ -37,7 +37,7 @@
                             <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                                 <div>
                                     <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                                    <input type="text" id="nama" name="nama" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="text" id="nama" name="nama" value="{{ old('nama') }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('nama')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -45,7 +45,7 @@
 
                                 <div>
                                     <label for="angkatan" class="block text-sm font-medium text-gray-700">Tahun Angkatan</label>
-                                    <input type="text" id="angkatan" name="angkatan" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="text" id="angkatan" name="angkatan" value="{{ old('angkatan') }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('angkatan')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -53,7 +53,7 @@
 
                                 <div>
                                     <label for="jurusan" class="block text-sm font-medium text-gray-700">Jurusan</label>
-                                    <input type="text" id="jurusan" name="jurusan" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="text" id="jurusan" name="jurusan" value="{{ old('jurusan') }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('jurusan')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -61,7 +61,7 @@
 
                                 <div>
                                     <label for="tempat_bekerja" class="block text-sm font-medium text-gray-700">Tempat Bekerja</label>
-                                    <input type="text" id="tempat_bekerja" name="tempat_bekerja" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="text" id="tempat_bekerja" name="tempat_bekerja" value="{{ old('tempat_bekerja') }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('tempat_bekerja')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -69,7 +69,7 @@
 
                                 <div>
                                     <label for="pekerjaan" class="block text-sm font-medium text-gray-700">Pekerjaan</label>
-                                    <input type="text" id="pekerjaan" name="pekerjaan" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="text" id="pekerjaan" name="pekerjaan" value="{{ old('pekerjaan') }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('pekerjaan')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror

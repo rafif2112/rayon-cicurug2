@@ -1,7 +1,7 @@
 <x-admin-layout>
     <div class="container mx-auto">
+
         <div class="flex items-center justify-between mb-8">
-            <h1 class="font-bold text-gray-800 dark:text-gray-100">Edit Galeri</h1>
             <a href="{{ route('galeri.admin') }}" class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
@@ -24,18 +24,24 @@
                     </div>
                     
                     <div class="space-y-6">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image Upload</label>
-                        <div id="drop-area" class="relative border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500 transition duration-300 ease-in-out">
-                            <input type="file" name="gambar" id="gambar" accept=".jpeg,.jpg,.png" class="hidden" onchange="previewImage(event)">
-                            <div class="space-y-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        <label for="gambar" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Profile Picture</label>
+                        <div id="drop-area" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <p class="text-gray-500 dark:text-gray-400">Drag & drop an image or click to select</p>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="gambar" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <span>Upload a file</span>
+                                        <input id="gambar" name="gambar" type="file" accept="image/*" class="sr-only" required>
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                             </div>
                         </div>
                         <div id="image-preview" class="mt-4">
-                            <img id="preview" class="max-w-full h-auto rounded-lg shadow-md" src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image preview">
+                            <img id="preview" class="max-w-full h-96 rounded-lg shadow-md" src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image preview">
                         </div>
                         @error('gambar')
                             <p class="text-red-500 text-sm mt-2">{{ $message }}</p>

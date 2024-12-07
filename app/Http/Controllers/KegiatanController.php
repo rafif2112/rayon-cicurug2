@@ -29,6 +29,13 @@ class KegiatanController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string|max:255',
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'judul.required' => 'Judul tidak boleh kosong',
+            'deskripsi.required' => 'Deskripsi tidak boleh kosong',
+            'gambar.required' => 'Gambar tidak boleh kosong',
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.mimes' => 'File harus berformat jpeg, png, jpg',
+            'gambar.max' => 'Ukuran file maksimal 2MB',
         ]);
 
         // Handle file upload
@@ -74,6 +81,12 @@ class KegiatanController extends Controller
             'judul' => 'required|string',
             'deskripsi' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'judul.required' => 'Judul tidak boleh kosong',
+            'deskripsi.required' => 'Deskripsi tidak boleh kosong',
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.mimes' => 'File harus berformat jpeg, png, jpg',
+            'gambar.max' => 'Ukuran file maksimal 2MB',
         ]);
 
         // Handle file upload
@@ -96,8 +109,7 @@ class KegiatanController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');
-    }
+        return redirect()->back()->with('success', 'Data berhasil diperbarui');    }
 
     public function destroy(string $id)
     {

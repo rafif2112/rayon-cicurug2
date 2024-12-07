@@ -1,6 +1,14 @@
 <x-admin-layout>
     <div class="min-h-screen">
         <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <a href="{{ route('struktur.admin') }}" class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Kembali</span>
+                </a>
+            </div>
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="p-8 sm:p-12">
                     <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Edit Struktur</h2>

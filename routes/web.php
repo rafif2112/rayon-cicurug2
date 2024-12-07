@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
     Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
     Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+    Route::post('/siswa/import', [SiswaController::class, 'import'])->name('siswa.import');
 
     Route::get('/admin/alumni', [AlumniController::class, 'admin'])->name('alumni.admin');
     Route::get('/alumni/create', [AlumniController::class, 'create'])->name('alumni.create');
@@ -52,11 +53,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('alumni.destroy');
 
     Route::get('/admin/maps', [MapsController::class, 'admin'])->name('maps.admin');
-    Route::get('/maps/create', [MapsController::class, 'create'])->name('maps.create');
-    Route::post('/maps', [MapsController::class, 'store'])->name('maps.store');
-    Route::get('/maps/{id}/edit', [MapsController::class, 'edit'])->name('maps.edit');
-    Route::put('/maps/{id}', [MapsController::class, 'update'])->name('maps.update');
-    Route::delete('/maps/{id}', [MapsController::class, 'destroy'])->name('maps.destroy');
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -64,14 +60,14 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login'); // Change 'auth' to 'login'
 });
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/siswa', [SiswaController::class, 'index']);
+// Route::get('/siswa', [SiswaController::class, 'index']);
 
-Route::get('/kegiatan', [KegiatanController::class, 'index']);
+Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
 
-Route::get('/tentang', [MapsController::class, 'index']);
+Route::get('/tentang', [MapsController::class, 'index'])->name('tentang.index');
 
-Route::get('/alumni', [AlumniController::class, 'index']);
+Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni.index');
 
 Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');

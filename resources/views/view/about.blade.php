@@ -19,8 +19,7 @@
                 <h2 class="text-3xl font-bold text-gray-800 dark:text-white md:text-4xl" id="dokumentasi">Tentang Rayon
                     Ini</h2>
             </div>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">We offer a wide range of services to help you grow your
-                business.</p>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">Tentang Rayon Cicurug 2</p>
         </div>
 
         <div class="py-12">
@@ -101,8 +100,7 @@
                 <ion-icon class="text-5xl" src="{{asset('assets/images/icon/location-sharp.svg')}}"></ion-icon>
                 <h2 class="text-3xl font-bold text-gray-800 dark:text-white md:text-4xl">Lokasi</h2>
             </div>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">We offer a wide range of services to help you grow your
-                business.</p>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">Lokasi Rumah Siswa Cicurug 2</p>
         </div>
 
         <div class="container w-11/12 pb-3 mx-auto mb-10 border-b-2 sm:w-4/5">
@@ -114,12 +112,12 @@
                 <script>
                     // Initialize the map
                     var map = L.map('map').setView([-6.723, 106.834], 12);
-
+    
                     // Add OpenStreetMap tile layer
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(map);
-
+    
                     // Define custom icon using SVG
                     function getCustomIcon(color) {
                         return L.divIcon({
@@ -135,39 +133,35 @@
                             popupAnchor: [0, -40]
                         });
                     }
-
-                    // Get location data from controller
-                    var locations = @json($rumah);
-
-                    // Check if locations data exists
-                    if (locations && locations.length > 0) {
-                        // Add markers for each location with custom icon
-                        locations.forEach(function(rumah) {
-                            let color = '#000000'; // Default color
-
-                            // Check rumah.angkatan and assign color accordingly
-                            if (rumah.angkatan) {
-                                if (rumah.angkatan % 3 == 0) {
-                                    color = '#FB0297FF'; // Pink for angkatan 24, 27, 30, 33, etc.
-                                } else if (rumah.angkatan % 3 == 1) {
-                                    color = '#FFFF00'; // Yellow for angkatan 25, 28, 31, 34, etc.
-                                } else if (rumah.angkatan % 3 == 2) {
-                                    color = '#0000FF'; // Blue for angkatan 26, 29, 32, 35, etc.
-                                } else {
-                                    color = '#000000'; // Default color
-                                }
+    
+                var locations = @json($rumah);
+    
+                if (locations && locations.length > 0) {
+                    locations.forEach(function(rumah) {
+                        let color = '#000000';
+    
+                        if (rumah.siswa && rumah.siswa.angkatan) {
+                            if (rumah.siswa.angkatan % 3 == 0) {
+                                color = '#FB0297FF';
+                            } else if (rumah.siswa.angkatan % 3 == 1) {
+                                color = '#FFFF00';
+                            } else if (rumah.siswa.angkatan % 3 == 2) {
+                                color = '#0000FF';
+                            } else {
+                                color = '#000000';
                             }
-
-                            // Add marker with the corresponding custom icon
-                            if (rumah.latitude && rumah.longitude) {
-                                L.marker([rumah.latitude, rumah.longitude], { icon: getCustomIcon(color) })
-                                    .addTo(map)
-                                    .bindPopup(`<b>${rumah.nama}</b>`);
-                            }
-                        });
-                    } else {
-                        console.log('No location data available.');
-                    }
+                        }
+    
+                        // Add marker with the corresponding custom icon
+                        if (rumah.siswa.latitude && rumah.siswa.longitude) {
+                            L.marker([rumah.siswa.latitude, rumah.siswa.longitude], { icon: getCustomIcon(color) })
+                                .addTo(map)
+                                .bindPopup(`<b>${rumah.siswa.nama}</b>`);
+                        }
+                    });
+                } else {
+                    console.log('No location data available.');
+                }
                 </script>
             </div>
         </div>

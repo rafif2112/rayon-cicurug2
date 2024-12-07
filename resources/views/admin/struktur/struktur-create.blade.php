@@ -1,6 +1,14 @@
 <x-admin-layout>
     <div class="min-h-screen">
         <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <a href="{{ route('struktur.admin') }}" class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Kembali</span>
+                </a>
+            </div>
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="p-8 sm:p-12">
                     <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Tambah Struktur Baru</h2>
@@ -37,7 +45,7 @@
                             <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                                 <div>
                                     <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                                    <input type="text" id="nama" name="nama" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="text" id="nama" name="nama" value="{{ old('nama') }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('nama')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -45,7 +53,7 @@
 
                                 <div>
                                     <label for="jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
-                                    <input type="text" id="jabatan" name="jabatan" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('jabatan')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror

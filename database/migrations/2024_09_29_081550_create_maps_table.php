@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('maps', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('angkatan');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->bigInteger('siswa_models_id')->unsigned();
             $table->timestamps();
         });
     }

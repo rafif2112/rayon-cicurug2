@@ -4,32 +4,38 @@
     </a>
     <div class="flex w-full mt-5 items-center justify-center">
         <div class="flex flex-wrap gap-4">
-            @foreach ($gambar as $image)
-                <div class="relative flex justify-center">
-                    <div class="relative">
-                        <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
-                            class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
-                            onclick="openModal(this)">
-                        <div class="absolute right-2 top-2">
-                            <ion-icon class="cursor-pointer rounded-full bg-black/50 p-1 text-3xl text-white/80"
-                                src="{{ asset('assets/images/icon/ellipsis-vertical-outline.svg') }}"
-                                onclick="toggleOptions(event, this)"></ion-icon>
-                            <div
-                                class="dropdown-menu absolute right-0 hidden min-w-[100px] flex-col rounded-lg bg-white p-2 shadow-lg">
-                                <a href="{{ route('galeri.edit', $image->id) }}"
-                                    class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</a>
-                                <form action="{{ route('galeri.destroy', $image->id) }}" method="POST"
-                                    class="block delete-form w-full text-left">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="w-full delete-button px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Hapus</button>
-                                </form>
+            @if ($gambar->isEmpty())
+                <div class="flex h-64 items-center justify-center rounded-lg">
+                    <p class="text-lg text-gray-500">Belum ada data galeri yang tersedia.</p>
+                </div>
+            @else
+                @foreach ($gambar as $image)
+                    <div class="relative flex justify-center">
+                        <div class="relative">
+                            <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
+                                class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
+                                onclick="openModal(this)">
+                            <div class="absolute right-2 top-2">
+                                <ion-icon class="cursor-pointer rounded-full bg-black/50 p-1 text-3xl text-white/80"
+                                    src="{{ asset('assets/images/icon/ellipsis-vertical-outline.svg') }}"
+                                    onclick="toggleOptions(event, this)"></ion-icon>
+                                <div
+                                    class="dropdown-menu absolute right-0 hidden min-w-[100px] flex-col rounded-lg bg-white p-2 shadow-lg">
+                                    <a href="{{ route('galeri.edit', $image->id) }}"
+                                        class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                    <form action="{{ route('galeri.destroy', $image->id) }}" method="POST"
+                                        class="block delete-form w-full text-left">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="w-full delete-button px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Hapus</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @endif
         </div>
     </div>
 

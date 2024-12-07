@@ -1,14 +1,21 @@
 <x-admin-layout>
     <div class="min-h-screen">
         <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <a href="{{ route('siswa.admin') }}" class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Kembali</span>
+                </a>
+            </div>
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="p-8 sm:p-12">
-                    <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Edit Siswa</h2>
                     @if ($siswa)
-                        <form action="{{ route('siswa.update', $siswa->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+                        <form id="form" action="{{ route('siswa.update', $siswa->id) }}" method="POST" enctype="multipart/form-data" class="space-y-1">
                             @csrf
                             @method('PUT')
-                            <div class="space-y-6">
+                            <div class="space-y-1">
                                 <div>
                                     <label for="gambar" class="block text-sm font-medium text-gray-700 mb-2">
                                         Foto Siswa
@@ -70,9 +77,19 @@
                                     </div>
 
                                     <div>
-                                        <label for="angkatan" class="block text-sm font-medium text-gray-700">Tahun Angkatan</label>
+                                        <label for="angkatan" class="block text-sm font-medium text-gray-700">Angkatan</label>
                                         <input type="text" id="angkatan" name="angkatan" value="{{ $siswa->angkatan }}" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         @error('angkatan')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="google_maps_link" class="block text-sm font-medium text-gray-700">Google Maps Link:</label>
+                                        <input type="hidden" id="latitude" name="latitude">
+                                        <input type="hidden" id="longitude" name="longitude">
+                                        <input type="text" id="google_maps_link" name="google_maps_link" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{old('google_maps_link')}}" autocomplete="off">
+                                        @error('google_maps_link')
                                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                     </div>
@@ -99,6 +116,24 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', function(event) {
+            const link = document.getElementById('google_maps_link').value;
+            if (link.trim() === '') {
+                return; // Submit the form without setting latitude and longitude
+            }
+            const regex = /@(-?\d+\.\d+),(-?\d+\.\d+)/ || /q=(-?\d+\.\d+),(-?\d+\.\d+)/;
+            const match = link.match(regex);
+            if (match) {
+                document.getElementById('latitude').value = match[1];
+                document.getElementById('longitude').value = match[2];
+            } else {
+                event.preventDefault();
+                alert('Invalid Google Maps link. Please provide a valid link.');
+            }
+        });
+    </script>
 
     <script>
         const fileInput = document.getElementById('gambar');

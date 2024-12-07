@@ -1,126 +1,161 @@
 <x-admin-layout>
-    <div class="flex justify-center items-center">
-        <div class="w-full">
-            <div class="mb-4">
-                <a href="{{ route('kegiatan.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-                    Tambah Data
-                </a>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="mb-8 flex items-center justify-between">
+            <h1 class="text-3xl font-bold text-gray-800">Daftar Kegiatan</h1>
+            <a href="{{ route('kegiatan.create') }}"
+                class="transform rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition duration-200 hover:bg-blue-700 hover:shadow-lg">
+                <i class="fas fa-plus mr-2"></i>Tambah Kegiatan
+            </a>
+        </div>
+
+        @if ($kegiatan->isEmpty())
+            <div class="flex h-64 items-center justify-center rounded-lg bg-gray-50">
+                <p class="text-lg text-gray-500">Belum ada data kegiatan yang tersedia.</p>
             </div>
-            @if ($kegiatan->isEmpty())
-                <p class="text-center text-gray-500">Tidak ada data kegiatan.</p>
-            @else
-                <!-- Your existing code for displaying kegiatan data goes here -->
+        @else
+            <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
                 @foreach ($kegiatan as $index => $data)
-                <div class="relative flex flex-col sm:flex-row justify-center items-center mb-10 bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img class="w-full sm:w-2/5 h-72 object-cover cursor-pointer" src="{{ asset('assets/images/kegiatan/' . $data->gambar) }}" alt="Kegiatan Image" onclick="openModal(this)">
-                    <div class="p-6 md:w-3/5">
-                        <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">{{$data->judul}}</h1>
-                        <p class="text-gray-700 dark:text-gray-300">{{$data->deskripsi}}</p>
-                    </div>
-                    <div class="absolute right-2 top-2">
-                        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-1 px-2 rounded-full" onclick="toggleOptions(event, this)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 12v4h4l10-10-4-4L4 12z" />
-                            </svg>
-                        </button>
-                        <div
-                            class="dropdown-menu absolute right-0 hidden min-w-[100px] flex-col rounded-lg bg-white p-2 shadow-lg">
-                            <a href="{{ route('kegiatan.edit', $data->id) }}"
-                                class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</a>
-                            <form action="{{ route('kegiatan.destroy', $data->id) }}" method="POST"
-                                class="block w-full text-left delete-form">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 delete-button">Hapus</button>
-                            </form>
+                    <div
+                        class="transform overflow-hidden rounded-xl bg-white shadow-lg transition duration-300 hover:shadow-xl">
+                        <div class="relative">
+                            <img class="h-64 w-full cursor-pointer object-cover"
+                                src="{{ asset('assets/images/kegiatan/' . $data->gambar) }}" alt="Kegiatan Image"
+                                onclick="openModal(this)">
+                            <!-- Options Button -->
+                            <div class="absolute right-4 top-4">
+                                <button
+                                    class="rounded-full bg-white/80 p-2 backdrop-blur-sm transition duration-200 hover:bg-white"
+                                    onclick="toggleOptions(event, this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                    </svg>
+                                </button>
+                                <div
+                                    class="dropdown-menu absolute right-0 z-10 hidden min-w-[160px] rounded-lg bg-white p-2 shadow-xl">
+                                    <a href="{{ route('kegiatan.edit', $data->id) }}"
+                                        class="flex items-center rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('kegiatan.destroy', $data->id) }}" method="POST"
+                                        class="delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button"
+                                            class="delete-button flex w-full items-center rounded-md px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h2 class="mb-3 text-xl font-bold text-gray-800">{{ $data->judul }}</h2>
+                            <p class="text-gray-600">{{ Str::limit($data->deskripsi, 150) }}</p>
                         </div>
                     </div>
-                </div>
-            @endforeach
-            @endif
-        </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 
-    <!-- Modal -->
-    <div id="lightboxModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75 p-5"
-        style="z-index: 100">
-        <span class="absolute right-5 top-5 cursor-pointer text-4xl text-white" onclick="closeModal()">&times;</span>
-        <img id="modalImage" class="max-h-full max-w-full opacity-0 transition-opacity duration-300 ease-in-out">
+    <!-- Enhanced Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-5">
+        <button onclick="closeModal()" class="absolute right-6 top-6 text-white hover:text-gray-300">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <img id="modalImage" class="max-h-[90vh] max-w-[90vw] rounded-lg opacity-0 transition-opacity duration-300">
     </div>
 
     <script>
-        document.addEventListener('click', function(event) {
-            var allDropdowns = document.querySelectorAll('.dropdown-menu');
-            allDropdowns.forEach(function(dropdown) {
-            dropdown.classList.add('hidden');
-            });
-        });
-
         function toggleOptions(event, button) {
-            event.stopPropagation(); // Prevent event bubbling
-            var options = button.nextElementSibling;
-            var allDropdowns = document.querySelectorAll('.dropdown-menu');
+            event.stopPropagation();
+            const dropdownMenu = button.nextElementSibling;
+            dropdownMenu.classList.toggle('hidden');
 
-            allDropdowns.forEach(function(dropdown) {
-            if (dropdown !== options) {
-                dropdown.classList.add('hidden');
-            }
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                if (menu !== dropdownMenu) {
+                    menu.classList.add('hidden');
+                }
             });
-
-            options.classList.toggle('hidden');
         }
 
-        document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
-            menu.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevent closing when clicking inside the menu
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.add('hidden');
             });
         });
 
-        // Open modal and show image
-        function openModal(element) {
-            var modal = document.getElementById("lightboxModal");
-            var modalImage = document.getElementById("modalImage");
-            modalImage.src = element.src;
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
-            setTimeout(function() {
-                modalImage.classList.remove("opacity-0");
-            }, 10); // Small delay to trigger the transition
+        function openModal(img) {
+            const modal = document.getElementById('lightboxModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modalImg.src = img.src;
+            setTimeout(() => modalImg.classList.add('opacity-100'), 100);
         }
 
-        // Close modal
         function closeModal() {
-            var modal = document.getElementById("lightboxModal");
-            var modalImage = document.getElementById("modalImage");
-            modalImage.classList.add("opacity-0");
-            setTimeout(function() {
-                modal.classList.add("hidden");
-                modal.classList.remove("flex");
-            }, 200); // Wait for the transition to complete
+            const modal = document.getElementById('lightboxModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.classList.remove('opacity-100');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
         }
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const form = this.closest('.delete-form');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const form = this.closest('.delete-form');
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Data yang dihapus tidak dapat dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
         });
+    </script>
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        @endif
     </script>
 </x-admin-layout>

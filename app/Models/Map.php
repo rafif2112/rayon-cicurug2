@@ -8,5 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Map extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama', 'angkatan', 'latitude', 'longitude'];
+
+    protected $fillable = [
+        
+    ];
+
+    public function siswa()
+    {
+        return $this->hasOne(SiswaModel::class);
+    }
 }

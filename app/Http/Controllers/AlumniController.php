@@ -13,9 +13,17 @@ class AlumniController extends Controller
         return view('view.alumni', ['alumni' => $alumni]);
     }
 
-    public function admin()
+    public function admin(Request $request)
     {
-        $alumni = Alumni::all();
+        $query = Alumni::query();
+
+        // Pencarian berdasarkan nama
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        $alumni = $query->get();
+
         return view('admin.alumni.alumni-admin', ['alumni' => $alumni]);
     }
 
@@ -65,15 +73,59 @@ class AlumniController extends Controller
         return view('admin.alumni.alumni-edit', ['alumni' => $alumni]);
     }
 
-    public function update(Request $request, Alumni $alumni)
+    public function update(Request $request, $id)
     {
-        $alumni = Alumni::find($request->id);
-        $alumni->gambar = $request->gambar;
-        $alumni->nama = $request->nama;
-        $alumni->jurusan = $request->jurusan;
-        $alumni->angkatan = $request->angkatan;
-        $alumni->tempat_bekerja = $request->tempat_bekerja;
-        $alumni->pekerjaan = $request->pekerjaan;
+        $alumni = Alumni::find($id);
+
+        if (!$alumni) {
+            return redirect()->back()->with('error', 'Alumni not found');
+        }
+
+        // Validasi input
+        $request->validate(
+            [
+                'nama' => 'required|string|max:255',
+                'jurusan' => 'required|string|max:255',
+                'angkatan' => 'required|integer',
+                'tempat_bekerja' => 'required|string|max:255',
+                'pekerjaan' => 'required|string|max:255',
+                'gambar' => 'image|mimes:jpeg,png,jpg|max:2048|nullable',
+            ],
+            [
+                'nama.required' => 'Nama wajib diisi',
+                'nama.max' => 'Nama tidak boleh lebih dari 255 karakter',
+                'jurusan.required' => 'Jurusan wajib diisi',
+                'angkatan.required' => 'Angkatan wajib diisi',
+                'angkatan.integer' => 'Angkatan harus berupa angka',
+                'tempat_bekerja.required' => 'Tempat bekerja wajib diisi',
+                'pekerjaan.required' => 'Pekerjaan wajib diisi',
+                'gambar.image' => 'Gambar harus berupa file gambar',
+                'gambar.mimes' => 'Gambar harus berformat jpeg, png, atau jpg',
+                'gambar.max' => 'Gambar tidak boleh lebih dari 2048 kilobyte',
+            ]
+        );
+
+        // Handle file upload
+        if ($request->hasFile('gambar')) {
+
+            // Hapus gambar lama jika ada
+            if ($alumni->gambar && file_exists(public_path('assets/images/alumni/' . $alumni->gambar))) {
+                unlink(public_path('assets/images/alumni/' . $alumni->gambar));
+            }
+
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('assets/images/alumni'), $filename);
+            $alumni->gambar = $filename;
+        }
+
+        // Update data alumni
+        $alumni->nama = $request->input('nama');
+        $alumni->jurusan = $request->input('jurusan');
+        $alumni->angkatan = $request->input('angkatan');
+        $alumni->tempat_bekerja = $request->input('tempat_bekerja');
+        $alumni->pekerjaan = $request->input('pekerjaan');
+
         $alumni->save();
 
         return redirect()->back()->with('success', 'Data alumni berhasil diubah');
@@ -82,7 +134,7 @@ class AlumniController extends Controller
     public function destroy(string $id)
     {
         $alumni = Alumni::find($id);
-        
+
         if (!$alumni) {
             return redirect()->back()->with('error', 'Alumni not found');
         }
@@ -94,6 +146,6 @@ class AlumniController extends Controller
 
         $alumni->delete();
 
-        return redirect()->back()->with('hapus', 'Alumni deleted successfully');
+        return redirect()->back()->with('success', 'Alumni deleted successfully');
     }
 }

@@ -1,12 +1,12 @@
 <x-admin-layout>
     <div class="container mx-auto">
+        
         <div class="flex items-center justify-between mb-8">
-            <h1 class="font-bold text-gray-800 dark:text-gray-100"></h1>
             <a href="{{ route('galeri.admin') }}" class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                 </svg>
-                <span>Back</span>
+                <span>Kembali</span>
             </a>
         </div>
         
@@ -16,7 +16,7 @@
                 <div class="grid grid-cols-1  gap-8">
                     <div class="space-y-6">
                         <div>
-                            <label for="judul" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Activity Name</label>
+                            <label for="judul" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Judul Galeri</label>
                             <input type="text" id="judul" name="judul" value="{{ old('judul') }}" required
                                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white transition duration-300 ease-in-out">
                         </div>
@@ -44,7 +44,7 @@
                 
                 <div class="mt-8 flex justify-end">
                     <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 ease-in-out transform hover:-translate-y-1">
-                        Add Gallery Item
+                        Tambah
                     </button>
                 </div>
             </form>
