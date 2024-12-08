@@ -29,7 +29,7 @@
             <hr class="my-6 border-gray-300 dark:border-gray-700 sm:mx-auto lg:my-8"/>
             <div class="sm:flex sm:items-center sm:justify-between">
                 <span class="text-sm text-gray-500 dark:text-gray-400 sm:text-center"><a href="#">© 2024 </a><a
-                        href="https://www.muhamadrafif.free.nf/" class="text-blue-600 font-semibold hover:underline">Muhamad Rafif</a>. All Rights Reserved.
+                        href="https://muhamadrafif.vercel.app/" class="text-blue-600 font-semibold hover:underline">Muhamad Rafif</a>. All Rights Reserved.
                 </span>
                 <div class="mt-4 flex sm:mt-0 sm:justify-center">
                     <a href="https://instagram.com/rafiff.21" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
