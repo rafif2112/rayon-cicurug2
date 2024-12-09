@@ -15,13 +15,14 @@ class DataSiswaImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        return new SiswaModel([
-            'nama' => $row['nama'],
-            'kelas' => $row['kelas'],
-            'angkatan' => $row['angkatan'],
-            'gambar' => $row['gambar'],
-            'jurusan' => $row['jurusan'],
-            'nis' => $row['nis'],
-        ]);
+        return SiswaModel::updateOrCreate(
+            ['nis' => $row['nis']],
+            [
+                'nama' => $row['nama'],
+                'kelas' => $row['kelas'],
+                'angkatan' => $row['angkatan'],
+                'jurusan' => $row['jurusan'],
+            ]
+        );
     }
 }

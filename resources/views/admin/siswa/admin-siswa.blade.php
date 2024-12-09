@@ -79,7 +79,11 @@
                                 <td class="whitespace-nowrap px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="h-24 w-20 flex-shrink-0">
-                                            <img class="h-24 w-20 rounded-lg object-cover" src="{{ asset('assets/images/siswa/' . $murid->gambar) }}" alt="{{ $murid->nama }}">
+                                            @if ($murid->gambar)
+                                                <img class="h-24 w-20 rounded-lg object-cover" src="{{ asset('storage/images/siswa/' . $murid->gambar) }}" alt="{{ $murid->nama }}">
+                                            @else
+                                                <img class="h-24 w-20 rounded-lg object-cover" src="{{ asset('storage/images/image.jpg') }}" alt="{{ $murid->nama }}">
+                                            @endif
                                         </div>
                                     </div>
                                 </td>

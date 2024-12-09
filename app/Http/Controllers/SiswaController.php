@@ -113,13 +113,13 @@ class SiswaController extends Controller
         if ($request->hasFile('gambar')) {
 
             // Hapus gambar lama jika ada
-            if ($siswa->gambar && file_exists(public_path('assets/images/siswa/' . $siswa->gambar))) {
-                unlink(public_path('assets/images/siswa/' . $siswa->gambar));
+            if ($siswa->gambar && file_exists(storage_path('app/public/images/siswa/' . $siswa->gambar))) {
+                unlink(storage_path('app/public/images/siswa/' . $siswa->gambar));
             }
 
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images/siswa'), $filename);
+            $file->move(storage_path('app/public/images/siswa'), $filename);
             $siswa->gambar = $filename;
         }
 
@@ -148,8 +148,8 @@ class SiswaController extends Controller
         }
 
         // Hapus gambar jika ada
-        if ($siswa->gambar && file_exists(public_path('assets/images/siswa/' . $siswa->gambar))) {
-            unlink(public_path('assets/images/siswa/' . $siswa->gambar));
+        if ($siswa->gambar && file_exists(storage_path('app/public/images/siswa/' . $siswa->gambar))) {
+            unlink(storage_path('app/public/images/siswa/' . $siswa->gambar));
         }
         $siswa->map()->delete();
         $siswa->delete();
@@ -196,7 +196,7 @@ class SiswaController extends Controller
         // Handle file upload
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('assets/images/siswa'), $filename);
+        $file->move(storage_path('app/public/images/siswa'), $filename);
 
         // Insert data siswa
         $siswa = new SiswaModel();

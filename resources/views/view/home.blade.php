@@ -48,8 +48,10 @@
                 </div>
             @else
                 <div class="col-span-2 flex flex-col items-center justify-center p-12 text-center">
-                    <ion-icon class="text-[90px] text-gray-400" src="{{asset('assets/images/icon/camera-outline.svg')}}"></ion-icon>
-                    <h3 class="text-2xl font-semibold text-gray-400 dark:text-white">belum ada postingan galeri saat ini</h3>
+                    <ion-icon class="text-[90px] text-gray-400"
+                        src="{{ asset('assets/images/icon/camera-outline.svg') }}"></ion-icon>
+                    <h3 class="text-2xl font-semibold text-gray-400 dark:text-white">belum ada postingan galeri saat ini
+                    </h3>
                     <p class="mt-2 text-gray-400 dark:text-gray-400">Segera hadir galeri terbaru</p>
                 </div>
             @endif
@@ -168,7 +170,7 @@
                             <div class="md:flex">
                                 <div class="md:flex-shrink-0">
                                     <img class="h-48 w-full object-cover md:w-48"
-                                        src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
+                                        src="{{ asset('storage/images/alumni/' . $lulusan->gambar) }}"
                                         alt="{{ $lulusan->nama }}">
                                 </div>
                                 <div class="p-8">

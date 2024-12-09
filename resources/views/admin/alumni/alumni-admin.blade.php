@@ -3,7 +3,8 @@
         <div class="mb-4 flex flex-wrap justify-between">
             <div class="mb-4 w-full space-y-4 md:flex md:items-center md:justify-between md:space-y-0">
                 <div>
-                    <a href="{{ route('alumni.create') }}" class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 font-semibold text-white transition duration-300 ease-out hover:bg-blue-700">
+                    <a href="{{ route('alumni.create') }}"
+                        class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 font-semibold text-white transition duration-300 ease-out hover:bg-blue-700">
                         Tambah Alumni
                     </a>
                 </div>
@@ -13,7 +14,8 @@
                             class="w-full rounded-full border px-4 py-2 dark:bg-gray-700 dark:text-white md:w-auto"
                             placeholder="Cari berdasarkan nama...">
                         @if (request('search'))
-                            <a href="{{ route('alumni.admin') }}" class="inline-flex items-center justify-center rounded-full bg-black/30 px-4 py-2 font-semibold text-white transition duration-300 ease-out hover:bg-black/70 dark:bg-red-600 dark:hover:bg-red-800">
+                            <a href="{{ route('alumni.admin') }}"
+                                class="inline-flex items-center justify-center rounded-full bg-black/30 px-4 py-2 font-semibold text-white transition duration-300 ease-out hover:bg-black/70 dark:bg-red-600 dark:hover:bg-red-800">
                                 X
                             </a>
                         @endif
@@ -23,32 +25,39 @@
         </div>
 
         @if ($alumni->isEmpty())
-            <div class="text-center py-4 text-gray-500">
+            <div class="py-4 text-center text-gray-500">
                 Tidak ada hasil yang ditemukan.
             </div>
         @else
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                             Foto
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                             Nama
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                             Jurusan
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                             Angkatan
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                             Tempat Bekerja
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                             Pekerjaan
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                             Aksi
                         </th>
                     </tr>
@@ -57,7 +66,8 @@
                     @foreach ($alumni as $lulusan)
                         <tr>
                             <td class="whitespace-nowrap px-6 py-4">
-                                <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="{{ $lulusan->nama }}" class="h-20 w-20 rounded-md object-cover">
+                                <img src="{{ asset('storage/images/alumni/' . $lulusan->gambar) }}"
+                                    alt="{{ $lulusan->nama }}" class="h-20 w-20 rounded-md object-cover">
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">
                                 {{ $lulusan->nama }}
@@ -76,11 +86,14 @@
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">
                                 <div class="flex space-x-2">
-                                    <a href="{{ route('alumni.edit', $lulusan->id) }}" class="text-indigo-600 transition-colors duration-200 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-500">Edit</a>
-                                    <form action="{{ route('alumni.destroy', $lulusan->id) }}" method="POST" class="delete-form inline-block">
+                                    <a href="{{ route('alumni.edit', $lulusan->id) }}"
+                                        class="text-indigo-600 transition-colors duration-200 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-500">Edit</a>
+                                    <form action="{{ route('alumni.destroy', $lulusan->id) }}" method="POST"
+                                        class="delete-form inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="delete-button text-red-600 transition-colors duration-200 hover:text-red-900 dark:text-red-400 dark:hover:text-red-500">Hapus</button>
+                                        <button type="button"
+                                            class="delete-button text-red-600 transition-colors duration-200 hover:text-red-900 dark:text-red-400 dark:hover:text-red-500">Hapus</button>
                                     </form>
                                 </div>
                             </td>
@@ -93,9 +106,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.delete-button').forEach(button => {
-                button.addEventListener('click', function (event) {
+                button.addEventListener('click', function(event) {
                     event.preventDefault();
                     const form = this.closest('.delete-form');
                     Swal.fire({

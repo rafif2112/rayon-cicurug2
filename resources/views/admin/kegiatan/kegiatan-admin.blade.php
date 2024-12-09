@@ -20,7 +20,7 @@
                         class="transform overflow-hidden rounded-xl bg-white shadow-lg transition duration-300 hover:shadow-xl">
                         <div class="relative">
                             <img class="h-64 w-full cursor-pointer object-cover"
-                                src="{{ asset('assets/images/kegiatan/' . $data->gambar) }}" alt="Kegiatan Image"
+                                src="{{ asset('storage/images/kegiatan/' . $data->gambar) }}" alt="Kegiatan Image"
                                 onclick="openModal(this)">
                             <!-- Options Button -->
                             <div class="absolute right-4 top-4">

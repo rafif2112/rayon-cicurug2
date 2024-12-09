@@ -47,7 +47,7 @@ class AlumniController extends Controller
         // Handle file upload
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('assets/images/alumni/'), $filename);
+        $file->move(storage_path('app/public/images/alumni'), $filename);
 
         // Create new Alumni instance and save data
         $alumni = new Alumni;
@@ -109,13 +109,13 @@ class AlumniController extends Controller
         if ($request->hasFile('gambar')) {
 
             // Hapus gambar lama jika ada
-            if ($alumni->gambar && file_exists(public_path('assets/images/alumni/' . $alumni->gambar))) {
-                unlink(public_path('assets/images/alumni/' . $alumni->gambar));
+            if ($alumni->gambar && file_exists(storage_path('app/public/images/alumni/' . $alumni->gambar))) {
+                unlink(storage_path('app/public/images/alumni/' . $alumni->gambar));
             }
 
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images/alumni'), $filename);
+            $file->move(storage_path('app/public/images/alumni'), $filename);
             $alumni->gambar = $filename;
         }
 
@@ -140,8 +140,8 @@ class AlumniController extends Controller
         }
 
         // Hapus gambar jika ada
-        if ($alumni->gambar && file_exists(public_path('assets/images/alumni/' . $alumni->gambar))) {
-            unlink(public_path('assets/images/alumni/' . $alumni->gambar));
+        if ($alumni->gambar && file_exists(storage_path('app/public/images/alumni/' . $alumni->gambar))) {
+            unlink(storage_path('app/public/images/alumni/' . $alumni->gambar));
         }
 
         $alumni->delete();

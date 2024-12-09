@@ -65,9 +65,14 @@
                             @foreach ($siswa as $murid)
                                 <div data-category="{{ $murid['kelas'] }}" data-name="{{ $murid['nama'] }}">
                                     <div class="relative h-full w-full overflow-hidden rounded-lg bg-white shadow-md">
-                                        <img class="h-48 w-full object-cover md:h-80"
-                                            src="assets/images/siswa/{{ $murid['gambar'] }}"
-                                            alt="{{ $murid['nama'] }}">
+                                        @if ($murid['gambar'])
+                                            <img class="h-48 w-full object-cover md:h-80"
+                                                src="{{ asset('storage/images/siswa/' . $murid['gambar']) }}"
+                                                alt="{{ $murid['nama'] }}">
+                                        @else
+                                            <img src="{{ asset('storage/images/image.jpg') }}" alt="Foto Siswa"
+                                                class="h-48 w-full object-cover md:h-80">
+                                        @endif
                                         <div class="p-4">
                                             <h3 id="nama" class="text-lg font-semibold text-gray-800">
                                                 {{ $murid['nama'] }}</h3>

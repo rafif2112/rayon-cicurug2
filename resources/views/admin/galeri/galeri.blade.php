@@ -2,7 +2,7 @@
     <a href="{{ route('galeri.create') }}"
         class="rounded-lg bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600">Tambah Gambar
     </a>
-    <div class="flex w-full mt-5 items-center justify-center">
+    <div class="mt-5 flex w-full items-center justify-center">
         <div class="flex flex-wrap gap-4">
             @if ($gambar->isEmpty())
                 <div class="flex h-64 items-center justify-center rounded-lg">
@@ -12,7 +12,7 @@
                 @foreach ($gambar as $image)
                     <div class="relative flex justify-center">
                         <div class="relative">
-                            <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
+                            <img src="{{ asset('storage/images/galeri/' . $image->gambar) }}" alt="Image"
                                 class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
                                 onclick="openModal(this)">
                             <div class="absolute right-2 top-2">
@@ -24,11 +24,11 @@
                                     <a href="{{ route('galeri.edit', $image->id) }}"
                                         class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</a>
                                     <form action="{{ route('galeri.destroy', $image->id) }}" method="POST"
-                                        class="block delete-form w-full text-left">
+                                        class="delete-form block w-full text-left">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="w-full delete-button px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Hapus</button>
+                                            class="delete-button w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Hapus</button>
                                     </form>
                                 </div>
                             </div>

@@ -21,7 +21,7 @@
                                         Foto Siswa
                                     </label>
                                     <div class="flex justify-center items-center">
-                                        <img id="preview" src="{{ asset('assets/images/siswa/' . $siswa->gambar) }}" class="max-h-48 rounded-lg shadow-lg transition-all duration-300 ease-in-out" alt="Pratinjau foto siswa">
+                                        <img id="preview" src="{{ asset('storage/images/siswa/' . $siswa->gambar) }}" class="max-h-48 rounded-lg shadow-lg transition-all duration-300 ease-in-out" alt="Pratinjau foto siswa">
                                     </div>
                                     <div id="drop-area" class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:border-indigo-500 transition-colors duration-300 ease-in-out">
                                         <div class="space-y-1 text-center">
