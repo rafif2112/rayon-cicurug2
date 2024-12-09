@@ -29,7 +29,7 @@
                         <div
                             class="mb-10 flex flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-xl sm:flex-row">
                             <img class="h-80 w-full object-cover sm:w-2/5"
-                                src="{{ asset('storage/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image">
+                                src="{{ asset('assets/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image">
                             <div class="p-6 md:w-3/5">
                                 <h1 class="mb-4 text-2xl font-bold text-gray-800 dark:text-white">{{ $item->judul }}
                                 </h1>
@@ -46,7 +46,7 @@
                                 </p>
                             </div>
                             <img class="h-80 w-full object-cover sm:w-2/5"
-                                src="{{ asset('storage/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image">
+                                src="{{ asset('assets/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image">
                         </div>
                     @endif
                 @endforeach

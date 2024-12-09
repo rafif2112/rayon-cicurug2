@@ -27,7 +27,7 @@
                 <div class="grid w-10/12 grid-cols-1 gap-8 sm:w-3/4 sm:grid-cols-2">
                     @foreach ($alumni as $lulusan)
                         <div class="overflow-hidden rounded-lg bg-white shadow-lg">
-                            <img src="{{ asset('storage/images/alumni/' . $lulusan->gambar) }}" alt="Alumni 1"
+                            <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="Alumni 1"
                                 class="h-64 w-full object-cover lg:h-80">
                             <div class="p-6">
                                 <h2 class="mb-2 text-2xl font-semibold text-gray-800">{{ $lulusan->nama }}</h2>

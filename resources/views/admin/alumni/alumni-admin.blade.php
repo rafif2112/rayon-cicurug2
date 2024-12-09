@@ -66,7 +66,7 @@
                     @foreach ($alumni as $lulusan)
                         <tr>
                             <td class="whitespace-nowrap px-6 py-4">
-                                <img src="{{ asset('storage/images/alumni/' . $lulusan->gambar) }}"
+                                <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
                                     alt="{{ $lulusan->nama }}" class="h-20 w-20 rounded-md object-cover">
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">

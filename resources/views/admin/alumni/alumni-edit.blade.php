@@ -14,7 +14,7 @@
                                     Foto Profil
                                 </label>
                                 <div class="flex items-center justify-center">
-                                    <img id="preview" src="{{ asset('storage/images/alumni/' . $alumni->gambar) }}"
+                                    <img id="preview" src="{{ asset('assets/images/alumni/' . $alumni->gambar) }}"
                                         class="max-h-48 rounded-lg shadow-lg transition-all duration-300 ease-in-out"
                                         alt="Pratinjau foto alumni">
                                 </div>

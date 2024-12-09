@@ -26,7 +26,7 @@
                             <input id="gambar" name="gambar" type="file" class="sr-only"
                                 onchange="previewImage(event)">
                             <p class="text-sm text-gray-600">Drag & Drop your image here or click to select</p>
-                            <img id="preview" src="{{ asset('storage/images/kegiatan/' . $kegiatan->gambar) }}"
+                            <img id="preview" src="{{ asset('assets/images/kegiatan/' . $kegiatan->gambar) }}"
                                 alt="Image" class="mt-2 h-48 w-48 rounded-md object-cover shadow-md"
                                 style="{{ $kegiatan->gambar ? '' : 'display: none;' }}">
                         </div>
@@ -165,7 +165,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href =
-                        "{{ route('kegiatan.admin') }}"; // Redirect ke halaman kegiatan.admin
+                            "{{ route('kegiatan.admin') }}"; // Redirect ke halaman kegiatan.admin
                     }
                 });
             @endif

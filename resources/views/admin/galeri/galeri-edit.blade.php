@@ -57,7 +57,7 @@
                         </div>
                         <div id="image-preview" class="mt-4">
                             <img id="preview" class="h-96 max-w-full rounded-lg shadow-md"
-                                src="{{ asset('storage/images/galeri/' . $image->gambar) }}" alt="Image preview">
+                                src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image preview">
                         </div>
                         @error('gambar')
                             <p class="mt-2 text-sm text-red-500">{{ $message }}</p>

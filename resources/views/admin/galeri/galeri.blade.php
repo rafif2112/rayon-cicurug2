@@ -12,7 +12,7 @@
                 @foreach ($gambar as $image)
                     <div class="relative flex justify-center">
                         <div class="relative">
-                            <img src="{{ asset('storage/images/galeri/' . $image->gambar) }}" alt="Image"
+                            <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
                                 class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
                                 onclick="openModal(this)">
                             <div class="absolute right-2 top-2">

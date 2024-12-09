@@ -35,7 +35,7 @@ class StrukturController extends Controller
         // Handle file upload
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(storage_path('app/public/images/struktur'), $filename);
+        $file->move(public_path('assets/images/struktur'), $filename);
 
         // Insert data
         $data = new StrukturModel();
@@ -81,13 +81,13 @@ class StrukturController extends Controller
         if ($request->hasFile('gambar')) {
 
             // Hapus gambar lama jika ada
-            if ($data->gambar && file_exists(storage_path('app/public/images/struktur/' . $data->gambar))) {
-            unlink(storage_path('app/public/images/struktur/' . $data->gambar));
+            if ($data->gambar && file_exists(public_path('assets/images/struktur/' . $data->gambar))) {
+            unlink(public_path('assets/images/struktur/' . $data->gambar));
             }
 
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(storage_path('app/public/images/struktur'), $filename);
+            $file->move(public_path('assets/images/struktur'), $filename);
             $data->gambar = $filename;
         }
 
@@ -112,8 +112,8 @@ class StrukturController extends Controller
         }
 
         // Hapus gambar jika ada
-        if ($data->gambar && file_exists(storage_path('app/public/images/struktur/' . $data->gambar))) {
-            unlink(storage_path('app/public/images/struktur/' . $data->gambar));
+        if ($data->gambar && file_exists(public_path('assets/images/struktur/' . $data->gambar))) {
+            unlink(public_path('assets/images/struktur/' . $data->gambar));
         }
 
         $data->delete();

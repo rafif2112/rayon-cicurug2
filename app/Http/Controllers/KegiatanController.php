@@ -41,7 +41,7 @@ class KegiatanController extends Controller
         // Handle file upload
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(storage_path('app/public/images/kegiatan'), $filename);
+        $file->move(public_path('assets/images/kegiatan'), $filename);
 
         // Insert data
         $data = new KegiatanModel();
@@ -93,13 +93,13 @@ class KegiatanController extends Controller
         if ($request->hasFile('gambar')) {
 
             // Hapus gambar lama jika ada
-            if ($data->gambar && file_exists(storage_path('app/public/images/kegiatan/' . $data->gambar))) {
-                unlink(storage_path('app/public/images/kegiatan/' . $data->gambar));
+            if ($data->gambar && file_exists(public_path('assets/images/kegiatan/' . $data->gambar))) {
+                unlink(public_path('assets/images/kegiatan/' . $data->gambar));
             }
 
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(storage_path('app/public/images/kegiatan'), $filename);
+            $file->move(public_path('assets/images/kegiatan'), $filename);
             $data->gambar = $filename;
         }
 
@@ -120,8 +120,8 @@ class KegiatanController extends Controller
         }
 
         // Hapus gambar jika ada
-        if ($data->gambar && file_exists(storage_path('app/public/images/kegiatan/' . $data->gambar))) {
-            unlink(storage_path('app/public/images/kegiatan/' . $data->gambar));
+        if ($data->gambar && file_exists(public_path('assets/images/kegiatan/' . $data->gambar))) {
+            unlink(public_path('assets/images/kegiatan/' . $data->gambar));
         }
         $data->delete();
         return redirect()->route('kegiatan.admin')->with('success', 'Data deleted successfully');

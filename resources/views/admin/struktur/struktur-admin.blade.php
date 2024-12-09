@@ -47,7 +47,7 @@
     }) as $struktur)
                         <tr class="border-b transition duration-300 hover:bg-gray-100">
                             <td class="px-5 py-3">
-                                <img src="{{ asset('storage/images/struktur/' . $struktur->gambar) }}"
+                                <img src="{{ asset('assets/images/struktur/' . $struktur->gambar) }}"
                                     alt="{{ $struktur->nama }}" class="h-20 w-20 rounded-md object-cover">
                             </td>
                             <td class="px-5 py-3">{{ $struktur->nama }}</td>

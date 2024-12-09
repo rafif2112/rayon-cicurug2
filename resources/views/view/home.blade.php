@@ -26,7 +26,7 @@
                 <div class="swiper-wrapper">
                     @foreach ($images as $image)
                         <div class="swiper-slide">
-                            <img src="assets/images/galeri/{{ $image->gambar }}" alt=""
+                            <img src="{{ asset('assets/images/images/galeri/'. $image->gambar) }}" alt=""
                                 class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
                                 style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
                         </div>
@@ -40,7 +40,7 @@
                             $image = $images[$imageIndex];
                         @endphp
                         <div class="swiper-slide">
-                            <img src="assets/images/galeri/{{ $image->gambar }}" alt=""
+                            <img src="{{ asset('assets/images/images/galeri/'. $image->gambar) }}" alt=""
                                 class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
                                 style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
                         </div>
@@ -169,9 +169,15 @@
                             class="transform overflow-hidden rounded-xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-gray-800">
                             <div class="md:flex">
                                 <div class="md:flex-shrink-0">
-                                    <img class="h-48 w-full object-cover md:w-48"
-                                        src="{{ asset('storage/images/alumni/' . $lulusan->gambar) }}"
+                                    @if ($lulusan->gambar)
+                                        <img class="h-48 w-full object-cover md:w-48"
+                                        src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
                                         alt="{{ $lulusan->nama }}">
+                                    @else
+                                        <img class="h-48 w-full object-cover md:w-48"
+                                        src="{{ asset('asset/images/image.jpg') }}"
+                                        alt="{{ $lulusan->nama }}">
+                                    @endif
                                 </div>
                                 <div class="p-8">
                                     <div class="text-sm font-semibold uppercase tracking-wide text-indigo-500">Angkatan
