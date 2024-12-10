@@ -65,26 +65,31 @@
                 <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
                     @foreach ($alumni as $lulusan)
                         <tr>
-                            <td class="whitespace-nowrap px-6 py-4">
-                                <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
-                                    alt="{{ $lulusan->nama }}" class="h-20 w-20 rounded-md object-cover">
+                            <td class="whitespace-nowrap px-2 py-4">
+                                @if ($lulusan->gambar)
+                                    <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
+                                    alt="{{ $lulusan->nama }}" class="h-24 w-20 rounded-md object-cover">
+                                @else
+                                    <img src="{{ asset('assets/images/image.jpg') }}"
+                                        alt="{{ $lulusan->nama }}" class="h-20 w-20 rounded-md object-cover">
+                                @endif
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="text-wrap whitespace-nowrap px-6 py-4">
                                 {{ $lulusan->nama }}
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="text-wrap whitespace-nowrap px-6 py-4">
                                 {{ $lulusan->jurusan }}
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="text-wrap whitespace-nowrap px-6 py-4">
                                 {{ $lulusan->angkatan }}
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="text-wrap whitespace-nowrap px-6 py-4">
                                 {{ $lulusan->tempat_bekerja }}
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="text-wrap whitespace-nowrap px-6 py-4">
                                 {{ $lulusan->pekerjaan }}
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">
+                            <td class="text-wrap whitespace-nowrap px-6 py-4 text-sm font-medium">
                                 <div class="flex space-x-2">
                                     <a href="{{ route('alumni.edit', $lulusan->id) }}"
                                         class="text-indigo-600 transition-colors duration-200 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-500">Edit</a>

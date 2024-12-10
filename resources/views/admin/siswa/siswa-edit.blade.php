@@ -25,9 +25,15 @@
                                         Foto Siswa
                                     </label>
                                     <div class="flex items-center justify-center">
-                                        <img id="preview" src="{{ asset('assets/images/siswa/' . $siswa->gambar) }}"
+                                        @if ($siswa->gambar)
+                                            <img id="preview" src="{{ asset('assets/images/siswa/' . $siswa->gambar) }}"
                                             class="max-h-48 rounded-lg shadow-lg transition-all duration-300 ease-in-out"
                                             alt="Pratinjau foto siswa">
+                                        @else
+                                            <img id="preview" src="{{ asset('assets/images/image.jpg') }}"
+                                            class="max-h-48 rounded-lg shadow-lg transition-all duration-300 ease-in-out"
+                                            alt="Pratinjau foto siswa">
+                                        @endif
                                     </div>
                                     <div id="drop-area"
                                         class="mt-2 flex cursor-pointer justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 pb-6 pt-5 transition-colors duration-300 ease-in-out hover:border-indigo-500">

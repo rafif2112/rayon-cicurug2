@@ -26,7 +26,7 @@
                 <div class="swiper-wrapper">
                     @foreach ($images as $image)
                         <div class="swiper-slide">
-                            <img src="{{ asset('assets/images/images/galeri/'. $image->gambar) }}" alt=""
+                            <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt=""
                                 class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
                                 style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
                         </div>
@@ -40,7 +40,7 @@
                             $image = $images[$imageIndex];
                         @endphp
                         <div class="swiper-slide">
-                            <img src="{{ asset('assets/images/images/galeri/'. $image->gambar) }}" alt=""
+                            <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt=""
                                 class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
                                 style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
                         </div>
@@ -145,53 +145,63 @@
     <section class="py-12">
         <div class="container mx-auto mb-10 w-11/12 border-b-2 border-gray-300 pb-5 dark:border-gray-700 sm:w-4/5">
             <div class="mb-6 flex items-center gap-4">
-                <ion-icon class="text-4xl md:text-5xl" src="{{ asset('assets/images/icon/people.svg') }}"></ion-icon>
-                <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100" id="dokumentasi">Alumni</h2>
+                <ion-icon class="text-3xl md:text-5xl" src="{{ asset('assets/images/icon/people.svg') }}"></ion-icon>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 md:text-4xl" id="dokumentasi">Alumni</h2>
             </div>
-            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">Alumni Rayon Cicurug 2</p>
+            <p class="mt-2 text-base text-gray-600 dark:text-gray-400 md:text-lg">Alumni Rayon Cicurug 2</p>
         </div>
 
-        <div class="container mx-auto w-11/12 px-4 py-16 sm:w-4/5">
-            <div class="grid gap-8 lg:grid-cols-2">
+        <div class="container mx-auto w-11/12 px-4 py-8 sm:w-4/5 md:py-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                 @if ($alumni->isEmpty())
-                    <div class="col-span-2 flex flex-col items-center justify-center pb-12 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-24 w-24 text-gray-400 dark:text-gray-600"
+                    <div class="col-span-1 flex flex-col items-center justify-center p-8 text-center md:col-span-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-16 w-16 text-gray-400 dark:text-gray-600 md:h-24 md:w-24"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
-                        <h3 class="text-2xl font-semibold text-gray-400 dark:text-white">Tidak ada data alumni</h3>
-                        <p class="mt-2 text-gray-400 dark:text-gray-400">Segera hadir data alumni terbaru</p>
+                        <h3 class="text-xl font-semibold text-gray-400 dark:text-white md:text-2xl">Tidak ada data alumni</h3>
+                        <p class="mt-2 text-sm text-gray-400 dark:text-gray-400 md:text-base">Segera hadir data alumni terbaru</p>
                     </div>
                 @else
-                    @foreach ($alumni->take(2) as $lulusan)
-                        <div
-                            class="transform overflow-hidden rounded-xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-gray-800">
-                            <div class="md:flex">
-                                <div class="md:flex-shrink-0">
+                    @foreach ($alumni->take(4) as $lulusan)
+                        <div class="w-72 sm:w-full mx-auto transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl dark:bg-gray-800">
+                            <div class="flex flex-col lg:flex-row">
+                                <div class="h-48 w-full lg:w-48">
                                     @if ($lulusan->gambar)
-                                        <img class="h-48 w-full object-cover md:w-48"
-                                        src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
-                                        alt="{{ $lulusan->nama }}">
+                                        <img class="h-full w-full lg:w-48 object-cover"
+                                            src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
+                                            alt="{{ $lulusan->nama }}">
                                     @else
-                                        <img class="h-48 w-full object-cover md:w-48"
-                                        src="{{ asset('asset/images/image.jpg') }}"
-                                        alt="{{ $lulusan->nama }}">
+                                        <img class="h-full w-full lg:w-48 object-cover"
+                                            src="{{ asset('asset/images/image.jpg') }}" 
+                                            alt="{{ $lulusan->nama }}">
                                     @endif
                                 </div>
-                                <div class="p-8">
-                                    <div class="text-sm font-semibold uppercase tracking-wide text-indigo-500">Angkatan
-                                        {{ $lulusan->angkatan }}</div>
-                                    <h3 class="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
-                                        {{ $lulusan->nama }}</h3>
-                                    <p class="mt-2 text-gray-600 dark:text-gray-300">{{ $lulusan->jurusan }}</p>
-                                    <div class="mt-4 flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6 text-gray-400"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                        </svg>
-                                        <p class="text-gray-600 dark:text-gray-300">{{ $lulusan->tempat_bekerja }}</p>
+                                <div class="flex max-h-56 flex-1 flex-col justify-between p-4">
+                                    <div>
+                                        <div class="text-xs font-semibold uppercase tracking-wide text-indigo-500 md:text-sm">
+                                            Angkatan {{ $lulusan->angkatan }}
+                                        </div>
+                                        <h3 class="mt-1 text-lg font-bold text-gray-900 dark:text-white md:text-xl">
+                                            {{ $lulusan->nama }}
+                                        </h3>
+                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                            Jurusan: {{ $lulusan->jurusan }}
+                                        </p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                                            Tempat Bekerja: {{ $lulusan->tempat_bekerja}}
+                                        </p>
+                                        <div class="mt-3 flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4 text-gray-400 md:h-5 md:w-5"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                            <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                {{ $lulusan->pekerjaan }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -201,8 +211,8 @@
             </div>
 
             @if ($alumni->count() > 2)
-                <div class="mt-10 flex justify-center">
-                    <a class="group text-[18px] font-medium text-blue-500 hover:text-blue-600" href="/alumni">
+                <div class="mt-8 flex justify-center md:mt-10">
+                    <a class="group text-base font-medium text-blue-500 hover:text-blue-600 md:text-lg" href="/alumni">
                         <span>Lihat Semua Alumni Rayon Cicurug 2</span>
                         <ion-icon class="-mb-[3px] pl-1 transition-transform duration-300 group-hover:translate-x-1"
                             name="arrow-forward-outline"></ion-icon>
@@ -211,6 +221,5 @@
             @endif
         </div>
     </section>
-
 
 </x-layout>

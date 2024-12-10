@@ -3,7 +3,7 @@
     <x-header></x-header>
 
     <div class="container mx-auto py-12">
-        <div class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-5 dark:border-gray-700 sm:w-4/5">
+        <div class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-5 dark:border-gray-700">
             <div class="mb-6 flex items-center gap-4">
                 <ion-icon class="text-4xl md:text-5xl" src="{{ asset('assets/images/icon/people.svg') }}"></ion-icon>
                 <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100" id="dokumentasi">Alumni</h2>
@@ -24,21 +24,40 @@
                     <p class="mt-2 text-gray-400 dark:text-gray-400">Segera hadir data alumni terbaru</p>
                 </div>
             @else
-                <div class="grid w-10/12 grid-cols-1 gap-8 sm:w-3/4 sm:grid-cols-2">
+                <div class="grid w-3/4 sm:w-11/12 grid-cols-1 sm:grid-cols-2 gap-6 lg:grid-cols-3">
                     @foreach ($alumni as $lulusan)
-                        <div class="overflow-hidden rounded-lg bg-white shadow-lg">
-                            <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="Alumni 1"
-                                class="h-64 w-full object-cover lg:h-80">
+                        <div class="group overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl dark:bg-gray-800">
+                            <div class="relative overflow-hidden">
+                                <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="Alumni {{ $lulusan->nama }}"
+                                    class="h-64 w-full transform object-cover transition-transform duration-300 group-hover:scale-105 lg:h-80">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                                    <h2 class="text-2xl font-bold text-white">{{ $lulusan->nama }}</h2>
+                                </div>
+                            </div>
                             <div class="p-6">
-                                <h2 class="mb-2 text-2xl font-semibold text-gray-800">{{ $lulusan->nama }}</h2>
-                                <p class="mb-4 text-gray-600">
-                                    <span class="font-medium">Angkatan :</span> {{ $lulusan->angkatan }}<br>
-                                    <span class="font-medium">Jurusan :</span> {{ $lulusan->jurusan }}<br>
-                                    <span class="font-medium">Tempat Bekerja :</span> {{ $lulusan->tempat_bekerja }}<br>
-                                </p>
-                                <div class="flex items-center text-blue-500">
-                                    <ion-icon class="mr-2" name="briefcase-outline"></ion-icon>
-                                    <span>{{ $lulusan->pekerjaan }}</span>
+                                <div class="mb-4 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <ion-icon class="text-blue-500" name="school-outline"></ion-icon>
+                                        <p class="text-gray-600 dark:text-gray-300">
+                                            <span class="font-semibold">Angkatan:</span> {{ $lulusan->angkatan }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <ion-icon class="text-blue-500" name="book-outline"></ion-icon>
+                                        <p class="text-gray-600 dark:text-gray-300">
+                                            <span class="font-semibold">Jurusan:</span> {{ $lulusan->jurusan }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <ion-icon class="text-blue-500" name="business-outline"></ion-icon>
+                                        <p class="text-gray-600 dark:text-gray-300">
+                                            <span class="font-semibold">Tempat Bekerja:</span> {{ $lulusan->tempat_bekerja }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 rounded-lg bg-blue-50 p-2 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                                    <ion-icon name="briefcase-outline"></ion-icon>
+                                    <span class="font-medium">{{ $lulusan->pekerjaan }}</span>
                                 </div>
                             </div>
                         </div>

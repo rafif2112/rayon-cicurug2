@@ -25,7 +25,7 @@ class SiswaController extends Controller
         }
 
         // Urutkan data berdasarkan nama
-        $query->orderBy('kelas', 'asc');
+        $query->orderBy('kelas', 'asc')->orderBy('nama', 'asc');
 
         $siswa = $query->get();
 
@@ -52,7 +52,7 @@ class SiswaController extends Controller
         }
 
         // Urutkan data berdasarkan nama
-        $query->orderBy('kelas', 'asc');
+        $query->orderBy('kelas', 'asc')->orderBy('nama', 'asc');
 
         $kategori = $request->get('kategori', 'all'); // Default to 'all' if not set
 
@@ -129,12 +129,26 @@ class SiswaController extends Controller
         $siswa->kelas = $request->input('kelas');
         $siswa->angkatan = $request->input('angkatan');
         $siswa->jurusan = $request->input('jurusan');
+
         if ($request->filled('latitude') && $request->filled('longitude')) {
             $siswa->latitude = $request->input('latitude');
             $siswa->longitude = $request->input('longitude');
+            
+            if (!empty($siswa->latitude) || !empty($siswa->longitude)) {
+                if (empty($siswa->map_id)) {
+                    // Create a new Map record and associate it with the SiswaModel record
+                    $map = new Map();
+                    $map->siswa_models_id = $siswa->id;
+                    $map->save();
+                
+                    // Update the SiswaModel record with the map_id
+                    $siswa->map_id = $map->id;
+                }
+            }
         }
 
         $siswa->save();
+
 
         return redirect()->back()->with('success', 'Siswa updated successfully');
     }
@@ -240,16 +254,8 @@ class SiswaController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/excel', $filename);
-
-            if ($filePath) {
-                Excel::import(new DataSiswaImport, storage_path('app/' . $filePath));
-                return redirect()->back()->with('success', 'Data imported successfully');
-            } else {
-                return redirect()->back()->with('error', 'Failed to upload file');
-            }
+            Excel::import(new DataSiswaImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Data imported successfully');
         } else {
             return redirect()->back()->with('error', 'No file uploaded');
         }

@@ -16,8 +16,11 @@ class MapsController extends Controller
     public function admin()
     {
         // data rumah dengan database
-        $rumah = Map::with('siswa')->simplePaginate(20);
-        return view('admin.maps.index', compact('rumah'));
+        $rumah = Map::with('siswa')->get();
+        // return view('admin.maps.index', compact('rumah'));
+
+        $data = Map::with('siswa')->simplePaginate(20);
+        return view('admin.maps.index', compact(['data', 'rumah']));
     }
 
     /**

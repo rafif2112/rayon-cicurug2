@@ -1,8 +1,8 @@
 <x-admin-layout>
-    <div class="sm:w-11/12 pb-3 mx-auto w-4/5">
-        <div class="flex items-center justify-center w-full">
+    <div class="mx-auto w-4/5 pb-3 sm:w-11/12">
+        <div class="flex w-full items-center justify-center">
 
-            <div class="w-full h-[350px] rounded-xl" id="map"></div>
+            <div class="h-[350px] w-full rounded-xl" id="map"></div>
 
             <!-- Import Leaflet CSS -->
             <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -34,48 +34,50 @@
                     });
                 }
 
-            var locations = @json($rumah);
+                var locations = @json($rumah);
 
-            if (locations && locations.length > 0) {
-                locations.forEach(function(rumah) {
-                    let color = '#000000';
+                if (locations && locations.length > 0) {
+                    locations.forEach(function(rumah) {
+                        let color = '#000000';
 
-                    if (rumah.siswa && rumah.siswa.angkatan) {
-                        if (rumah.siswa.angkatan % 3 == 0) {
-                            color = '#FB0297FF';
-                        } else if (rumah.siswa.angkatan % 3 == 1) {
-                            color = '#FFFF00';
-                        } else if (rumah.siswa.angkatan % 3 == 2) {
-                            color = '#0000FF';
-                        } else {
-                            color = '#000000';
+                        if (rumah.siswa && rumah.siswa.angkatan) {
+                            if (rumah.siswa.angkatan % 3 == 0) {
+                                color = '#FB0297FF';
+                            } else if (rumah.siswa.angkatan % 3 == 1) {
+                                color = '#FFFF00';
+                            } else if (rumah.siswa.angkatan % 3 == 2) {
+                                color = '#0000FF';
+                            } else {
+                                color = '#000000';
+                            }
                         }
-                    }
 
-                    // Add marker with the corresponding custom icon
-                    if (rumah.siswa.latitude && rumah.siswa.longitude) {
-                        L.marker([rumah.siswa.latitude, rumah.siswa.longitude], { icon: getCustomIcon(color) })
-                            .addTo(map)
-                            .bindPopup(`<b>${rumah.siswa.nama}</b>`);
-                    }
-                });
-            } else {
-                console.log('No location data available.');
-            }
+                        // Add marker with the corresponding custom icon
+                        if (rumah.siswa.latitude && rumah.siswa.longitude) {
+                            L.marker([rumah.siswa.latitude, rumah.siswa.longitude], {
+                                    icon: getCustomIcon(color)
+                                })
+                                .addTo(map)
+                                .bindPopup(`<b>${rumah.siswa.nama}</b>`);
+                        }
+                    });
+                } else {
+                    console.log('No location data available.');
+                }
             </script>
         </div>
     </div>
-    
-    <div class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+
+    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
-            <div class="flex items center">
+            <div class="items center flex">
                 <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Maps</h2>
             </div>
         </div>
-        <div class="mt-4 overflow-hidden bg-white rounded-lg shadow-md">
+        <div class="mt-4 overflow-hidden rounded-lg bg-white shadow-md">
             <table class="w-full">
                 <thead>
-                    <tr class="text-gray-700 bg-gray-200">
+                    <tr class="bg-gray-200 text-gray-700">
                         <th class="px-4 py-3 text-left">Nama</th>
                         <th class="px-4 py-3 text-left">Angkatan</th>
                         <th class="px-1 py-3 text-center" colspan="2">Titik kordinat</th>
@@ -83,16 +85,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($rumah as $map)
+                    @foreach ($data as $map)
                         <tr class="border-b border-gray-200">
                             <td class="px-4 py-3">{{ $map->siswa->nama }}</td>
                             <td class="px-4 py-3">{{ $map->siswa->angkatan }}</td>
                             <td class="px-4 py-3">{{ $map->siswa->latitude }}</td>
                             <td class="px-4 py-3">{{ $map->siswa->longitude }}</td>
                             <td class="px-4 py-3">
-                                <div class="flex gap-1 items">
+                                <div class="items flex gap-1">
                                     <a href="{{ route('siswa.edit', $map->siswa->id) }}"
-                                        class="px-2 py-1 font-semibold text-blue-500 border border-blue-500 rounded hover:bg-blue-500 hover:text-white">
+                                        class="rounded border border-blue-500 px-2 py-1 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white">
                                         Edit
                                     </a>
                                 </div>
@@ -102,6 +104,9 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="mt-4 flex justify-center">
+        {{ $data->links() }}
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

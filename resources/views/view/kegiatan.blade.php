@@ -29,7 +29,7 @@
                         <div
                             class="mb-10 flex flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-xl sm:flex-row">
                             <img class="h-80 w-full object-cover sm:w-2/5"
-                                src="{{ asset('assets/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image">
+                                src="{{ asset('assets/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image" onclick="openModal(this)">
                             <div class="p-6 md:w-3/5">
                                 <h1 class="mb-4 text-2xl font-bold text-gray-800 dark:text-white">{{ $item->judul }}
                                 </h1>
@@ -46,12 +46,42 @@
                                 </p>
                             </div>
                             <img class="h-80 w-full object-cover sm:w-2/5"
-                                src="{{ asset('assets/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image">
+                                src="{{ asset('assets/images/kegiatan/' . $item->gambar) }}" alt="Kegiatan Image" onclick="openModal(this)">
                         </div>
                     @endif
                 @endforeach
             @endif
         </div>
 
+        <!-- Enhanced Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-5">
+        <button onclick="closeModal()" class="absolute right-6 top-6 text-white hover:text-gray-300">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <img id="modalImage" class="max-h-[90vh] max-w-[90vw] rounded-lg opacity-0 transition-opacity duration-300">
+    </div>
+
     </section>
+    <script>
+        function openModal(img) {
+            const modal = document.getElementById('lightboxModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modalImg.src = img.src;
+            setTimeout(() => modalImg.classList.add('opacity-100'), 100);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('lightboxModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.classList.remove('opacity-100');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
 </x-layout>

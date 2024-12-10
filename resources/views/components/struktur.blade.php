@@ -27,11 +27,12 @@
                         @if ($struktur['jabatan'] === 'Pembimbing Siswa')
                             <div class="rounded-lg bg-white p-4 shadow-lg">
                                 @if ($struktur['gambar'])
-                                    <img src="{{ asset('assets/images/images/struktur/' . $struktur['gambar']) }}"
-                                    alt="{{ $struktur['jabatan'] }}" class="mb-4 h-64 w-full rounded-t-lg object-cover">
+                                    <img src="{{ asset('assets/images/struktur/' . $struktur['gambar']) }}"
+                                        alt="{{ $struktur['jabatan'] }}"
+                                        class="mb-4 h-64 w-full rounded-t-lg object-cover">
                                 @else
-                                    <img src="{{ asset('assets/images/images/image.jpg') }}"
-                                    alt="{{ $struktur['jabatan'] }}" class="mb-4 h-64 w-full rounded-t-lg object-cover">
+                                    <img src="{{ asset('assets/images/image.jpg') }}" alt="{{ $struktur['jabatan'] }}"
+                                        class="mb-4 h-64 w-full rounded-t-lg object-cover">
                                 @endif
                                 <h3 class="mb-1 text-xl font-semibold">{{ $struktur['jabatan'] }}</h3>
                                 <p class="text-gray-700">{{ $struktur['nama'] }}</p>
@@ -61,11 +62,12 @@
                         @if ($struktur['jabatan'] !== 'Pembimbing Siswa')
                             <div class="rounded-lg bg-white p-4 shadow-lg">
                                 @if ($struktur['gambar'])
-                                    <img src="{{ asset('assets/images/images/struktur/' . $struktur['gambar']) }}"
-                                    alt="{{ $struktur['jabatan'] }}" class="mb-4 h-64 w-full rounded-t-lg object-cover">
+                                    <img src="{{ asset('assets/images/struktur/' . $struktur['gambar']) }}"
+                                        alt="{{ $struktur['jabatan'] }}"
+                                        class="mb-4 h-64 w-full rounded-t-lg object-cover">
                                 @else
-                                    <img src="{{ asset('assets/images/images/image.jpg') }}"
-                                    alt="{{ $struktur['jabatan'] }}" class="mb-4 h-64 w-full rounded-t-lg object-cover">
+                                    <img src="{{ asset('assets/images/image.jpg') }}" alt="{{ $struktur['jabatan'] }}"
+                                        class="mb-4 h-64 w-full rounded-t-lg object-cover">
                                 @endif
                                 <h3 class="mb-1 text-xl font-semibold">{{ $struktur['jabatan'] }}</h3>
                                 <p class="text-gray-700">{{ $struktur['nama'] }}</p>

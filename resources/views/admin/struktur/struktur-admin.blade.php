@@ -30,7 +30,7 @@
                         'Ketua Rayon' => 2,
                         'Wakil Ketua Rayon' => 3,
                         'Bendahara 1' => 4,
-                        'Benahara' => 4,
+                        'Bendahara' => 4,
                         'Sekertaris 1' => 5,
                         'Sekertaris' => 5,
                         'Bendahara 2' => 6,
@@ -42,25 +42,30 @@
                         <td colspan="4" class="py-4 text-center">Tidak ada data struktur yang tersedia.</td>
                     </tr>
                 @else
-                    @foreach ($data->sortBy(function ($struktur) use ($order) {
-        return $order[$struktur->jabatan] ?? 8;
-    }) as $struktur)
+                    @foreach ($data->sortBy(function ($struktur) use ($order) { 
+                        return $order[$struktur->jabatan] ?? 8;
+                    }) as $struktur)
                         <tr class="border-b transition duration-300 hover:bg-gray-100">
                             <td class="px-5 py-3">
-                                <img src="{{ asset('assets/images/struktur/' . $struktur->gambar) }}"
+                                @if (!empty($struktur->gambar))
+                                    <img src="{{ asset('assets/images/struktur/' . $struktur->gambar) }}"
                                     alt="{{ $struktur->nama }}" class="h-20 w-20 rounded-md object-cover">
+                                @else
+                                    <img src="{{ asset('assets/images/image.jpg') }}"
+                                    alt="{{ $struktur->nama }}" class="h-20 w-20 rounded-md object-cover">
+                                @endif
                             </td>
                             <td class="px-5 py-3">{{ $struktur->nama }}</td>
                             <td class="px-5 py-3">{{ $struktur->jabatan }}</td>
                             <td class="flex space-x-2 px-5 py-3">
                                 <a href="{{ route('struktur.edit', $struktur->id) }}"
-                                    class="mt-5 rounded-xl bg-blue-500 px-3 py-1 text-white transition duration-300 hover:bg-blue-700">Edit</a>
+                                    class="rounded-xl bg-blue-500 px-3 py-1 text-white transition duration-300 hover:bg-blue-700">Edit</a>
                                 <form action="{{ route('struktur.destroy', $struktur->id) }}" method="POST"
                                     class="delete-form inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="delete-button mt-5 rounded-xl bg-red-500 px-3 py-1 text-white transition duration-300 hover:bg-red-700">Hapus</button>
+                                        class="delete-button rounded-xl bg-red-500 px-3 py-1 text-white transition duration-300 hover:bg-red-700">Hapus</button>
                                 </form>
                             </td>
                         </tr>

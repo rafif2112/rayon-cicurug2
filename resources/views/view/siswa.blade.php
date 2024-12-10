@@ -10,45 +10,57 @@
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white md:text-3xl" id="dokumentasi">Siswa/i</h2>
                 </div>
                 <p class="mt-2 text-gray-600 dark:text-gray-400">
-                    Terdapat {{ $totalSiswa }} peserta didik di rayon ini, terdiri dari {{ $kelasX }} kelas X,
-                    {{ $kelasXI }} kelas XI, dan {{ $kelasXII }} kelas XII dari berbagai program keahlian.
+                    Terdapat {{ $totalSiswa }} peserta didik di rayon ini, terdiri dari {{ $kelasX }} siswa kelas X,
+                    {{ $kelasXI }} siswa kelas XI, dan {{ $kelasXII }} siswa kelas XII dari berbagai program keahlian.
                 </p>
             </div>
 
             <div>
-                <div class="flex gap-4">
-                    <div class="mb-2 w-full md:mb-0 md:w-auto">
-                        <form action="{{ route('siswa.index') }}" method="GET">
-                            <select name="kategori" id="kelasDropdown"
-                                class="w-full rounded-full border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white md:w-auto"
-                                onchange="this.form.submit()">
-                                <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>Semua Kelas
-                                </option>
-                                <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>Kelas 10
-                                </option>
-                                <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>Kelas 11
-                                </option>
-                                <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>Kelas 12
-                                </option>
-                            </select>
-                        </form>
-                    </div>
-                    <div class="mb-2 w-full md:mb-0 md:w-auto">
-                        <form action="{{ route('siswa.index') }}" method="GET" class="flex items-center">
-                            <input type="text" name="search" id="searchInput"
-                                class="w-full rounded-l-full border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white md:w-auto"
-                                placeholder="Cari berdasarkan nama..." value="{{ request('search') }}">
-                            @if (request('search'))
-                                <div class="absolute right-[66%] ml-2 inline-flex items-center justify-center ">
-                                    <a href="{{ route('siswa.index') }}"
-                                        class="rounded-full bg-black/40 px-1.5 text-white transition duration-300 ease-out hover:bg-black/60">
-                                        X
-                                    </a>
+                <div class="mb-2">
+                    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div class="relative w-full md:w-48">
+                            <form action="{{ route('siswa.index') }}" method="GET">
+                                <select name="kategori" id="kelasDropdown"
+                                    class="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-8 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
+                                    onchange="this.form.submit()">
+                                    <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>📚 Semua Kelas</option>
+                                    <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>🎓 Kelas 10</option>
+                                    <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>🎓 Kelas 11</option>
+                                    <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>🎓 Kelas 12</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
                                 </div>
-                            @endif
-                            <button type="submit"
-                                class="rounded-r-full border border-black bg-blue-500 px-4 py-2 text-white transition duration-300 ease-out hover:bg-blue-600">Cari</button>
-                        </form>
+                            </form>
+                        </div>
+
+                        <div class="relative w-full md:w-96">
+                            <form action="{{ route('siswa.index') }}" method="GET" class="relative">
+                                <input type="text" name="search" id="searchInput"
+                                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 pr-12 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
+                                    placeholder="Cari siswa..." value="{{ request('search') }}">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <button type="submit" class="absolute inset-y-0 right-0 flex bg-blue-600 hover:bg-blue-500 rounded-r-xl items-center px-4 text-white">
+                                    Cari
+                                </button>
+                                @if (request('search'))
+                                    <a href="{{ route('siswa.index') }}"
+                                        class="absolute inset-y-0 right-16 flex items-center pr-2">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </a>
+                                @endif
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="container mx-auto py-8">
@@ -67,10 +79,10 @@
                                     <div class="relative h-full w-full overflow-hidden rounded-lg bg-white shadow-md">
                                         @if ($murid['gambar'])
                                             <img class="h-48 w-full object-cover md:h-80"
-                                                src="{{ asset('storage/images/siswa/' . $murid['gambar']) }}"
+                                                src="{{ asset('assets/images/siswa/' . $murid['gambar']) }}"
                                                 alt="{{ $murid['nama'] }}">
                                         @else
-                                            <img src="{{ asset('storage/images/image.jpg') }}" alt="Foto Siswa"
+                                            <img src="{{ asset('assets/images/image.jpg') }}" alt="Foto Siswa"
                                                 class="h-48 w-full object-cover md:h-80">
                                         @endif
                                         <div class="p-4">

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('nama');
             $table->string('kelas');
             $table->string('angkatan');
-            $table->string('gambar');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->string('gambar')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('jurusan');
             $table->integer('nis');
             $table->timestamps();
