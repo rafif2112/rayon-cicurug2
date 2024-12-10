@@ -23,41 +23,44 @@ class KegiatanController extends Controller
         return view('admin.kegiatan.kegiatan-create');
     }
 
-    public function store (Request $request)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string|max:255',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ], [
-            'judul.required' => 'Judul tidak boleh kosong',
-            'deskripsi.required' => 'Deskripsi tidak boleh kosong',
-            'gambar.required' => 'Gambar tidak boleh kosong',
-            'gambar.image' => 'File harus berupa gambar',
-            'gambar.mimes' => 'File harus berformat jpeg, png, jpg',
-            'gambar.max' => 'Ukuran file maksimal 2MB',
-        ]);
-
-        // Handle file upload
-        $file = $request->file('gambar');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('assets/images/kegiatan'), $filename);
-
-        // Insert data
-        $data = new KegiatanModel();
-        $data->judul = $request->input('judul');
-        $data->deskripsi = $request->input('deskripsi');
-        $data->gambar = $filename;
-
-        $data->save();
-
-        return redirect()->back()->with('success', 'Data created successfully');
-    }
-
     public function edit(string $id)
     {
         $kegiatan = KegiatanModel::find($id);
         return view('admin.kegiatan.kegiatan-edit', ['kegiatan' => $kegiatan]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:255',
+            'gambar.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'judul.required' => 'Judul tidak boleh kosong',
+            'deskripsi.required' => 'Deskripsi tidak boleh kosong',
+            'gambar.*.required' => 'Gambar tidak boleh kosong',
+            'gambar.*.image' => 'File harus berupa gambar',
+            'gambar.*.mimes' => 'File harus berformat jpeg, png, jpg',
+            'gambar.*.max' => 'Ukuran file maksimal 2MB',
+        ]);
+
+        $filenames = [];
+        if ($request->hasFile('gambar')) {
+            foreach ($request->file('gambar') as $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('assets/images/kegiatan'), $filename);
+                $filenames[] = $filename;
+            }
+        }
+
+        $data = new KegiatanModel();
+        $data->judul = $request->input('judul');
+        $data->deskripsi = $request->input('deskripsi');
+        $data->gambar = json_encode($filenames);
+
+        $data->save();
+
+        return redirect()->back()->with('success', 'Data created successfully');
     }
 
     public function update(Request $request, string $id)
@@ -68,48 +71,49 @@ class KegiatanController extends Controller
             return redirect()->back()->with('error', 'Data tidak ditemukan');
         }
 
-        if (strlen($request->input('deskripsi')) > 300) {
-            return redirect()->back()->with('error', 'Deskripsi tidak boleh lebih dari 300 karakter')->withInput();
-        }
-
-        if (strlen($request->input('judul')) > 70) {
-            return redirect()->back()->with('error', 'Judul tidak boleh lebih dari 70 karakter')->withInput();
-        }
-
-        // Validasi input
         $request->validate([
             'judul' => 'required|string',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'judul.required' => 'Judul tidak boleh kosong',
             'deskripsi.required' => 'Deskripsi tidak boleh kosong',
-            'gambar.image' => 'File harus berupa gambar',
-            'gambar.mimes' => 'File harus berformat jpeg, png, jpg',
-            'gambar.max' => 'Ukuran file maksimal 2MB',
+            'gambar.*.image' => 'File harus berupa gambar',
+            'gambar.*.mimes' => 'File harus berformat jpeg, png, jpg',
+            'gambar.*.max' => 'Ukuran file maksimal 2MB',
         ]);
 
-        // Handle file upload
+        $filenames = [];
         if ($request->hasFile('gambar')) {
-
-            // Hapus gambar lama jika ada
-            if ($data->gambar && file_exists(public_path('assets/images/kegiatan/' . $data->gambar))) {
-                unlink(public_path('assets/images/kegiatan/' . $data->gambar));
+            // Delete old images
+            $oldImages = json_decode($data->gambar) ?? [];
+            foreach ($oldImages as $oldImage) {
+                $oldImagePath = public_path('assets/images/kegiatan/' . $oldImage);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
 
-            $file = $request->file('gambar');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images/kegiatan'), $filename);
-            $data->gambar = $filename;
+            // Upload new images
+            foreach ($request->file('gambar') as $file) {
+                if ($file) {
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('assets/images/kegiatan'), $filename);
+                    $filenames[] = $filename;
+                }
+            }
+        } else {
+            $filenames = json_decode($data->gambar) ?? [];
         }
 
-        // Update data
         $data->judul = $request->input('judul');
         $data->deskripsi = $request->input('deskripsi');
+        $data->gambar = json_encode($filenames);
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');    }
+        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+    }
 
     public function destroy(string $id)
     {

@@ -23,18 +23,66 @@
                     <div id="drop-area"
                         class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pb-6 pt-5">
                         <div class="space-y-1 text-center">
-                            <input id="gambar" name="gambar" type="file" class="sr-only"
-                                onchange="previewImage(event)">
-                            <p class="text-sm text-gray-600">Drag & Drop your image here or click to select</p>
-                            <img id="preview" src="{{ asset('assets/images/kegiatan/' . $kegiatan->gambar) }}"
-                                alt="Image" class="mt-2 h-48 w-48 rounded-md object-cover shadow-md"
-                                style="{{ $kegiatan->gambar ? '' : 'display: none;' }}">
+                            <input id="gambar" name="gambar[]" type="file" class="sr-only" multiple accept="image/*"
+                                onchange="previewImages(this)">
+                            <p class="text-sm text-gray-600">Drag & Drop your images here or click to select</p>
+                            <div id="preview-container" class="mt-2 grid grid-cols-3 gap-4">
+                            </div>
                         </div>
                     </div>
                     @error('gambar')
                         <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <script>
+                    function previewImages(input) {
+                        const container = document.getElementById('preview-container');
+                        container.innerHTML = '';
+
+                        if (input.files) {
+                            // Convert FileList to Array for easier manipulation
+                            let fileArray = Array.from(input.files);
+                            
+                            fileArray.forEach((file, index) => {
+                                const reader = new FileReader();
+                                
+                                reader.onload = function(e) {
+                                    const div = document.createElement('div');
+                                    div.className = 'relative';
+                                    
+                                    const img = document.createElement('img');
+                                    img.src = e.target.result;
+                                    img.className = 'w-full h-32 object-cover rounded-md shadow-md';
+                                    
+                                    const removeBtn = document.createElement('button');
+                                    removeBtn.innerHTML = '×';
+                                    removeBtn.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center';
+                                    removeBtn.onclick = function(e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        
+                                        // Remove the file from fileArray
+                                        fileArray.splice(index, 1);
+                                        
+                                        // Create new FileList from remaining files
+                                        const dtTransfer = new DataTransfer();
+                                        fileArray.forEach(file => dtTransfer.items.add(file));
+                                        input.files = dtTransfer.files;
+                                        
+                                        div.remove();
+                                    };
+                                    
+                                    div.appendChild(img);
+                                    div.appendChild(removeBtn);
+                                    container.appendChild(div);
+                                };
+
+                                reader.readAsDataURL(file);
+                            });
+                        }
+                    }
+                </script>
 
                 <script>
                     const dropArea = document.getElementById('drop-area');

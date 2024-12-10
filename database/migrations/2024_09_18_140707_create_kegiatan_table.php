@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kegiatan_models', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('gambar');
+            $table->json('gambar');
             $table->text('deskripsi');
             $table->timestamps();
         });

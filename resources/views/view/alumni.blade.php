@@ -3,7 +3,7 @@
     <x-header></x-header>
 
     <div class="container mx-auto py-12">
-        <div class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-5 dark:border-gray-700">
+        <div class="container mx-auto mb-10 w-11/12 md:w-4/5 border-b-2 border-black pb-5 dark:border-gray-700">
             <div class="mb-6 flex items-center gap-4">
                 <ion-icon class="text-4xl md:text-5xl" src="{{ asset('assets/images/icon/people.svg') }}"></ion-icon>
                 <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100" id="dokumentasi">Alumni</h2>
@@ -24,7 +24,7 @@
                     <p class="mt-2 text-gray-400 dark:text-gray-400">Segera hadir data alumni terbaru</p>
                 </div>
             @else
-                <div class="grid w-3/4 sm:w-11/12 grid-cols-1 sm:grid-cols-2 gap-6 lg:grid-cols-3">
+                <div class="grid w-3/4 sm:w-4/5 grid-cols-1 sm:grid-cols-2 gap-6 lg:grid-cols-3">
                     @foreach ($alumni as $lulusan)
                         <div class="group overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl dark:bg-gray-800">
                             <div class="relative overflow-hidden">
