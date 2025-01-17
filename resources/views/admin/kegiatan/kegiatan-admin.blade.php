@@ -23,7 +23,8 @@
                             
                             <div class="relative h-full" x-data="{ activeSlide: 0, slides: {{ count(json_decode($data->gambar)) }} }">
                                 @foreach ($images as $index => $image)
-                                    <img class="absolute h-full w-full cursor-pointer object-cover transition-opacity duration-300 ease-in-out"
+                                    @if ($image && file_exists(public_path('assets/images/kegiatan/' . $image)))
+                                        <img class="absolute h-full w-full cursor-pointer object-cover transition-opacity duration-300 ease-in-out"
                                         src="{{ asset('assets/images/kegiatan/' . $image) }}"
                                         alt="Kegiatan Image {{ $index + 1 }}"
                                         x-show="activeSlide === {{ $index }}"
@@ -34,6 +35,19 @@
                                         x-transition:leave-start="opacity-100 scale-100"
                                         x-transition:leave-end="opacity-0 scale-95"
                                         onclick="openModal(this)">
+                                    @else
+                                        <img class="absolute h-full w-full cursor-pointer object-cover transition-opacity duration-300 ease-in-out"
+                                        src="{{ asset('assets/images/image.jpg') }}"
+                                        alt="Kegiatan Image {{ $index + 1 }}"
+                                        x-show="activeSlide === {{ $index }}"
+                                        x-transition:enter="transition ease-out duration-300"
+                                        x-transition:enter-start="opacity-0 scale-95"
+                                        x-transition:enter-end="opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-200"
+                                        x-transition:leave-start="opacity-100 scale-100"
+                                        x-transition:leave-end="opacity-0 scale-95"
+                                        onclick="openModal(this)">
+                                    @endif
                                 @endforeach
 
                                 <!-- Navigation Arrows -->

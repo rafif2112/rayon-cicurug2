@@ -66,7 +66,7 @@
                     @foreach ($alumni as $lulusan)
                         <tr>
                             <td class="whitespace-nowrap px-2 py-4">
-                                @if ($lulusan->gambar)
+                                @if ($lulusan->gambar && file_exists(public_path('assets/images/alumni/' . $lulusan->gambar)))
                                     <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
                                     alt="{{ $lulusan->nama }}" class="h-24 w-20 rounded-md object-cover">
                                 @else

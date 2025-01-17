@@ -7,7 +7,7 @@
     <title>Cicurug 2</title>
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 
-    {{-- <link rel="stylesheet" href="build/assets/app-BQ1Qq7jP.css">
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-6ng7sL5A.css') }}">
     <script src="build/assets/app-DdQ1e7RN.js"></script> --}}
     
     <link href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" rel="stylesheet">

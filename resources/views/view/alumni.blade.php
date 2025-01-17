@@ -28,8 +28,13 @@
                     @foreach ($alumni as $lulusan)
                         <div class="group overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl dark:bg-gray-800">
                             <div class="relative overflow-hidden">
-                                <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="Alumni {{ $lulusan->nama }}"
+                                @if ($lulusan->gambar && if_exists(public_path('assets/images/alumni/' . $lulusan->gambar)))
+                                    <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="Alumni {{ $lulusan->nama }}"
                                     class="h-64 w-full transform object-cover transition-transform duration-300 group-hover:scale-105 lg:h-80">
+                                @else
+                                    <img src="{{ asset('assets/images/image.jpg') }}" alt="Alumni {{ $lulusan->nama }}"
+                                    class="h-64 w-full transform object-cover transition-transform duration-300 group-hover:scale-105 lg:h-80">
+                                @endif
                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
                                     <h2 class="text-2xl font-bold text-white">{{ $lulusan->nama }}</h2>
                                 </div>

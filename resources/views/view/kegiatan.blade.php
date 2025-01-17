@@ -30,9 +30,15 @@
                             class="mb-10 flex flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-xl md:flex-row">
                             <div class="carousel relative h-80 w-full overflow-hidden md:w-2/5">
                                 @foreach (json_decode($item->gambar) as $key => $gambar)
-                                    <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
-                                        data-carousel-item src="{{ asset('assets/images/kegiatan/' . $gambar) }}"
+                                    @if ($gambar && file_exists(public_path('assets/images/kegiatan/' . $gambar)))
+                                        <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
+                                            data-carousel-item src="{{ asset('assets/images/kegiatan/' . $gambar) }}"
+                                            alt="Kegiatan Image" onclick="openModal(this)">
+                                    @else
+                                        <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
+                                        data-carousel-item src="{{ asset('assets/images/image.jpg') }}"
                                         alt="Kegiatan Image" onclick="openModal(this)">
+                                    @endif
                                 @endforeach
                                 <button onclick="prevSlide(this)"
                                     class="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/75">
@@ -92,9 +98,15 @@
                             </div>
                             <div class="carousel relative h-80 w-full overflow-hidden md:w-2/5">
                                 @foreach (json_decode($item->gambar) as $key => $gambar)
-                                    <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
+                                    @if ($gambar && file_exists(public_path('assets/images/kegiatan/' . $gambar)))
+                                        <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
                                         data-carousel-item src="{{ asset('assets/images/kegiatan/' . $gambar) }}"
                                         alt="Kegiatan Image" onclick="openModal(this)">
+                                    @else
+                                    <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
+                                    data-carousel-item src="{{ asset('assets/images/image.jpg') }}"
+                                    alt="Kegiatan Image" onclick="openModal(this)">
+                                    @endif
                                 @endforeach
                                 <button onclick="prevSlide(this)"
                                     class="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/75">

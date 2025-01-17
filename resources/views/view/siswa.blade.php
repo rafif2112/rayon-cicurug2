@@ -10,8 +10,10 @@
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-white md:text-3xl" id="dokumentasi">Siswa/i</h2>
                 </div>
                 <p class="mt-2 text-gray-600 dark:text-gray-400">
-                    Terdapat {{ $totalSiswa }} peserta didik di rayon ini, terdiri dari {{ $kelasX }} siswa kelas X,
-                    {{ $kelasXI }} siswa kelas XI, dan {{ $kelasXII }} siswa kelas XII dari berbagai program keahlian.
+                    Terdapat {{ $totalSiswa }} peserta didik di rayon ini, terdiri dari {{ $kelasX }} siswa
+                    kelas X,
+                    {{ $kelasXI }} siswa kelas XI, dan {{ $kelasXII }} siswa kelas XII dari berbagai program
+                    keahlian.
                 </p>
             </div>
 
@@ -23,14 +25,20 @@
                                 <select name="kategori" id="kelasDropdown"
                                     class="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-8 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
                                     onchange="this.form.submit()">
-                                    <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>📚 Semua Kelas</option>
-                                    <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>🎓 Kelas 10</option>
-                                    <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>🎓 Kelas 11</option>
-                                    <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>🎓 Kelas 12</option>
+                                    <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>📚 Semua
+                                        Kelas</option>
+                                    <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>🎓 Kelas
+                                        10</option>
+                                    <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>🎓 Kelas
+                                        11</option>
+                                    <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>🎓 Kelas
+                                        12</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
                                     </svg>
                                 </div>
                             </form>
@@ -42,18 +50,21 @@
                                     class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 pr-12 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
                                     placeholder="Cari siswa..." value="{{ request('search') }}">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </div>
-                                <button type="submit" class="absolute inset-y-0 right-0 flex bg-blue-600 hover:bg-blue-500 rounded-r-xl items-center px-4 text-white">
+                                <button type="submit"
+                                    class="absolute inset-y-0 right-0 flex items-center rounded-r-xl bg-blue-600 px-4 text-white hover:bg-blue-500">
                                     Cari
                                 </button>
                                 @if (request('search'))
                                     <a href="{{ route('siswa.index') }}"
                                         class="absolute inset-y-0 right-16 flex items-center pr-2">
-                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M6 18L18 6M6 6l12 12" />
                                         </svg>
@@ -77,7 +88,7 @@
                             @foreach ($siswa as $murid)
                                 <div data-category="{{ $murid['kelas'] }}" data-name="{{ $murid['nama'] }}">
                                     <div class="relative h-full w-full overflow-hidden rounded-lg bg-white shadow-md">
-                                        @if ($murid['gambar'])
+                                        @if ($murid['gambar'] && file_exists(public_path('assets/images/siswa/' . $murid['gambar'])))
                                             <img class="h-48 w-full object-cover md:h-80"
                                                 src="{{ asset('assets/images/siswa/' . $murid['gambar']) }}"
                                                 alt="{{ $murid['nama'] }}">
@@ -111,11 +122,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (window.location.search.includes('search=')) {
-                document.getElementById('foto-siswa').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('foto-siswa').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
 
             if (window.location.search.includes('kategori=')) {
-                document.getElementById('foto-siswa').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('foto-siswa').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     </script>

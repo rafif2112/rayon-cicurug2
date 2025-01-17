@@ -138,7 +138,7 @@
                                 <td class="whitespace-nowrap px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="h-24 w-20 flex-shrink-0">
-                                            @if ($murid->gambar)
+                                            @if ($murid->gambar && file_exists(public_path('assets/images/siswa/' . $murid->gambar)))
                                                 <img class="h-24 w-20 rounded-lg object-cover"
                                                     src="{{ asset('assets/images/siswa/' . $murid->gambar) }}"
                                                     alt="{{ $murid->nama }}">

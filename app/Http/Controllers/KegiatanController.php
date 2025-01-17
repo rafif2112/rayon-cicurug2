@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 
 class KegiatanController extends Controller
 {
+    private $publicHtmlPath;
+
+    public function __construct()
+    {
+        // $this->publicHtmlPath = '/home/cicurug2.my.id/public_html/assets/images/kegiatan';
+        $this->publicHtmlPath = public_path('assets/images/kegiatan');
+    }
+    
     public function index()
     {
         $kegiatan = KegiatanModel::all();
@@ -48,7 +56,7 @@ class KegiatanController extends Controller
         if ($request->hasFile('gambar')) {
             foreach ($request->file('gambar') as $file) {
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('assets/images/kegiatan'), $filename);
+                $file->move($this->publicHtmlPath, $filename);
                 $filenames[] = $filename;
             }
         }
@@ -88,7 +96,7 @@ class KegiatanController extends Controller
             // Delete old images
             $oldImages = json_decode($data->gambar) ?? [];
             foreach ($oldImages as $oldImage) {
-                $oldImagePath = public_path('assets/images/kegiatan/' . $oldImage);
+                $oldImagePath = $this->publicHtmlPath . '/' . $oldImage;
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
@@ -98,7 +106,7 @@ class KegiatanController extends Controller
             foreach ($request->file('gambar') as $file) {
                 if ($file) {
                     $filename = time() . '_' . $file->getClientOriginalName();
-                    $file->move(public_path('assets/images/kegiatan'), $filename);
+                    $file->move($this->publicHtmlPath, $filename);
                     $filenames[] = $filename;
                 }
             }
@@ -124,8 +132,8 @@ class KegiatanController extends Controller
         }
 
         // Hapus gambar jika ada
-        if ($data->gambar && file_exists(public_path('assets/images/kegiatan/' . $data->gambar))) {
-            unlink(public_path('assets/images/kegiatan/' . $data->gambar));
+        if ($data->gambar && file_exists($this->publicHtmlPath . '/' . $data->gambar)) {
+            unlink($this->publicHtmlPath . '/' . $data->gambar);
         }
         $data->delete();
         return redirect()->route('kegiatan.admin')->with('success', 'Data deleted successfully');

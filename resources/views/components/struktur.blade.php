@@ -26,7 +26,7 @@
                     @foreach ($data as $struktur)
                         @if ($struktur['jabatan'] === 'Pembimbing Siswa')
                             <div class="rounded-lg bg-white p-4 shadow-lg">
-                                @if ($struktur['gambar'])
+                                @if ($struktur['gambar'] && file_exists(public_path('assets/images/struktur/' . $struktur['gambar'])))
                                     <img src="{{ asset('assets/images/struktur/' . $struktur['gambar']) }}"
                                         alt="{{ $struktur['jabatan'] }}"
                                         class="mb-4 h-64 w-full rounded-t-lg object-cover">
@@ -61,7 +61,7 @@
                     @foreach ($sortedData as $struktur)
                         @if ($struktur['jabatan'] !== 'Pembimbing Siswa')
                             <div class="rounded-lg bg-white p-4 shadow-lg">
-                                @if ($struktur['gambar'])
+                                @if ($struktur['gambar'] && file_exists(public_path('assets/images/struktur/' . $struktur['gambar'])))
                                     <img src="{{ asset('assets/images/struktur/' . $struktur['gambar']) }}"
                                         alt="{{ $struktur['jabatan'] }}"
                                         class="mb-4 h-64 w-full rounded-t-lg object-cover">

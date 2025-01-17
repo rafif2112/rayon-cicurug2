@@ -12,9 +12,15 @@
                 @foreach ($gambar as $image)
                     <div class="relative flex justify-center">
                         <div class="relative">
-                            <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
+                            @if ($image->image && file_exists(public_path('assets/images/galeri/' . $image->image)))
+                                <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
                                 class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
                                 onclick="openModal(this)">
+                            @else
+                                <img src="{{ asset('assets/images/image.jpg') }}" alt="Image"
+                                class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
+                                onclick="openModal(this)">
+                            @endif
                             <div class="absolute right-2 top-2">
                                 <ion-icon class="cursor-pointer rounded-full bg-black/50 p-1 text-3xl text-white/80"
                                     src="{{ asset('assets/images/icon/ellipsis-vertical-outline.svg') }}"

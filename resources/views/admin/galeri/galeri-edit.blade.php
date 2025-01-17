@@ -126,6 +126,7 @@
         }
 
         dropArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', previewImage);
 
         function previewImage(event) {
             const file = event.target.files[0];
