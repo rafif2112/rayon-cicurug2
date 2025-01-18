@@ -79,6 +79,14 @@
                                 </div>
 
                                 <div>
+                                    <label for="link" class="block text-sm font-medium text-gray-700">Link Portofolio</label>
+                                    <input type="url" value="{{old('link')}}" id="link" name="link" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    @error('link')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>                                
+
+                                <div>
                                     <label for="google_maps_link" class="block text-sm font-medium text-gray-700">Google Maps Link:</label>
                                     <input type="hidden" id="latitude" name="latitude">
                                     <input type="hidden" id="longitude" name="longitude">

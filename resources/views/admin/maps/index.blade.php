@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="mx-auto w-4/5 pb-3 sm:w-11/12">
+    <div class="mx-auto w-4/5 pb-3 sm:w-full">
         <div class="flex w-full items-center justify-center">
 
             <div class="h-[350px] w-full rounded-xl" id="map"></div>
@@ -68,46 +68,50 @@
         </div>
     </div>
 
-    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+    <div class="mx-auto py-6">
         <div class="flex items-center justify-between">
             <div class="items center flex">
                 <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Maps</h2>
             </div>
         </div>
         <div class="mt-4 overflow-hidden rounded-lg bg-white shadow-md">
-            <table class="w-full">
-                <thead>
-                    <tr class="bg-gray-200 text-gray-700">
-                        <th class="px-4 py-3 text-left">Nama</th>
-                        <th class="px-4 py-3 text-left">Angkatan</th>
-                        <th class="px-1 py-3 text-center" colspan="2">Titik kordinat</th>
-                        <th class="px-4 py-3 text-left">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data as $map)
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-3">{{ $map->siswa->nama }}</td>
-                            <td class="px-4 py-3">{{ $map->siswa->angkatan }}</td>
-                            <td class="px-4 py-3">{{ $map->siswa->latitude }}</td>
-                            <td class="px-4 py-3">{{ $map->siswa->longitude }}</td>
-                            <td class="px-4 py-3">
-                                <div class="items flex gap-1">
-                                    <a href="{{ route('siswa.edit', $map->siswa->id) }}"
-                                        class="rounded border border-blue-500 px-2 py-1 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white">
-                                        Edit
-                                    </a>
-                                </div>
-                            </td>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-700">
+                            <th class="sticky top-0 px-4 py-3 text-left">Nama</th>
+                            <th class="sticky top-0 px-4 py-3 text-left">Angkatan</th>
+                            <th class="sticky top-0 px-1 py-3 text-center" colspan="2">Titik kordinat</th>
+                            <th class="sticky top-0 px-4 py-3 text-left">Aksi</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="max-h-[400px] overflow-y-auto">
+                        @foreach ($data as $map)
+                            <tr class="border-b border-gray-200">
+                                <td class="px-4 py-3">{{ $map->siswa->nama }}</td>
+                                <td class="px-4 py-3">{{ $map->siswa->angkatan }}</td>
+                                <td class="px-4 py-3">{{ $map->siswa->latitude }}</td>
+                                <td class="px-4 py-3">{{ $map->siswa->longitude }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="items flex gap-1">
+                                        <a href="{{ route('siswa.edit', $map->siswa->id) }}"
+                                            class="rounded border border-blue-500 px-2 py-1 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white">
+                                            Edit
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+    
     <div class="mt-4 flex justify-center">
         {{ $data->links() }}
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.querySelectorAll('.delete-button').forEach(button => {

@@ -91,11 +91,33 @@ class AdminController extends Controller
     public function naikKelas()
     {
         // Naikkan kelas semua siswa
-        SiswaModel::where('kelas', '<', 13)->increment('kelas');
+        // SiswaModel::where('kelas', '<', 13)->increment('kelas');
+
+        $kelas10 = SiswaModel::where('kelas', 10)->get();
+        $kelas11 = SiswaModel::where('kelas', 11)->get();
+        $kelas12 = SiswaModel::where('kelas', 12)->get();
+
+        // Naikkan kelas 10 ke 11
+        foreach ($kelas10 as $siswa) {
+            $siswa->kelas = 11;
+            $siswa->save();
+        }
+
+        // Naikkan kelas 11 ke 12
+        foreach ($kelas11 as $siswa) {
+            $siswa->kelas = 12;
+            $siswa->save();
+        }
+
+        // Naikkan kelas 12 ke 13
+        foreach ($kelas12 as $siswa) {
+            $siswa->kelas = 'alumni';
+            $siswa->save();
+        }
         
         // Ubah kelas 13 menjadi alumni
-        SiswaModel::where('kelas', 13)->update(['kelas' => 'alumni']);
+        // SiswaModel::where('kelas', 13)->update(['kelas' => 'alumni']);
         
-        return redirect()->route('dashboard')->with('success', 'Semua siswa telah naik kelas.');
+        return redirect()->back()->with('success', 'Semua siswa telah naik kelas.');
     }
 }

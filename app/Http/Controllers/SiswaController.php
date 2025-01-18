@@ -12,54 +12,54 @@ class SiswaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = SiswaModel::query();
+        $kategori = $request->get('kategori', 'all'); // Default to 'all' if not set
 
-        // Filter berdasarkan kategori kelas
-        if ($request->filled('kategori') && $request->kategori !== 'all') {
-            $query->where('kelas', $request->kategori);
+        if ($kategori === 'alumni') {
+            $siswa = SiswaModel::where('kelas', 'alumni')->orderBy('angkatan', 'desc')->orderBy('nama', 'asc');
+            if ($request->filled('search')) {
+                $siswa->where('nama', 'like', '%' . $request->search . '%');
+            }
+            $siswa = $siswa->simplePaginate(20)->appends($request->all());
+        } else {
+            $siswa = SiswaModel::where('kelas', '!=', 'alumni')->orderBy('kelas', 'asc')->orderBy('nama', 'asc');
+            if ($request->filled('search')) {
+                $siswa->where('nama', 'like', '%' . $request->search . '%');
+            }
+            $siswa = $siswa->get();
         }
 
-        // Pencarian berdasarkan nama
-        if ($request->filled('search')) {
-            $query->where('nama', 'like', '%' . $request->search . '%');
-        }
-
-        // Urutkan data berdasarkan nama
-        $query->orderBy('kelas', 'asc')->orderBy('nama', 'asc');
-
-        $siswa = $query->get();
-
-        $totalSiswa = $siswa->count();
+        $totalSiswa = $siswa->where('kelas', '!=', 'alumni')->count();
         $kelasX = $siswa->where('kelas', '10')->count();
         $kelasXI = $siswa->where('kelas', '11')->count();
         $kelasXII = $siswa->where('kelas', '12')->count();
 
-        return view('view.siswa', compact('siswa', 'totalSiswa', 'kelasX', 'kelasXI', 'kelasXII'));
+        $hasAlumni = SiswaModel::where('kelas', 'alumni')->exists();
+
+        return view('view.siswa', compact('siswa', 'totalSiswa', 'kelasX', 'kelasXI', 'kelasXII', 'hasAlumni', 'kategori'));
     }
+
 
     public function admin(Request $request)
     {
-        $query = SiswaModel::query();
-
-        // Filter berdasarkan kategori kelas
-        if ($request->filled('kategori') && $request->kategori !== 'all') {
-            $query->where('kelas', $request->kategori);
-        }
-
-        // Pencarian berdasarkan nama
-        if ($request->filled('search')) {
-            $query->where('nama', 'like', '%' . $request->search . '%');
-        }
-
-        // Urutkan data berdasarkan nama
-        $query->orderBy('kelas', 'asc')->orderBy('nama', 'asc');
-
         $kategori = $request->get('kategori', 'all'); // Default to 'all' if not set
 
         if ($kategori === 'alumni') {
-            $siswa = $query->simplePaginate(20)->appends($request->all());
+            $siswa = SiswaModel::where('kelas', 'alumni')
+                ->when($request->filled('search'), function($query) use ($request) {
+                    return $query->where('nama', 'like', '%' . $request->search . '%');
+                })
+                ->orderBy('angkatan', 'desc')
+                ->orderBy('nama', 'asc')
+                ->simplePaginate(20)
+                ->appends(['search' => $request->search, 'kategori' => $kategori]);
         } else {
-            $siswa = $query->get();
+            $siswa = SiswaModel::where('kelas', '!=', 'alumni');
+            if ($request->filled('search')) {
+                $siswa->where('nama', 'like', '%' . $request->search . '%');
+            }
+            $siswa = $siswa->orderBy('kelas', 'asc')
+                ->orderBy('nama', 'asc')
+                ->get();
         }
 
         $hasAlumni = SiswaModel::where('kelas', 'alumni')->exists();
@@ -89,6 +89,7 @@ class SiswaController extends Controller
                 'kelas' => 'required|string',
                 'angkatan' => 'required|integer',
                 'jurusan' => 'required|string',
+                'portofolio' => 'nullable',
                 'gambar' => 'image|mimes:jpeg,png,jpg|max:2048|nullable',
                 'latitude' => 'nullable',
                 'longitude' => 'nullable',
@@ -129,18 +130,19 @@ class SiswaController extends Controller
         $siswa->kelas = $request->input('kelas');
         $siswa->angkatan = $request->input('angkatan');
         $siswa->jurusan = $request->input('jurusan');
+        $siswa->link = $request->input('portofolio');
 
         if ($request->filled('latitude') && $request->filled('longitude')) {
             $siswa->latitude = $request->input('latitude');
             $siswa->longitude = $request->input('longitude');
-            
+
             if (!empty($siswa->latitude) || !empty($siswa->longitude)) {
                 if (empty($siswa->map_id)) {
                     // Create a new Map record and associate it with the SiswaModel record
                     $map = new Map();
                     $map->siswa_models_id = $siswa->id;
                     $map->save();
-                
+
                     // Update the SiswaModel record with the map_id
                     $siswa->map_id = $map->id;
                 }
@@ -187,6 +189,7 @@ class SiswaController extends Controller
                 'angkatan' => 'required|integer',
                 'jurusan' => 'required|string',
                 'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'link' => 'nullable',
                 'latitude' => 'nullable|numeric',
                 'longitude' => 'nullable|numeric',
             ],
@@ -221,6 +224,7 @@ class SiswaController extends Controller
         $siswa->jurusan = $request->input('jurusan');
         $siswa->latitude = $request->input('latitude');
         $siswa->longitude = $request->input('longitude');
+        $siswa->link = $request->input('link');
         $siswa->gambar = $filename;
         $siswa->save();
 

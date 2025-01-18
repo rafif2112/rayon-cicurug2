@@ -14,6 +14,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('kelas');
+            $table->string('link')->nullable();
             $table->string('angkatan');
             $table->string('gambar')->nullable();
             $table->string('latitude')->nullable();

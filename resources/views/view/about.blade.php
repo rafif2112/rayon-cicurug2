@@ -165,6 +165,6 @@
                 </script>
             </div>
         </div>
-
     </section>
+    
 </x-layout>

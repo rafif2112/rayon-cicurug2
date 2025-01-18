@@ -14,7 +14,7 @@
         <div class="flex items-center justify-center">
 
             @if ($alumni->isEmpty())
-                <div class="col-span-2 flex flex-col items-center justify-center pb-12 text-center">
+                <div class="col-span-2 flex flex-col items-center justify-center p-12 text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-24 w-24 text-gray-400 dark:text-gray-600"
                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

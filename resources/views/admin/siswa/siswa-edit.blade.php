@@ -117,6 +117,17 @@
                                     </div>
 
                                     <div>
+                                        <label for="portofolio"
+                                            class="block text-sm font-medium text-gray-700">Link Portofolio</label>
+                                        <input type="text" id="portofolio" name="portofolio"
+                                            value="{{ $siswa->link }}" required
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        @error('portofolio')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div>
                                         <label for="google_maps_link"
                                             class="block text-sm font-medium text-gray-700">Google Maps Link:</label>
                                         <input type="hidden" id="latitude" name="latitude">

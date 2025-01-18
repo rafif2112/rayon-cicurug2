@@ -20,19 +20,30 @@
             <div>
                 <div class="mb-2">
                     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                        <div class="relative w-full md:w-48">
+                        <!-- Dropdown Filter -->
+                        <div class="relative w-full lg:w-48">
                             <form action="{{ route('siswa.index') }}" method="GET">
                                 <select name="kategori" id="kelasDropdown"
                                     class="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-8 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
                                     onchange="this.form.submit()">
-                                    <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>📚 Semua
-                                        Kelas</option>
-                                    <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>🎓 Kelas
-                                        10</option>
-                                    <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>🎓 Kelas
-                                        11</option>
-                                    <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>🎓 Kelas
-                                        12</option>
+                                    <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>Semua
+                                        Kelas
+                                    </option>
+                                    <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>Kelas
+                                        10
+                                    </option>
+                                    <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>Kelas
+                                        11
+                                    </option>
+                                    <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>Kelas
+                                        12
+                                    </option>
+                                    @if ($hasAlumni)
+                                        <option value="alumni" {{ request('kategori') == 'alumni' ? 'selected' : '' }}
+                                            class="alumni-option">
+                                            Alumni
+                                        </option>
+                                    @endif
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                     <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
@@ -97,25 +108,45 @@
                                                 class="h-48 w-full object-cover md:h-80">
                                         @endif
                                         <div class="p-4">
-                                            <h3 id="nama" class="text-lg font-semibold text-gray-800">
+                                            <h3 id="nama" class="text:sm font-semibold text-gray-800 sm:text-lg">
                                                 {{ $murid['nama'] }}</h3>
-                                            <p id="identitas" class="text-gray-600">{{ $murid['nis'] }} |
-                                                {{ $murid['jurusan'] }}</p>
+                                            <div class="text-sm sm:text-lg">
+                                                <p id="identitas" class="text-gray-600">{{ $murid['nis'] }} |
+                                                    {{ $murid['jurusan'] }}</p>
+                                                <div class="mt-2">
+                                                    <p class="text-gray-400">Portofolio :
+                                                    <span class="-mt-1"
+                                                        style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                                                        @if ($murid['link'])
+                                                            <a class="text-blue-500 underline"
+                                                                href="{{ $murid['link'] }}">Lihat Portofolio</a>
+                                                        @else
+                                                            <span class="text-gray-400 ml-1">-</span>
+                                                        @endif
+                                                    </span>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
-
                         </div>
                     @endif
                 </div>
-                <div class="mt-8 flex justify-center">
+
+                @if (request('kategori') === 'alumni')
+                    {{ $siswa->links() }}
+                @endif
+
+                {{-- <div class="mt-8 flex justify-center">
                     <a class="group text-[18px] font-medium text-blue-500 hover:text-blue-600" href="/alumni">
                         <span>Lihat Alumni Rayon Cicurug 2</span>
                         <ion-icon class="-mb-[3px] pl-1 transition-transform duration-300 group-hover:translate-x-1"
                             name="arrow-forward-outline"></ion-icon>
                     </a>
-                </div>
+                </div> --}}
+
             </div>
         </div>
     </section>

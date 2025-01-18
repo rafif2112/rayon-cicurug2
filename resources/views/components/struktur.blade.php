@@ -46,15 +46,13 @@
                         $order = [
                             'Ketua Rayon' => 1,
                             'Wakil Ketua Rayon' => 2,
-                            'Bendahara 1' => 3,
-                            'Bendahara' => 3,
-                            'Sekertaris 1' => 4,
-                            'Sekertaris' => 4,
-                            'Bendahara 2' => 5,
-                            'Sekertaris 2' => 6,
+                            'Sekertaris 1' => 3,
+                            'Bendahara 1' => 4,
+                            'Sekertaris 2' => 5,
+                            'Bendahara 2' => 6,
                         ];
                         return $order[$item['jabatan']] ?? 999;
-                    });
+                    })->values()->all();
                 @endphp
 
                 <div class="grid grid-cols-1 gap-x-4 gap-y-6 md:grid-cols-2 md:gap-x-20 lg:grid-cols-3">

@@ -34,7 +34,7 @@
                 <div class="ml-4 text-2xl font-semibold text-white">Cicurug 2</div>
             </div>
             <nav class="mt-10">
-                @foreach ([['route' => 'dashboard', 'icon' => 'bar-chart-outline', 'label' => 'Dashboard'], ['route' => 'siswa.admin', 'icon' => 'people-outline', 'label' => 'Siswa'], ['route' => 'galeri.admin', 'icon' => 'images-outline', 'label' => 'Galeri'], ['route' => 'struktur.admin', 'icon' => 'person-outline', 'label' => 'Struktur'], ['route' => 'kegiatan.admin', 'icon' => 'calendar-outline', 'label' => 'Kegiatan'], ['route' => 'alumni.admin', 'icon' => 'people-outline', 'label' => 'Alumni'], ['route' => 'maps.admin', 'icon' => 'location-outline', 'label' => 'Maps']] as $item)
+                @foreach ([['route' => 'dashboard', 'icon' => 'bar-chart-outline', 'label' => 'Dashboard'], ['route' => 'siswa.admin', 'icon' => 'people-outline', 'label' => 'Siswa'], ['route' => 'galeri.admin', 'icon' => 'images-outline', 'label' => 'Galeri'], ['route' => 'struktur.admin', 'icon' => 'person-outline', 'label' => 'Struktur'], ['route' => 'kegiatan.admin', 'icon' => 'calendar-outline', 'label' => 'Kegiatan'], ['route' => 'alumni.admin', 'icon' => 'people-outline', 'label' => 'Alumni'], ['route' => 'maps.admin', 'icon' => 'location-outline', 'label' => 'Maps'], ['route' => 'prestasi.admin', 'icon' => 'ribbon-outline', 'label' => 'Prestasi']] as $item)
                     <a class="mt-4 flex transform items-center px-6 py-2 text-gray-300 transition-colors duration-200 hover:bg-gray-700 hover:text-white"
                         href="{{ route($item['route']) }}">
                         <ion-icon class="text-xl" name="{{ $item['icon'] }}"></ion-icon>

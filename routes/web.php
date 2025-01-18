@@ -9,6 +9,7 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\PrestasiController;
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/upgrade', [AdminController::class, 'naikKelas'])->name('upgrade');
@@ -53,11 +54,18 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('alumni.destroy');
 
     Route::get('/admin/maps', [MapsController::class, 'admin'])->name('maps.admin');
+
+    Route::get('/admin/prestasi', [PrestasiController::class, 'admin'])->name('prestasi.admin');
+    Route::get('/prestasi/create', [PrestasiController::class, 'create'])->name('prestasi.create');
+    Route::post('/prestasi', [PrestasiController::class, 'store'])->name('prestasi.store');
+    Route::get('/prestasi/{id}/edit', [PrestasiController::class, 'edit'])->name('prestasi.edit');
+    Route::put('/prestasi/{id}', [PrestasiController::class, 'update'])->name('prestasi.update');
+    Route::delete('/prestasi/{id}', [PrestasiController::class, 'destroy'])->name('prestasi.destroy');
 });
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login'); // Change 'auth' to 'login'
+    Route::post('/login', [LoginController::class, 'login'])->name('login.process'); // Change 'auth' to 'login'
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -66,8 +74,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
 
-Route::get('/tentang', [MapsController::class, 'index'])->name('tentang.index');
+// Route::get('/tentang', [MapsController::class, 'index'])->name('tentang.index');
 
 Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni.index');
 
 Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+
+Route::get('/prestasi', [PrestasiController::class, 'index'])->name('prestasi');

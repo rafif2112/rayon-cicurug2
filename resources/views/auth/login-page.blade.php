@@ -19,7 +19,7 @@
             <img src="{{ asset('assets/images/icon/wikrama-logo.png') }}" alt="Logo" class="h-20">
         </div>
         <h2 class="mb-6 text-center text-3xl font-semibold text-gray-800">Masuk Sebagai admin</h2>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login.process') }}">
             @csrf
 
             <div class="mb-4">

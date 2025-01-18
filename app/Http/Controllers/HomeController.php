@@ -7,6 +7,8 @@ use App\Models\StrukturModel;
 use App\Models\GaleriModel;
 use App\Models\SiswaModel;
 use App\Models\Alumni;
+use App\Models\Map;
+use App\Models\Prestasi;
 
 class HomeController extends Controller
 {
@@ -16,7 +18,13 @@ class HomeController extends Controller
         $images = GaleriModel::all();
         $siswa = SiswaModel::all(); // Tambahkan ini untuk mengambil data siswa
         $alumni = Alumni::all(); // Tambahkan ini untuk mengambil data alumni
-        return view('view.home', ['data' => $data, 'images' => $images, 'siswa' => $siswa, 'alumni' => $alumni]);
+
+        $countSiswa = SiswaModel::where('kelas', '!=', 'alumni')->count(); // Tambahkan ini untuk menghitung jumlah siswa
+        $countPrestasi = Prestasi::count(); // Tambahkan ini untuk menghitung jumlah prestasi
+
+        $rumah = Map::with('siswa')->get();
+
+        return view('view.home', ['data' => $data, 'images' => $images, 'siswa' => $siswa, 'alumni' => $alumni, 'totalSiswa' => $countSiswa, 'totalPrestasi' => $countPrestasi, 'rumah' => $rumah]);
     }
 
     /**

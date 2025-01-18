@@ -1,13 +1,15 @@
 <x-admin-layout>
     <div class="overflow-x-auto">
         @if (session('success'))
-            <div class="w-full mb-4 rounded-lg border-l-4 border-green-500 bg-green-100 p-4 text-green-700 dark:bg-green-800 dark:text-green-100 sm:w-auto">
+            <div
+                class="mb-4 w-full rounded-lg border-l-4 border-green-500 bg-green-100 p-4 text-green-700 dark:bg-green-800 dark:text-green-100 sm:w-auto">
                 <p class="font-semibold">Sukses!</p>
                 <p>{{ session('success') }}</p>
             </div>
         @endif
         @if ($errors->any())
-            <div style="border-color: #f56565; background-color: #ffc1c1;" class="w-full mb-4 rounded-lg border-l-4 p-4 text-red-700 dark:bg-red-800 dark:text-red-100 sm:w-auto">
+            <div style="border-color: #f56565; background-color: #ffc1c1;"
+                class="mb-4 w-full rounded-lg border-l-4 p-4 text-red-700 dark:bg-red-800 dark:text-red-100 sm:w-auto">
                 <p class="font-semibold">Error!</p>
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -17,84 +19,92 @@
             </div>
         @endif
         <div class="mb-4 p-2">
-            <div class="flex flex-col space-y-4 mb-3">
-            <!-- Action Buttons -->
-                <div class="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
-                    <form action="{{ route('siswa.import') }}" method="POST" enctype="multipart/form-data" id="importForm"
-                    class="flex-grow sm:flex-grow-0">
-                    @csrf
-                    <input type="file" name="file" id="fileInput" class="hidden"
-                        onchange="document.getElementById('importForm').submit()">
-                    <button type="button" onclick="document.getElementById('fileInput').click()"
-                        class="w-full rounded-xl bg-green-500 px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg dark:bg-green-600 dark:hover:bg-green-700 sm:w-auto">
-                        <svg class="mr-2 inline-block h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                        </svg>
-                        Import Data
-                    </button>
+            <div class="mb-3 flex flex-col space-y-4">
+                <!-- Action Buttons -->
+                <div class="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
+                    <form action="{{ route('siswa.import') }}" method="POST" enctype="multipart/form-data"
+                        id="importForm" class="flex-grow sm:flex-grow-0">
+                        @csrf
+                        <input type="file" name="file" id="fileInput" class="hidden"
+                            onchange="document.getElementById('importForm').submit()">
+                        <button type="button" onclick="document.getElementById('fileInput').click()"
+                            class="w-full rounded-xl bg-green-500 px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg dark:bg-green-600 dark:hover:bg-green-700 sm:w-auto">
+                            <svg class="mr-2 inline-block h-5 w-5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                            </svg>
+                            Import Data
+                        </button>
                     </form>
 
                     <a href="{{ route('siswa.create') }}"
-                    class="flex-grow rounded-xl bg-blue-500 px-4 py-3 text-center font-semibold text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg dark:bg-blue-600 dark:hover:bg-blue-700 sm:flex-grow-0">
-                    <svg class="mr-2 inline-block h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 4v16m8-8H4" />
-                    </svg>
-                    Tambah Data
+                        class="flex-grow rounded-xl bg-blue-500 px-4 py-3 text-center font-semibold text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg dark:bg-blue-600 dark:hover:bg-blue-700 sm:flex-grow-0">
+                        <svg class="mr-2 inline-block h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Tambah Data
                     </a>
                 </div>
             </div>
 
             <!-- Search and Filter Section -->
-            <div class="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4">
+            <div class="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
                 <!-- Dropdown Filter -->
                 <div class="relative w-full lg:w-48">
-                <form action="{{ route('siswa.admin') }}" method="GET">
-                    <select name="kategori" id="kelasDropdown"
-                    class="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-8 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
-                    onchange="this.form.submit()">
-                    <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>📚 Semua Kelas</option>
-                    <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>🎓 Kelas 10</option>
-                    <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>🎓 Kelas 11</option>
-                    <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>🎓 Kelas 12</option>
-                    @if ($hasAlumni)
-                        <option value="alumni" {{ request('kategori') == 'alumni' ? 'selected' : '' }}>🎊 Alumni</option>
-                    @endif
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    </div>
-                </form>
+                    <form action="{{ route('siswa.admin') }}" method="GET">
+                        <select name="kategori" id="kelasDropdown"
+                            class="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-8 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
+                            onchange="this.form.submit()">
+                            <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>📚 Semua Kelas
+                            </option>
+                            <option value="10" {{ request('kategori') == '10' ? 'selected' : '' }}>🎓 Kelas 10
+                            </option>
+                            <option value="11" {{ request('kategori') == '11' ? 'selected' : '' }}>🎓 Kelas 11
+                            </option>
+                            <option value="12" {{ request('kategori') == '12' ? 'selected' : '' }}>🎓 Kelas 12
+                            </option>
+                            @if ($hasAlumni)
+                                <option value="alumni" {{ request('kategori') == 'alumni' ? 'selected' : '' }}>🎊 Alumni
+                                </option>
+                            @endif
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- Search Bar -->
                 <div class="relative flex-grow">
-                <form action="{{ route('siswa.admin') }}" method="GET" class="relative">
-                    <input type="text" name="search" id="searchInput"
-                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 pr-12 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
-                    placeholder="Cari siswa..." value="{{ request('search') }}">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    </div>
-                    <button type="submit"
-                    class="absolute inset-y-0 right-0 flex items-center rounded-r-xl bg-blue-600 px-4 text-white hover:bg-blue-500">
-                    Cari
-                    </button>
-                    @if (request('search'))
-                    <a href="{{ route('siswa.admin') }}" class="absolute inset-y-0 right-16 flex items-center pr-2">
-                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </a>
-                    @endif
-                </form>
+                    <form action="{{ route('siswa.admin') }}" method="GET" class="relative">
+                        <input type="text" name="search" id="searchInput"
+                            class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 pr-12 shadow-sm transition-all duration-300 hover:border-blue-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-500"
+                            placeholder="Cari siswa..." value="{{ request('search') }}">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <button type="submit"
+                            class="absolute inset-y-0 right-0 flex items-center rounded-r-xl bg-blue-600 px-4 text-white hover:bg-blue-500">
+                            Cari
+                        </button>
+                        @if (request('search'))
+                            <a href="{{ route('siswa.admin') }}"
+                                class="absolute inset-y-0 right-16 flex items-center pr-2">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </a>
+                        @endif
+                    </form>
                 </div>
             </div>
         </div>
@@ -126,6 +136,12 @@
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                                 Angkatan</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                                Portofolio</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+                                Map</th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
                                 Aksi</th>
@@ -168,6 +184,24 @@
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4">
                                     <div class="text-sm text-gray-500 dark:text-gray-300">{{ $murid->angkatan }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    <div class="text-sm text-gray-500 dark:text-gray-300">
+                                        @if ($murid->link)
+                                            <a href="{{ $murid->link }}" target="_blank" class="text-blue-500 hover:text-blue-700">Lihat</a>
+                                        @else
+                                            <span class="text-3xl">-</span>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    <div class="text-sm text-gray-500 dark:text-gray-300">
+                                        @if ($murid->latitude && $murid->longitude)
+                                            <span class="font-semibold text-green-500">✓</span>
+                                        @else
+                                            <span class="text-lg font-semibold text-red-500">X</span>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">
                                     <div class="flex space-x-2">
