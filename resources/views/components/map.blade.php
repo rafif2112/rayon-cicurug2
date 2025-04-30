@@ -58,11 +58,17 @@
 
                         // Add marker with the corresponding custom icon
                         if (rumah.siswa.latitude && rumah.siswa.longitude) {
+                            console.log(rumah.siswa);
                             L.marker([rumah.siswa.latitude, rumah.siswa.longitude], {
                                     icon: getCustomIcon(color)
                                 })
                                 .addTo(map)
-                                .bindPopup(`<b>${rumah.siswa.nama}</b>`);
+                                .bindPopup(`
+                                    <p class="text-sm">Nama : ${rumah.siswa.nama}
+                                        <br>
+                                        <span class="text-sm">Jurusan : ${rumah.siswa.jurusan}</span>
+                                    </p>
+                                `);
                         }
                     });
                 } else {

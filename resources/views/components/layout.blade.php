@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cicurug 2</title>
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    {{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
 
-    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-6ng7sL5A.css') }}">
-    <script src="build/assets/app-DdQ1e7RN.js"></script> --}}
+    <link rel="stylesheet" href="{{ asset('build/assets/app-6ng7sL5A.css') }}">
+    <script src="build/assets/app-DdQ1e7RN.js"></script>
     
     <link href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link rel="icon" href="{{asset('assets/images/icon/wikrama-logo.png')}}" type="image/x-icon">

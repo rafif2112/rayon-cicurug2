@@ -138,12 +138,10 @@ class SiswaController extends Controller
 
             if (!empty($siswa->latitude) || !empty($siswa->longitude)) {
                 if (empty($siswa->map_id)) {
-                    // Create a new Map record and associate it with the SiswaModel record
                     $map = new Map();
                     $map->siswa_models_id = $siswa->id;
                     $map->save();
 
-                    // Update the SiswaModel record with the map_id
                     $siswa->map_id = $map->id;
                 }
             }

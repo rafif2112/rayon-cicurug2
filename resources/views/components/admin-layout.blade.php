@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    {{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
 
-    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-6ng7sL5A.css') }}">
-    <script src="build/assets/app-DdQ1e7RN.js"></script> --}}
+    <link rel="stylesheet" href="{{ asset('build/assets/app-6ng7sL5A.css') }}">
+    <script src="build/assets/app-DdQ1e7RN.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <link rel="icon" href="{{ asset('assets/images/icon/wikrama-logo.png') }}" type="image/x-icon">
