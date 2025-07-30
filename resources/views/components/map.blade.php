@@ -1,5 +1,5 @@
 <section>
-    <div class="container mx-auto my-10 w-11/12 border-b-2 border-black pb-3 sm:w-4/5">
+    <div data-aos="fade-up" class="container mx-auto my-10 w-11/12 border-b-2 border-black pb-3 sm:w-4/5">
         <div class="mb-3 flex items-center gap-2">
             <ion-icon class="text-5xl" src="{{ asset('assets/images/icon/location-sharp.svg') }}"></ion-icon>
             <h2 class="text-3xl font-bold text-gray-800 dark:text-white md:text-4xl">Lokasi</h2>
@@ -7,7 +7,7 @@
         <p class="mt-2 text-gray-600 dark:text-gray-400">Lokasi Rumah Siswa Cicurug 2</p>
     </div>
 
-    <div class="container mx-auto mb-10 w-11/12 border-b-2 pb-3 sm:w-4/5">
+    <div data-aos="fade-up" class="container mx-auto mb-10 w-11/12 border-b-2 pb-3 sm:w-4/5">
         <div class="flex w-full items-center justify-center">
             <div class="h-96 w-full" id="map"></div>
 

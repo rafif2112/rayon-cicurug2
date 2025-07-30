@@ -24,72 +24,83 @@
 
         <div class="py-12">
             <div class="container px-4 mx-auto">
-            <div class="flex flex-col items-center justify-center gap-5 md:items-start md:flex-row">
-                <img src="{{ asset('assets/images/other/wikrama.jpg') }}" alt="Descriptive Alt Text"
-                class="w-11/12 mb-10 rounded-lg shadow-lg h-80 md:mb-0 sm:w-3/4 md:w-1/3 lg:w-1/4">
-                <div class="w-full h-full md:w-1/2">
-                    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">Cicurug 2</h2>
-                    <p class="mt-4 mb-4 text-lg text-gray-700 dark:text-gray-300">Rayon Cicurug 2 mencakup wilayah dari Cikereteg hingga Cimande, tergantung pada peserta didik baru di SMK Wikrama Bogor.</p>
-                    <div id="accordion-color" data-accordion="collapse"
-                        data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
-                        <h2 id="accordion-color-heading-1">
-                        <button type="button"
-                            class="flex items-center justify-between w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rounded-t-xl hover:bg-blue-100 focus:ring-4 focus:ring-blue-200 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-blue-800"
-                            data-accordion-target="#accordion-color-body-1" aria-expanded="false"
-                            aria-controls="accordion-color-body-1">
-                            <span>Prestasi Rayon</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="M9 5 5 1 1 5" />
+                <div class="flex flex-col items-center justify-center gap-5 md:items-start md:flex-row">
+                    <div class="relative w-11/12 h-80 mb-10 rounded-lg overflow-hidden shadow-lg md:mb-0 sm:w-3/4 md:w-1/3 lg:w-1/4 bg-gray-200 dark:bg-gray-700">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <svg class="h-12 w-12 animate-pulse text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                        </button>
-                        </h2>
-                        <div id="accordion-color-body-1" class="hidden" aria-labelledby="accordion-color-heading-1">
-                        <div
-                            class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">Rayon Cicurug 2 telah meraih berbagai prestasi di bidang akademik maupun non-akademik, termasuk juara lomba sains dan olahraga.</p>
                         </div>
-                        </div>
-                        <h2 id="accordion-color-heading-2">
-                        <button type="button"
-                            class="flex items-center justify-between w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 hover:bg-blue-100 focus:ring-4 focus:ring-blue-200 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-blue-800"
-                            data-accordion-target="#accordion-color-body-2" aria-expanded="false"
-                            aria-controls="accordion-color-body-2">
-                            <span>Kegiatan Rayon</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="M9 5 5 1 1 5" />
-                            </svg>
-                        </button>
-                        </h2>
-                        <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
-                        <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">Rayon ini aktif mengadakan berbagai kegiatan seperti seminar, workshop, dan kegiatan sosial yang melibatkan siswa dan masyarakat sekitar.</p>
-                        </div>
-                        </div>
-                        <h2 id="accordion-color-heading-3">
-                        <button type="button"
-                            class="flex items-center justify-between w-full gap-3 p-5 font-medium text-gray-500 border border-gray-200 hover:bg-blue-100 focus:ring-4 focus:ring-blue-200 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-blue-800"
-                            data-accordion-target="#accordion-color-body-3" aria-expanded="false"
-                            aria-controls="accordion-color-body-3">
-                            <span>Fasilitas Rayon</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="M9 5 5 1 1 5" />
-                            </svg>
-                        </button>
-                        </h2>
-                        <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
-                        <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">Rayon Cicurug 2 dilengkapi dengan berbagai fasilitas seperti laboratorium, perpustakaan, dan ruang olahraga untuk mendukung kegiatan belajar mengajar.</p>
-                        </div>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" 
+                             data-src="{{ asset('assets/images/other/wikrama.jpg') }}" 
+                             alt="Descriptive Alt Text"
+                             class="w-full h-full object-cover lazy-load"
+                             loading="lazy"
+                             onload="this.parentElement.classList.remove('bg-gray-200', 'dark:bg-gray-700'); this.classList.add('loaded')">
+                    </div>
+                    <div class="w-full h-full md:w-1/2">
+                        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100">Cicurug 2</h2>
+                        <p class="mt-4 mb-4 text-lg text-gray-700 dark:text-gray-300">Rayon Cicurug 2 mencakup wilayah dari Cikereteg hingga Cimande, tergantung pada peserta didik baru di SMK Wikrama Bogor.</p>
+                        <div id="accordion-color" data-accordion="collapse"
+                            data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
+                            <h2 id="accordion-color-heading-1">
+                            <button type="button"
+                                class="flex items-center justify-between w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 rounded-t-xl hover:bg-blue-100 focus:ring-4 focus:ring-blue-200 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-blue-800"
+                                data-accordion-target="#accordion-color-body-1" aria-expanded="false"
+                                aria-controls="accordion-color-body-1">
+                                <span>Prestasi Rayon</span>
+                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M9 5 5 1 1 5" />
+                                </svg>
+                            </button>
+                            </h2>
+                            <div id="accordion-color-body-1" class="hidden" aria-labelledby="accordion-color-heading-1">
+                            <div
+                                class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">Rayon Cicurug 2 telah meraih berbagai prestasi di bidang akademik maupun non-akademik, termasuk juara lomba sains dan olahraga.</p>
+                            </div>
+                            </div>
+                            <h2 id="accordion-color-heading-2">
+                            <button type="button"
+                                class="flex items-center justify-between w-full gap-3 p-5 font-medium text-gray-500 border border-b-0 border-gray-200 hover:bg-blue-100 focus:ring-4 focus:ring-blue-200 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-blue-800"
+                                data-accordion-target="#accordion-color-body-2" aria-expanded="false"
+                                aria-controls="accordion-color-body-2">
+                                <span>Kegiatan Rayon</span>
+                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M9 5 5 1 1 5" />
+                                </svg>
+                            </button>
+                            </h2>
+                            <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
+                            <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">Rayon ini aktif mengadakan berbagai kegiatan seperti seminar, workshop, dan kegiatan sosial yang melibatkan siswa dan masyarakat sekitar.</p>
+                            </div>
+                            </div>
+                            <h2 id="accordion-color-heading-3">
+                            <button type="button"
+                                class="flex items-center justify-between w-full gap-3 p-5 font-medium text-gray-500 border border-gray-200 hover:bg-blue-100 focus:ring-4 focus:ring-blue-200 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-blue-800"
+                                data-accordion-target="#accordion-color-body-3" aria-expanded="false"
+                                aria-controls="accordion-color-body-3">
+                                <span>Fasilitas Rayon</span>
+                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M9 5 5 1 1 5" />
+                                </svg>
+                            </button>
+                            </h2>
+                            <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
+                            <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">Rayon Cicurug 2 dilengkapi dengan berbagai fasilitas seperti laboratorium, perpustakaan, dan ruang olahraga untuk mendukung kegiatan belajar mengajar.</p>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </section>
@@ -166,5 +177,53 @@
             </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize lazy loading
+            const lazyImages = document.querySelectorAll('.lazy-load');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.removeAttribute('data-src');
+                            }
+                            img.classList.add('loaded');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                }, {
+                    rootMargin: '50px 0px'
+                });
+                
+                lazyImages.forEach(img => {
+                    imageObserver.observe(img);
+                });
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                lazyImages.forEach(img => {
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
+                });
+            }
+        });
+    </script>
+    
+    <style>
+        .lazy-load {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .lazy-load.loaded {
+            opacity: 1;
+        }
+    </style>
     
 </x-layout>

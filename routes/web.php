@@ -10,11 +10,16 @@ use App\Http\Controllers\MapsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\SiswaAuthController;
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/upgrade', [AdminController::class, 'naikKelas'])->name('upgrade');
-
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::post('/upgrade', [AdminController::class, 'naikKelas'])->name('upgrade');
+    
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/admin/struktur', [StrukturController::class, 'admin'])->name('struktur.admin');
@@ -63,6 +68,16 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/prestasi/{id}', [PrestasiController::class, 'destroy'])->name('prestasi.destroy');
 });
 
+Route::middleware(['auth', 'siswa'])->group(function () {
+    Route::get('/portofolio', [SiswaController::class, 'portofolio'])->name('siswa.portofolio');
+    Route::post('/portofolio', [SiswaController::class, 'updatePortofolio'])->name('siswa.portofolio.update');
+
+    Route::get('/siswa/dashboard', [SiswaAuthController::class, 'dashboard'])->name('siswa.dashboard');
+    Route::get('/siswa/profile', [SiswaAuthController::class, 'profile'])->name('siswa.profile');
+    Route::post('/siswa/profile', [SiswaAuthController::class, 'updateProfile'])->name('siswa.profile.update');
+    Route::post('/siswa/password', [SiswaAuthController::class, 'changePassword'])->name('siswa.password.change');
+});
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.process'); // Change 'auth' to 'login'
@@ -70,14 +85,11 @@ Route::middleware(['guest'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Route::get('/siswa', [SiswaController::class, 'index']);
-
 Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
-
-// Route::get('/tentang', [MapsController::class, 'index'])->name('tentang.index');
 
 Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni.index');
 
 Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+Route::get('/siswa/{slug}', [SiswaController::class, 'show'])->name('siswa.show');
 
 Route::get('/prestasi', [PrestasiController::class, 'index'])->name('prestasi');

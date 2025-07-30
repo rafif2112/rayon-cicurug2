@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="min-h-screen">
-        <div class="mx-auto max-w-4xl">
+        <div class="mx-auto">
             <div class="mb-8 flex items-center justify-between">
                 <a href="{{ route('struktur.admin') }}"
                     class="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition duration-300 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400">
@@ -14,7 +14,6 @@
             </div>
             <div class="overflow-hidden rounded-2xl bg-white shadow-xl">
                 <div class="p-8 sm:p-12">
-                    <h2 class="mb-8 text-3xl font-extrabold text-gray-900">Edit Struktur</h2>
                     <form action="{{ route('struktur.update', $struktur->id) }}" method="POST"
                         enctype="multipart/form-data" class="space-y-8">
                         @csrf

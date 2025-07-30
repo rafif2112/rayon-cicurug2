@@ -4,7 +4,7 @@
     <x-header></x-header>
 
     <section class="py-12">
-        <div class="container mx-auto mb-10 w-11/12 border-b-2 border-gray-300 pb-5 dark:border-gray-700 sm:w-4/5">
+        <div data-aos="fade-up" class="container mx-auto mb-10 w-11/12 border-b-2 border-gray-300 pb-5 dark:border-gray-700 sm:w-4/5">
             <div class="mb-6 flex items-center gap-4">
                 <ion-icon class="text-3xl md:text-5xl" src="{{ asset('assets/images/icon/people.svg') }}"></ion-icon>
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 md:text-4xl" id="dokumentasi">Prestasi</h2>
@@ -12,7 +12,7 @@
             <p class="mt-2 text-base text-gray-600 dark:text-gray-400 md:text-lg">Prestasi Siswa Rayon Cicurug 2</p>
         </div>
 
-        <div class="container mx-auto flex gap-4 mb-6 w-11/12 sm:w-4/5">
+        <div data-aos="fade-up" class="container mx-auto flex gap-4 mb-6 w-11/12 sm:w-4/5">
             <div class="relative w-full md:w-72">
                 <form action="{{ route('prestasi') }}" method="GET">
                     @php
@@ -39,7 +39,7 @@
 
 
         @if ($prestasi->isEmpty())
-            <div class="container mx-auto w-11/12 px-4 py-8 sm:w-4/5 md:py-16">
+            <div data-aos="fade-up" class="container mx-auto w-11/12 px-4 py-8 sm:w-4/5 md:py-16">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8">
                     <div class="col-span-1 flex flex-col items-center justify-center p-8 text-center md:col-span-2">
                         <ion-icon class="mb-3 text-[70px] text-gray-400"
@@ -56,11 +56,11 @@
             <div class="container mx-auto w-11/12 py-8 sm:w-4/5 md:py-14">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
                     @foreach ($prestasi as $item)
-                        <div class="overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800">
+                        <div data-aos="fade-up" class="overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800">
                             <div class="relative">
                                 <div id="prestasi" class="carousel relative h-64 w-full overflow-hidden">
                                     @foreach ($item->gambar as $key => $gambar)
-                                        @if ($gambar && file_exists(public_path('assets/images/prestasi/' . $gambar)))
+                                        @if ($gambar && asset('assets/images/prestasi/' . $gambar))
                                             <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
                                                 data-carousel-item
                                                 src="{{ asset('assets/images/prestasi/' . $gambar) }}"
@@ -179,18 +179,77 @@
         </div>
     </div>
 
+    <style>
+        .lazy-load {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .lazy-load.loaded {
+            opacity: 1;
+        }
+    </style>
+
     <script>
         let currentCarousel = null;
 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Implement intersection observer for lazy loading
+            const lazyImages = document.querySelectorAll('.lazy-load');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                            }
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                }, {
+                    rootMargin: '50px 0px'
+                });
+                
+                lazyImages.forEach(img => {
+                    imageObserver.observe(img);
+                });
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                lazyImages.forEach(img => {
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                    }
+                });
+            }
+            
+            // Rest of your existing DOMContentLoaded code
+            if (window.location.search.includes('kategori=')) {
+                document.getElementById('prestasi').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+        
         function openModal(img) {
             const modal = document.getElementById('lightboxModal');
             const modalImg = document.getElementById('modalImage');
             currentCarousel = img.closest('.carousel');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            modalImg.src = img.src;
-            setTimeout(() => modalImg.classList.add('opacity-100'), 100);
-
+            
+            // Show loading spinner in modal while image loads
+            modalImg.style.opacity = '0';
+            modalImg.onload = function() {
+                modalImg.style.opacity = '1';
+            }
+            
+            // Use the full src if it has been loaded, otherwise use data-src
+            modalImg.src = img.src !== 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1 1\'%3E%3C/svg%3E' 
+                ? img.src 
+                : img.dataset.src;
+            
             document.getElementById('modalPrevBtn').onclick = () => modalNavigate('prev');
             document.getElementById('modalNextBtn').onclick = () => modalNavigate('next');
 

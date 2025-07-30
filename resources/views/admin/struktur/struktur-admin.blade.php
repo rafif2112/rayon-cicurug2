@@ -23,37 +23,19 @@
                 </tr>
             </thead>
             <tbody class="text-gray-700">
-                @php
-                    $order = [
-                        'Pembimbing Siswa' => 1,
-                        'Pembimbing Rayon' => 1,
-                        'Ketua Rayon' => 2,
-                        'Wakil Ketua Rayon' => 3,
-                        'Bendahara 1' => 4,
-                        'Bendahara' => 4,
-                        'Sekertaris 1' => 5,
-                        'Sekertaris' => 5,
-                        'Bendahara 2' => 6,
-                        'Sekertaris 2' => 7,
-                    ];
-                @endphp
                 @if ($data->isEmpty())
                     <tr>
                         <td colspan="4" class="py-4 text-center">Tidak ada data struktur yang tersedia.</td>
                     </tr>
                 @else
-                    @foreach ($data->sortBy(function ($struktur) use ($order) { 
-                        return $order[$struktur->jabatan] ?? 8;
-                    }) as $struktur)
+                    @foreach ($data as $struktur)
                         <tr class="border-b transition duration-300 hover:bg-gray-100">
                             <td class="px-5 py-3">
-                                @if ($struktur->gambar && file_exists(public_path('assets/images/struktur/' . $struktur->gambar)))
-                                    <img src="{{ asset('assets/images/struktur/' . $struktur->gambar) }}"
-                                    alt="{{ $struktur->nama }}" class="h-20 w-20 rounded-md object-cover">
-                                @else
-                                    <img src="{{ asset('assets/images/image.jpg') }}"
-                                    alt="{{ $struktur->nama }}" class="h-20 w-20 rounded-md object-cover">
-                                @endif
+                                <img src="{{ $struktur->gambar ? asset('assets/images/struktur/' . $struktur->gambar) : asset('assets/images/image.jpg') }}"
+                                     alt="{{ $struktur->nama }}" 
+                                     class="h-20 w-20 rounded-md object-cover"
+                                     loading="lazy"
+                                     onerror="this.src='{{ asset('assets/images/image.jpg') }}'">
                             </td>
                             <td class="px-5 py-3">{{ $struktur->nama }}</td>
                             <td class="px-5 py-3">{{ $struktur->jabatan }}</td>
@@ -74,38 +56,42 @@
             </tbody>
         </table>
     </div>
+
+    @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const form = this.closest('.delete-form');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const form = this.closest('.delete-form');
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Data yang dihapus tidak dapat dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            @endif
         });
     </script>
-    <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        @endif
-    </script>
+    @endpush
 </x-admin-layout>

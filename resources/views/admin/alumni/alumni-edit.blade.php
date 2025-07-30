@@ -1,9 +1,8 @@
 <x-admin-layout>
     <div class="min-h-screen">
-        <div class="mx-auto max-w-4xl">
+        <div class="mx-auto">
             <div class="overflow-hidden rounded-2xl bg-white shadow-xl">
                 <div class="p-8 sm:p-12">
-                    <h2 class="mb-8 text-3xl font-extrabold text-gray-900">Edit Alumni</h2>
                     <form action="{{ route('alumni.update', $alumni->id) }}" method="POST" enctype="multipart/form-data"
                         class="space-y-8">
                         @csrf

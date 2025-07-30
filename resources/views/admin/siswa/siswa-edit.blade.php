@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="min-h-screen">
-        <div class="mx-auto max-w-4xl">
+        <div class="mx-auto">
             <div class="mb-8 flex items-center justify-between">
                 <a href="{{ route('siswa.admin') }}"
                     class="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition duration-300 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400">
@@ -82,6 +82,17 @@
                                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                     </div>
+                                    
+                                    <div>
+                                        <label for="email"
+                                            class="block text-sm font-medium text-gray-700">Email</label>
+                                        <input type="text" id="email" name="email" value="{{ $siswa->user->email }}"
+                                            required
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        @error('email')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message     }}</p>
+                                        @enderror
+                                    </div>
 
                                     <div>
                                         <label for="jurusan"
@@ -120,7 +131,7 @@
                                         <label for="portofolio"
                                             class="block text-sm font-medium text-gray-700">Link Portofolio</label>
                                         <input type="text" id="portofolio" name="portofolio"
-                                            value="{{ $siswa->link }}" required
+                                            value="{{ $siswa->link }}"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                         @error('portofolio')
                                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

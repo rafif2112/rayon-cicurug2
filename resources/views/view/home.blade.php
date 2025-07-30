@@ -32,7 +32,7 @@
         </div>
     </section>
 
-    <section class="py-16">
+    <section data-aos="fade-up" class="py-16">
         <div class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-3 sm:w-4/5">
             <div class="mb-3 flex items-center gap-4">
                 <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -47,53 +47,51 @@
 
             @php
                 $imageCount = count($images);
-                $minimumImages = 4;
+                $minimumImages = 5;
             @endphp
 
             @if ($imageCount > 0)
-                <div class="swiper-wrapper">
-                    @foreach ($images as $image)
-                        <div class="swiper-slide">
-                            @if ($image->gambar && file_exists(public_path('assets/images/galeri/' . $image->gambar)))
-                                <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt=""
-                                    class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
-                                    style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
-                            @else
-                                <img src="{{ asset('assets/images/image.jpg') }}" alt=""
-                                    class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
-                                    style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
-                            @endif
-                        </div>
-                    @endforeach
+            <div class="swiper-wrapper">
+                @foreach ($images as $image)
+                    <div class="swiper-slide">
+                        @if ($image->gambar && asset('assets/images/galeri/' . $image->gambar))
+                            <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="{{ $image->judul }}"
+                                class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
+                                style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}"
+                                onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
+                                loading="lazy">
+                        @else
+                            <img src="{{ asset('assets/images/image.jpg') }}" alt="{{ $image->judul }}"
+                                class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
+                                style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}"
+                                loading="lazy">
+                        @endif
+                    </div>
+                @endforeach
 
-                    {{-- Tambahkan slide dengan gambar yang ada jika kurang dari 4 --}}
+                {{-- Tambahkan slide dengan gambar yang ada jika kurang dari minimum --}}
+                @if ($imageCount < $minimumImages)
                     @for ($i = 0; $i < $minimumImages - $imageCount; $i++)
                         @php
-                            // Mengambil gambar dari urutan 0, 1, 2 jika jumlah data kurang dari 4
                             $imageIndex = $i % $imageCount;
                             $image = $images[$imageIndex];
                         @endphp
                         <div class="swiper-slide">
                             @if ($image->gambar && file_exists(public_path('assets/images/galeri/' . $image->gambar)))
-                                <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt=""
+                                <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="{{ $image->judul }}"
                                     class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
-                                    style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
+                                    style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}"
+                                    loading="lazy">
                             @else
-                                <img src="{{ asset('assets/images/image.jpg') }}" alt=""
+                                <img src="{{ asset('assets/images/image.jpg') }}" alt="{{ $image->judul }}"
                                     class="mx-2 h-80 rounded-lg object-cover duration-300 hover:scale-105"
-                                    style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}">
+                                    style="width: 95%" onclick="openModal(this)" data-title="{{ $image->judul }}"
+                                    loading="lazy">
                             @endif
                         </div>
                     @endfor
-                </div>
-            @else
-                <div class="col-span-2 flex flex-col items-center justify-center p-12 text-center">
-                    <ion-icon class="text-[90px] text-gray-400"
-                        src="{{ asset('assets/images/icon/camera-outline.svg') }}"></ion-icon>
-                    <h3 class="text-2xl font-semibold text-gray-400 dark:text-white">belum ada postingan galeri saat ini
-                    </h3>
-                    <p class="mt-2 text-gray-400 dark:text-gray-400">Segera hadir galeri terbaru</p>
-                </div>
+                @endif
+            </div>
             @endif
 
         </div>
@@ -183,7 +181,7 @@
     @include('components.struktur', ['data' => $data])
 
     <section class="py-12">
-        <div class="container mx-auto mb-10 w-11/12 border-b-2 border-gray-300 pb-5 dark:border-gray-700 sm:w-4/5">
+        <div data-aos="fade-up" class="container mx-auto w-11/12 border-b-2 border-gray-300 pb-5 dark:border-gray-700 sm:w-4/5">
             <div class="mb-6 flex items-center gap-4">
                 <ion-icon class="text-3xl md:text-5xl" src="{{ asset('assets/images/icon/people.svg') }}"></ion-icon>
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 md:text-4xl" id="dokumentasi">Alumni</h2>
@@ -194,7 +192,7 @@
         <div class="container mx-auto w-11/12 px-4 py-8 sm:w-4/5 md:py-16">
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8">
                 @if ($alumni->isEmpty())
-                    <div class="col-span-1 flex flex-col items-center justify-center p-8 text-center md:col-span-2">
+                    <div data-aos="fade-up" class="col-span-1 flex flex-col items-center justify-center p-8 text-center md:col-span-2">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="mb-4 h-16 w-16 text-gray-400 dark:text-gray-600 md:h-24 md:w-24" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -209,10 +207,10 @@
                 @else
                     @foreach ($alumni->take(4) as $lulusan)
                         <div
-                            class="mx-auto w-72 transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl dark:bg-gray-800 sm:w-full">
+                            data-aos="fade-up" class="mx-auto w-72 transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-xl dark:bg-gray-800 sm:w-full">
                             <div class="flex flex-col lg:flex-row">
                                 <div class="h-48 w-full lg:w-48">
-                                    @if ($lulusan->gambar && file_exists(public_path('assets/images/alumni/' . $lulusan->gambar)))
+                                    @if ($lulusan->gambar && asset('assets/images/alumni/' . $lulusan->gambar))
                                         <img class="h-full w-full object-cover lg:w-48"
                                             src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
                                             alt="{{ $lulusan->nama }}">

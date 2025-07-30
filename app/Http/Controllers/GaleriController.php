@@ -7,7 +7,15 @@ use Illuminate\Http\Request;
 
 class GaleriController extends Controller
 {
-        public function index()
+    private $publicHtmlPath;
+
+    public function __construct()
+    {
+        $this->publicHtmlPath = '/home/cicurug2.my.id/public_html/assets/images/galeri';
+        // $this->publicHtmlPath = public_path('assets/images/galeri'); //local
+    }
+
+    public function index()
     {
         $images = GaleriModel::all();
         return view('admin.galeri.galeri', ['images' => $images]);
@@ -36,7 +44,7 @@ class GaleriController extends Controller
         // Handle file upload
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('assets/images/galeri'), $filename);
+        $file->move($this->publicHtmlPath, $filename);
 
         // Insert data galeri
         $galeri = new GaleriModel();
@@ -81,19 +89,19 @@ class GaleriController extends Controller
         if ($request->hasFile('gambar')) {
 
             // Hapus gambar lama jika ada
-            if ($image->gambar && file_exists(public_path('assets/images/galeri/' . $image->gambar))) {
-                unlink(public_path('assets/images/galeri/' . $image->gambar));
+            if ($image->gambar && file_exists($this->publicHtmlPath . $image->gambar)) {
+                unlink($this->publicHtmlPath . $image->gambar);
             }
 
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images/galeri'), $filename);
+            $file->move($this->publicHtmlPath, $filename);
             $image->gambar = $filename;
             $image->judul = $request->input('judul');
         } else {
             // Hapus gambar lama jika tidak ada gambar baru yang diupload
-            if ($image->gambar && file_exists(public_path('assets/images/galeri/' . $image->gambar))) {
-                unlink(public_path('assets/images/galeri/' . $image->gambar));
+            if ($image->gambar && file_exists($this->publicHtmlPath . $image->gambar)) {
+                unlink($this->publicHtmlPath . $image->gambar);
                 $image->gambar = null;
             }
         }
@@ -113,8 +121,8 @@ class GaleriController extends Controller
 
         if ($image) {
             // Hapus gambar jika ada
-            if ($image->gambar && file_exists(public_path('assets/images/galeri/' . $image->gambar))) {
-                unlink(public_path('assets/images/galeri/' . $image->gambar));
+            if ($image->gambar && file_exists($this->publicHtmlPath . $image->gambar)) {
+                unlink($this->publicHtmlPath . $image->gambar);
             }
 
             $image->delete();

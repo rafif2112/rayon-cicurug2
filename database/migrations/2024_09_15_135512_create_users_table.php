@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique(); // Tambahkan kolom username
+            $table->unsignedBigInteger('siswa_id')->nullable();
+            $table->foreign('siswa_id')->references('id')->on('siswa_models')->onDelete('cascade');
+            $table->string('username')->unique();
+            $table->enum('role', ['admin', 'siswa'])->default('siswa');
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamps();

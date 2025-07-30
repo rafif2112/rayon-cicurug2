@@ -98,32 +98,40 @@
 
                             @foreach ($siswa as $murid)
                                 <div data-category="{{ $murid['kelas'] }}" data-name="{{ $murid['nama'] }}">
-                                    <div class="relative h-full w-full overflow-hidden rounded-lg bg-white shadow-md">
-                                        @if ($murid['gambar'] && file_exists(public_path('assets/images/siswa/' . $murid['gambar'])))
-                                            <img class="h-48 w-full object-cover md:h-80"
-                                                src="{{ asset('assets/images/siswa/' . $murid['gambar']) }}"
-                                                alt="{{ $murid['nama'] }}">
-                                        @else
-                                            <img src="{{ asset('assets/images/image.jpg') }}" alt="Foto Siswa"
-                                                class="h-48 w-full object-cover md:h-80">
-                                        @endif
+                                    <div data-aos="fade-up"
+                                        class="relative h-full w-full overflow-hidden rounded-lg bg-white shadow-md">
+                                        <a href="{{ route('siswa.show', $murid->slug) }}" class="block">
+                                            @if ($murid['gambar'] && asset('assets/images/siswa/' . $murid['gambar']))
+                                                <img class="h-48 w-full object-cover md:h-80" loading="lazy"
+                                                    src="{{ asset('assets/images/siswa/' . $murid['gambar']) }}"
+                                                    alt="{{ $murid['nama'] }}"
+                                                    onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';">
+                                            @else
+                                                <img src="{{ asset('assets/images/image.jpg') }}" alt="Foto Siswa"
+                                                    loading="lazy" class="h-48 w-full object-cover md:h-80">
+                                            @endif
+                                        </a>
                                         <div class="p-4">
                                             <h3 id="nama" class="text:sm font-semibold text-gray-800 sm:text-lg">
-                                                {{ $murid['nama'] }}</h3>
+                                                <a href="{{ route('siswa.show', $murid->slug) }}"
+                                                    class="hover:text-blue-600">
+                                                    {{ $murid['nama'] }}
+                                                </a>
+                                            </h3>
                                             <div class="text-sm sm:text-lg">
                                                 <p id="identitas" class="text-gray-600">{{ $murid['nis'] }} |
                                                     {{ $murid['jurusan'] }}</p>
                                                 <div class="mt-2">
                                                     <p class="text-gray-400">Portofolio :
-                                                    <span class="-mt-1"
-                                                        style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                                                        @if ($murid['link'])
-                                                            <a class="text-blue-500 underline"
-                                                                href="{{ $murid['link'] }}">Lihat Portofolio</a>
-                                                        @else
-                                                            <span class="text-gray-400 ml-1">-</span>
-                                                        @endif
-                                                    </span>
+                                                        <span class="-mt-1"
+                                                            style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                                                            @if ($murid['slug'])
+                                                                <a class="text-blue-500 underline"
+                                                                    href="{{ route('siswa.show', $murid->slug) }}">Lihat Portofolio</a>
+                                                            @else
+                                                                <span class="ml-1 text-gray-400">-</span>
+                                                            @endif
+                                                        </span>
                                                     </p>
                                                 </div>
                                             </div>

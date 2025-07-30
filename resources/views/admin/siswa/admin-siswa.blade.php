@@ -154,15 +154,15 @@
                                 <td class="whitespace-nowrap px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="h-24 w-20 flex-shrink-0">
-                                            @if ($murid->gambar && file_exists(public_path('assets/images/siswa/' . $murid->gambar)))
-                                                <img class="h-24 w-20 rounded-lg object-cover"
-                                                    src="{{ asset('assets/images/siswa/' . $murid->gambar) }}"
-                                                    alt="{{ $murid->nama }}">
-                                            @else
-                                                <img class="h-24 w-20 rounded-lg object-cover"
-                                                    src="{{ asset('assets/images/image.jpg') }}"
-                                                    alt="{{ $murid->nama }}">
-                                            @endif
+                                            @php
+                                                $imagePath = $murid->gambar 
+                                                    ? asset('assets/images/siswa/' . $murid->gambar)
+                                                    : asset('assets/images/image.jpg');
+                                            @endphp
+                                            <img class="h-24 w-20 rounded-lg object-cover lazyload"
+                                                data-src="{{ $imagePath }}"
+                                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='96' viewBox='0 0 80 96'%3E%3Crect width='80' height='96' fill='%23f3f4f6'/%3E%3C/svg%3E"
+                                                alt="{{ $murid->nama }}">
                                         </div>
                                     </div>
                                 </td>
@@ -236,13 +236,22 @@
         </div>
     </div>
 
+    <!-- Lazy loading library -->
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Event listener for delete buttons
-            document.querySelectorAll('.delete-button').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const form = this.closest('.delete-form');
+            // Initialize lazy loading
+            const lazyLoadInstance = new LazyLoad({
+                elements_selector: ".lazyload",
+                threshold: 100
+            });
+
+            // Event listener for delete buttons - use event delegation
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-button')) {
+                    e.preventDefault();
+                    const form = e.target.closest('.delete-form');
                     Swal.fire({
                         title: 'Apakah Anda yakin?',
                         text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -257,26 +266,39 @@
                             form.submit();
                         }
                     });
-                });
+                }
             });
 
             // Show loading spinner on form submit
             const importForm = document.getElementById('importForm');
-            importForm.addEventListener('submit', function() {
-                document.getElementById('loadingSpinner').classList.remove('hidden');
-            });
+            if (importForm) {
+                importForm.addEventListener('submit', function() {
+                    document.getElementById('loadingSpinner').classList.remove('hidden');
+                });
+            }
         });
-    </script>
-    <script>
+
+        // Success message
         @if (session('success'))
-            Swal.fire({
-                title: 'Sukses!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonText: 'Tutup'
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                    icon: 'success',
+                    confirmButtonText: 'Tutup'
+                });
             });
         @endif
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Load SweetAlert2 asynchronously -->
+    <script>
+        // Load SweetAlert2 only when needed
+        if (!window.Swal) {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+            script.async = true;
+            document.head.appendChild(script);
+        }
+    </script>
 </x-admin-layout>

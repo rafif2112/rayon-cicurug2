@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="min-h-screen">
-        <div class="max-w-4xl mx-auto">
+        <div class="mx-auto">
             <div class="flex items-center justify-between mb-8">
                 <a href="{{ route('struktur.admin') }}" class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">

@@ -1,5 +1,5 @@
 <section>
-    <div class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-3 sm:w-4/5">
+    <div data-aos="fade-up" class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-3 sm:w-4/5">
         <div class="mb-3 flex items-center gap-2">
             <ion-icon class="text-5xl"
                 src="{{ asset('assets/images/icon/information-circle-outline.svg') }}"></ion-icon>
@@ -11,7 +11,7 @@
     </div>
 
     <div class="py-12">
-        <div class="container mx-auto px-4">
+        <div data-aos="fade-up" class="container mx-auto px-4">
             <div class="flex flex-col items-center justify-center gap-5 md:flex-row md:items-start">
                 <img src="{{ asset('assets/images/other/wikrama.jpg') }}" alt="Descriptive Alt Text"
                     class="mb-10 h-80 w-11/12 rounded-lg shadow-lg sm:w-3/4 md:mb-0 md:w-1/3 lg:w-1/4">

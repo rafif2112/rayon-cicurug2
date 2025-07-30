@@ -1,9 +1,8 @@
 <x-admin-layout>
     <div class="min-h-screen">
-        <div class="max-w-4xl mx-auto">
+        <div class="mx-auto">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="p-8 sm:p-12">
-                    <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Tambah Alumni Baru</h2>
                     <form action="{{ route('alumni.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                         @csrf
                         <div class="space-y-6">

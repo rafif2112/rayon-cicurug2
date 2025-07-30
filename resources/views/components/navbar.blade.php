@@ -1,4 +1,4 @@
-    <nav class="fixed top-0 h-20 w-full border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900"
+    <nav class="fixed top-0 h-20 w-full border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900"
         style="z-index: 50">
         <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-5">
             <a href="{{ route('home') }}" class="flex items-center space-x-5 rtl:space-x-reverse">
@@ -18,7 +18,8 @@
                 </svg>
             </button>
             <div class="hidden w-full lg:block lg:w-auto" id="navbar-dropdown">
-                <ul class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium dark:border-gray-700 dark:bg-gray-800 lg:mt-0 lg:flex-row lg:space-x-8 lg:border-0 lg:bg-white lg:p-0 lg:dark:bg-gray-900 rtl:space-x-reverse">
+                <ul
+                    class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium dark:border-gray-700 dark:bg-gray-800 lg:mt-0 lg:flex-row lg:space-x-8 lg:border-0 lg:bg-white lg:p-0 lg:dark:bg-gray-900 rtl:space-x-reverse">
                     <li>
                         <a href="{{ route('home') }}"
                             class="{{ Request::is('/') ? 'text-blue-500 dark:bg-blue-600 lg:text-blue-700 lg:dark:bg-transparent lg:dark:text-blue-500' : 'text-black hover:text-blue-700 hover:bg-gray-100 lg:hover:bg-transparent' }} block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -98,9 +99,14 @@
 
                     @auth
                         <li>
-                            <a href="{{ route('dashboard') }}"
-                                class="block rounded-full bg-blue-600 px-4 py-2 text-white duration-300 hover:bg-blue-500">Dashboard</a>
-                        </li>
+                            @if (auth()->user()->role === 'admin')
+                                <a href="{{ route('dashboard') }}"
+                                    class="block rounded-full bg-blue-600 px-4 py-2 text-white duration-300 hover:bg-blue-500">Dashboard</a>
+                            @elseif(auth()->user()->role === 'siswa')
+                                <a href="{{ route('siswa.dashboard') }}"
+                                    class="block rounded-full bg-blue-600 px-4 py-2 text-white duration-300 hover:bg-blue-500">Dashboard</a>
+                            @endif
+                        </li> 
                     @endauth
                 </ul>
             </div>

@@ -66,12 +66,12 @@
                     @foreach ($alumni as $lulusan)
                         <tr>
                             <td class="whitespace-nowrap px-2 py-4">
-                                @if ($lulusan->gambar && file_exists(public_path('assets/images/alumni/' . $lulusan->gambar)))
+                                @if ($lulusan->gambar)
                                     <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
-                                    alt="{{ $lulusan->nama }}" class="h-24 w-20 rounded-md object-cover">
+                                    alt="{{ $lulusan->nama }}" class="h-24 w-20 rounded-md object-cover" loading="lazy">
                                 @else
                                     <img src="{{ asset('assets/images/image.jpg') }}"
-                                        alt="{{ $lulusan->nama }}" class="h-20 w-20 rounded-md object-cover">
+                                        alt="{{ $lulusan->nama }}" class="h-20 w-20 rounded-md object-cover" loading="lazy">
                                 @endif
                             </td>
                             <td class="text-wrap whitespace-nowrap px-6 py-4">
@@ -106,11 +106,17 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Pagination -->
+            <div class="mt-4">
+                {{ $alumni->links() }}
+            </div>
         @endif
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    <script defer>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.delete-button').forEach(button => {
                 button.addEventListener('click', function(event) {
@@ -132,17 +138,17 @@
                     });
                 });
             });
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            @endif
         });
     </script>
-    <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        @endif
-    </script>
+    @endpush
 </x-admin-layout>

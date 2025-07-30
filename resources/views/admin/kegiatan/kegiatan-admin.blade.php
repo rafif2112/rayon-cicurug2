@@ -1,8 +1,7 @@
 <x-admin-layout>
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto">
         <!-- Header Section -->
-        <div class="mb-8 flex items-center justify-between">
-            <h1 class="text-3xl font-bold text-gray-800">Daftar Kegiatan</h1>
+        <div class="mb-6 flex items-center justify-between">
             <a href="{{ route('kegiatan.create') }}"
                 class="transform rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition duration-200 hover:bg-blue-700 hover:shadow-lg">
                 <i class="fas fa-plus mr-2"></i>Tambah Kegiatan
@@ -21,50 +20,52 @@
                         <div class="relative h-72">
                             @php $images = json_decode($data->gambar) @endphp
                             
-                            <div class="relative h-full" x-data="{ activeSlide: 0, slides: {{ count(json_decode($data->gambar)) }} }">
-                                @foreach ($images as $index => $image)
-                                    @if ($image && file_exists(public_path('assets/images/kegiatan/' . $image)))
-                                        <img class="absolute h-full w-full cursor-pointer object-cover transition-opacity duration-300 ease-in-out"
-                                        src="{{ asset('assets/images/kegiatan/' . $image) }}"
-                                        alt="Kegiatan Image {{ $index + 1 }}"
-                                        x-show="activeSlide === {{ $index }}"
-                                        x-transition:enter="transition ease-out duration-300"
-                                        x-transition:enter-start="opacity-0 scale-95"
-                                        x-transition:enter-end="opacity-100 scale-100"
-                                        x-transition:leave="transition ease-in duration-200"
-                                        x-transition:leave-start="opacity-100 scale-100"
-                                        x-transition:leave-end="opacity-0 scale-95"
-                                        onclick="openModal(this)">
-                                    @else
-                                        <img class="absolute h-full w-full cursor-pointer object-cover transition-opacity duration-300 ease-in-out"
-                                        src="{{ asset('assets/images/image.jpg') }}"
-                                        alt="Kegiatan Image {{ $index + 1 }}"
-                                        x-show="activeSlide === {{ $index }}"
-                                        x-transition:enter="transition ease-out duration-300"
-                                        x-transition:enter-start="opacity-0 scale-95"
-                                        x-transition:enter-end="opacity-100 scale-100"
-                                        x-transition:leave="transition ease-in duration-200"
-                                        x-transition:leave-start="opacity-100 scale-100"
-                                        x-transition:leave-end="opacity-0 scale-95"
-                                        onclick="openModal(this)">
-                                    @endif
+                            <div class="relative h-full" x-data="{ activeSlide: 0, slides: {{ count($images) }} }">
+                                @foreach ($images as $i => $image)
+                                    <div x-show="activeSlide === {{ $i }}"
+                                         x-transition:enter="transition ease-out duration-200"
+                                         x-transition:enter-start="opacity-0"
+                                         x-transition:enter-end="opacity-100"
+                                         x-transition:leave="transition ease-in duration-150"
+                                         x-transition:leave-start="opacity-100"
+                                         x-transition:leave-end="opacity-0">
+                                        
+                                        @if ($i === 0)
+                                            <!-- First image loads immediately with low quality placeholder -->
+                                            <img id="img-{{ $data->id }}-{{ $i }}"
+                                                class="absolute h-full w-full cursor-pointer object-cover"
+                                                src="{{ $image ? asset('assets/images/kegiatan/' . $image) : asset('assets/images/image.jpg') }}"
+                                                alt="Kegiatan Image {{ $i + 1 }}"
+                                                loading="eager"
+                                                onclick="openModal(this)">
+                                        @else
+                                            <!-- Other images lazy load -->
+                                            <img id="img-{{ $data->id }}-{{ $i }}"
+                                                class="absolute h-full w-full cursor-pointer object-cover opacity-0"
+                                                data-src="{{ $image ? asset('assets/images/kegiatan/' . $image) : asset('assets/images/image.jpg') }}"
+                                                alt="Kegiatan Image {{ $i + 1 }}"
+                                                loading="lazy"
+                                                onclick="openModal(this)">
+                                        @endif
+                                    </div>
                                 @endforeach
 
-                                <!-- Navigation Arrows -->
+                                @if(count($images) > 1)
                                 <div class="absolute inset-0 flex items-center justify-between px-4">
-                                    <button @click="activeSlide = (activeSlide - 1 + slides) % slides"
+                                    <button @click="activeSlide = (activeSlide - 1 + slides) % slides; loadSlideImage()"
                                         class="rounded-full bg-black/60 p-2 text-white backdrop-blur-sm transition-all hover:bg-black/80">
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                                         </svg>
                                     </button>
-                                    <button @click="activeSlide = (activeSlide + 1) % slides"
+                                    <button @click="activeSlide = (activeSlide + 1) % slides; loadSlideImage()"
                                         class="rounded-full bg-black/60 p-2 text-white backdrop-blur-sm transition-all hover:bg-black/80">
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                         </svg>
                                     </button>
                                 </div>
+                                @endif
 
                                 <!-- Options Menu -->
                                 <div class="absolute right-4 top-4 z-10">
@@ -112,91 +113,141 @@
         @endif
     </div>
 
-    <!-- Enhanced Modal -->
+    <!-- Optimized Modal -->
     <div id="lightboxModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-5">
         <button onclick="closeModal()" class="absolute right-6 top-6 text-white hover:text-gray-300">
             <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
-        <img id="modalImage" class="max-h-[90vh] max-w-[90vw] rounded-lg opacity-0 transition-opacity duration-300">
+        <div class="flex items-center justify-center w-full h-full">
+            <img id="modalImage" class="max-h-[90vh] max-w-[90vw] rounded-lg opacity-0 transition-opacity duration-200">
+        </div>
     </div>
 
+    <!-- Optimized Scripts -->
     <script>
+        // Simplified dropdown toggle
         function toggleOptions(event, button) {
             event.stopPropagation();
             const dropdownMenu = button.nextElementSibling;
-            dropdownMenu.classList.toggle('hidden');
-
-            // Close other dropdowns
+            
+            // Close all other dropdowns
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if (menu !== dropdownMenu) {
-                    menu.classList.add('hidden');
-                }
+                if (menu !== dropdownMenu) menu.classList.add('hidden');
             });
+            
+            dropdownMenu.classList.toggle('hidden');
         }
 
         // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', () => {
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 menu.classList.add('hidden');
             });
         });
 
+        // Optimized modal
         function openModal(img) {
             const modal = document.getElementById('lightboxModal');
             const modalImg = document.getElementById('modalImage');
+            
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            modalImg.src = img.src;
-            setTimeout(() => modalImg.classList.add('opacity-100'), 100);
+            
+            modalImg.src = img.dataset.src || img.src;
+            setTimeout(() => modalImg.style.opacity = '1', 50);
         }
 
         function closeModal() {
             const modal = document.getElementById('lightboxModal');
             const modalImg = document.getElementById('modalImage');
-            modalImg.classList.remove('opacity-100');
+            modalImg.style.opacity = '0';
             setTimeout(() => {
                 modal.classList.remove('flex');
                 modal.classList.add('hidden');
-            }, 300);
+            }, 200);
+        }
+
+        // Load images on slide change
+        function loadSlideImage() {
+            setTimeout(() => {
+                const activeImages = document.querySelectorAll('[x-show="activeSlide === ' + window.activeSlide + '"] img[data-src]');
+                activeImages.forEach(img => {
+                    if (!img.src || img.src.includes('data:')) {
+                        img.src = img.dataset.src;
+                        img.style.opacity = '1';
+                    }
+                });
+            }, 100);
+        }
+
+        // Optimized lazy loading
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src && !img.src) {
+                            img.src = img.dataset.src;
+                            img.style.opacity = '1';
+                            observer.unobserve(img);
+                        }
+                    }
+                });
+            }, { rootMargin: '50px' });
+
+            document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
         }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Load SweetAlert2 async -->
+    <script async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.delete-button').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const form = this.closest('.delete-form');
-                    Swal.fire({
-                        title: 'Apakah Anda yakin?',
-                        text: "Data yang dihapus tidak dapat dikembalikan!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Ya, hapus!',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
+            // Wait for SweetAlert2 to load
+            const checkSwal = setInterval(() => {
+                if (typeof Swal !== 'undefined') {
+                    clearInterval(checkSwal);
+                    initDeleteButtons();
+                    showSuccessMessage();
+                }
+            }, 100);
+
+            function initDeleteButtons() {
+                document.querySelectorAll('.delete-button').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const form = this.closest('.delete-form');
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: "Data yang dihapus tidak dapat dikembalikan!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Ya, hapus!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
                     });
                 });
-            });
+            }
+
+            function showSuccessMessage() {
+                @if (session('success'))
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                @endif
+            }
         });
-    </script>
-    <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        @endif
     </script>
 </x-admin-layout>

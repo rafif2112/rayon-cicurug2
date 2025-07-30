@@ -2,7 +2,7 @@
     <a href="{{ route('galeri.create') }}"
         class="rounded-lg bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600">Tambah Gambar
     </a>
-    <div class="mt-5 flex w-full items-center justify-center">
+    <div class="mt-8 flex w-full items-center">
         <div class="flex flex-wrap gap-4">
             @if ($gambar->isEmpty())
                 <div class="flex h-64 items-center justify-center rounded-lg">
@@ -12,13 +12,15 @@
                 @foreach ($gambar as $image)
                     <div class="relative flex justify-center">
                         <div class="relative">
-                            @if ($image->image && file_exists(public_path('assets/images/galeri/' . $image->image)))
+                            @if ($image->gambar && asset('assets/images/galeri/' . $image->gambar))
                                 <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
                                 class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
+                                loading="lazy"
                                 onclick="openModal(this)">
                             @else
                                 <img src="{{ asset('assets/images/image.jpg') }}" alt="Image"
                                 class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
+                                loading="lazy"
                                 onclick="openModal(this)">
                             @endif
                             <div class="absolute right-2 top-2">
@@ -45,68 +47,81 @@
         </div>
     </div>
 
-    <script>
-        function toggleOptions(event, button) {
-            event.stopPropagation(); // Prevent event bubbling
-            var options = button.nextElementSibling;
-            var allDropdowns = document.querySelectorAll('.dropdown-menu');
-
-            allDropdowns.forEach(function(dropdown) {
-                if (dropdown !== options) {
-                    dropdown.classList.add('hidden');
-                }
-            });
-
-            options.classList.toggle('hidden');
-        }
-
-        document.addEventListener('click', function(event) {
-            var isClickInsideDropdown = event.target.closest('.dropdown-menu, ion-icon');
-            if (!isClickInsideDropdown) {
-                var allDropdowns = document.querySelectorAll('.dropdown-menu');
-                allDropdowns.forEach(function(dropdown) {
-                    dropdown.classList.add('hidden');
-                });
-            }
-        });
-    </script>
-
     <!-- Modal -->
     <div id="lightboxModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75 p-5">
         <span class="absolute right-5 top-5 cursor-pointer text-4xl text-white" onclick="closeModal()">&times;</span>
         <img id="modalImage" class="max-h-full max-w-full opacity-0 transition-opacity duration-300 ease-in-out">
     </div>
 
+    @push('scripts')
     <script>
-        // Open modal and show image
-        function openModal(element) {
-            var modal = document.getElementById("lightboxModal");
-            var modalImage = document.getElementById("modalImage");
-            modalImage.src = element.src;
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
-            setTimeout(function() {
-                modalImage.classList.remove("opacity-0");
-            }, 10); // Small delay to trigger the transition
-        }
+        // Optimized JavaScript - load only once DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle options function
+            window.toggleOptions = function(event, button) {
+                event.stopPropagation();
+                const options = button.nextElementSibling;
+                const allDropdowns = document.querySelectorAll('.dropdown-menu');
 
-        // Close modal
-        function closeModal() {
-            var modal = document.getElementById("lightboxModal");
-            var modalImage = document.getElementById("modalImage");
-            modalImage.classList.add("opacity-0");
-            setTimeout(function() {
-                modal.classList.add("hidden");
-                modal.classList.remove("flex");
-            }, 200); // Wait for the transition to complete
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const form = this.closest('.delete-form');
+                allDropdowns.forEach(dropdown => {
+                    if (dropdown !== options) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+
+                options.classList.toggle('hidden');
+            };
+
+            // Modal functions
+            window.openModal = function(element) {
+                const modal = document.getElementById("lightboxModal");
+                const modalImage = document.getElementById("modalImage");
+                modalImage.src = element.src;
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+                requestAnimationFrame(() => {
+                    modalImage.classList.remove("opacity-0");
+                });
+            };
+
+            window.closeModal = function() {
+                const modal = document.getElementById("lightboxModal");
+                const modalImage = document.getElementById("modalImage");
+                modalImage.classList.add("opacity-0");
+                setTimeout(() => {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                }, 200);
+            };
+
+            // Click outside dropdown to close
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.dropdown-menu, ion-icon')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                        dropdown.classList.add('hidden');
+                    });
+                }
+            });
+
+            // Delete confirmation
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const form = this.closest('.delete-form');
+                    
+                    // Load SweetAlert2 dynamically when needed
+                    if (typeof Swal === 'undefined') {
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+                        script.onload = () => showDeleteConfirm(form);
+                        document.head.appendChild(script);
+                    } else {
+                        showDeleteConfirm(form);
+                    }
+                });
+            });
+
+            function showDeleteConfirm(form) {
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -121,7 +136,8 @@
                         form.submit();
                     }
                 });
-            });
+            }
         });
     </script>
+    @endpush
 </x-admin-layout>

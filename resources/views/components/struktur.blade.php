@@ -1,6 +1,6 @@
 <section class="bg-gray-50 text-gray-900">
     <div class="w-full py-16 text-gray-900">
-        <div class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-3 sm:w-4/5">
+        <div data-aos="fade-up" class="container mx-auto mb-10 w-11/12 border-b-2 border-black pb-3 sm:w-4/5">
             <div class="mb-3 flex items-center gap-4">
                 <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <path
@@ -22,7 +22,7 @@
                     <p class="mt-2 text-gray-400 dark:text-gray-400">Segera hadir struktur rayon terbaru</p>
                 </div>
             @else
-                <div class="mb-6 flex justify-center">
+                <div data-aos="fade-up" class="mb-6 flex justify-center">
                     @foreach ($data as $struktur)
                         @if ($struktur['jabatan'] === 'Pembimbing Siswa')
                             <div class="rounded-lg bg-white p-4 shadow-lg">
@@ -58,7 +58,7 @@
                 <div class="grid grid-cols-1 gap-x-4 gap-y-6 md:grid-cols-2 md:gap-x-20 lg:grid-cols-3">
                     @foreach ($sortedData as $struktur)
                         @if ($struktur['jabatan'] !== 'Pembimbing Siswa')
-                            <div class="rounded-lg bg-white p-4 shadow-lg">
+                            <div data-aos="fade-up" class="rounded-lg bg-white p-4 shadow-lg">
                                 @if ($struktur['gambar'] && file_exists(public_path('assets/images/struktur/' . $struktur['gambar'])))
                                     <img src="{{ asset('assets/images/struktur/' . $struktur['gambar']) }}"
                                         alt="{{ $struktur['jabatan'] }}"

@@ -3,7 +3,7 @@
     <x-header></x-header>
 
     <div class="container mx-auto py-12">
-        <div class="container mx-auto mb-10 w-11/12 md:w-4/5 border-b-2 border-black pb-5 dark:border-gray-700">
+        <div data-aos="fade-up" class="container mx-auto mb-10 w-11/12 md:w-4/5 border-b-2 border-black pb-5 dark:border-gray-700">
             <div class="mb-6 flex items-center gap-4">
                 <ion-icon class="text-4xl md:text-5xl" src="{{ asset('assets/images/icon/people.svg') }}"></ion-icon>
                 <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100" id="dokumentasi">Alumni</h2>
@@ -14,7 +14,7 @@
         <div class="flex items-center justify-center">
 
             @if ($alumni->isEmpty())
-                <div class="col-span-2 flex flex-col items-center justify-center p-12 text-center">
+                <div data-aos="fade-up" class="col-span-2 flex flex-col items-center justify-center p-12 text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-24 w-24 text-gray-400 dark:text-gray-600"
                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -26,14 +26,17 @@
             @else
                 <div class="grid w-3/4 sm:w-4/5 grid-cols-1 sm:grid-cols-2 gap-6 lg:grid-cols-3">
                     @foreach ($alumni as $lulusan)
-                        <div class="group overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl dark:bg-gray-800">
+                        <div data-aos="fade-up" class="group overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl dark:bg-gray-800">
                             <div class="relative overflow-hidden">
-                                @if ($lulusan->gambar && if_exists(public_path('assets/images/alumni/' . $lulusan->gambar)))
-                                    <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="Alumni {{ $lulusan->nama }}"
-                                    class="h-64 w-full transform object-cover transition-transform duration-300 group-hover:scale-105 lg:h-80">
+                                @if ($lulusan->gambar && ('assets/images/alumni/' . $lulusan->gambar))
+                                    <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}" alt="{{ $lulusan->nama }}"
+                                    class="h-64 w-full transform object-cover transition-transform duration-300 group-hover:scale-105 lg:h-80"
+                                    loading="lazy" width="300" height="400"
+                                    onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';">
                                 @else
-                                    <img src="{{ asset('assets/images/image.jpg') }}" alt="Alumni {{ $lulusan->nama }}"
-                                    class="h-64 w-full transform object-cover transition-transform duration-300 group-hover:scale-105 lg:h-80">
+                                    <img src="{{ asset('assets/images/image.jpg') }}" alt="{{ $lulusan->nama }}"
+                                    class="h-64 w-full transform object-cover transition-transform duration-300 group-hover:scale-105 lg:h-80"
+                                    loading="lazy" width="300" height="400">
                                 @endif
                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
                                     <h2 class="text-2xl font-bold text-white">{{ $lulusan->nama }}</h2>

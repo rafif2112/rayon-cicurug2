@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class AlumniController extends Controller
 {
+    private $publicHtmlPath;
+
+    public function __construct()
+    {
+        $this->publicHtmlPath = '/home/cicurug2.my.id/public_html/assets/images/alumni'; //production
+        // $this->publicHtmlPath = public_path('assets/images/alumni'); //local
+    }
+
     public function index()
     {
         $alumni = Alumni::all();
@@ -47,7 +55,7 @@ class AlumniController extends Controller
         // Handle file upload
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('assets/images/alumni'), $filename);
+        $file->move($this->publicHtmlPath, $filename);
 
         // Create new Alumni instance and save data
         $alumni = new Alumni;
@@ -107,15 +115,14 @@ class AlumniController extends Controller
 
         // Handle file upload
         if ($request->hasFile('gambar')) {
-
             // Hapus gambar lama jika ada
-            if ($alumni->gambar && file_exists(public_path('assets/images/alumni/' . $alumni->gambar))) {
-                unlink(public_path('assets/images/alumni/' . $alumni->gambar));
+            if ($alumni->gambar && file_exists($this->publicHtmlPath . '/' . $alumni->gambar)) {
+                unlink($this->publicHtmlPath . '/' . $alumni->gambar);
             }
 
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images/alumni'), $filename);
+            $file->move($this->publicHtmlPath, $filename);
             $alumni->gambar = $filename;
         }
 
@@ -140,8 +147,8 @@ class AlumniController extends Controller
         }
 
         // Hapus gambar jika ada
-        if ($alumni->gambar && file_exists(public_path('assets/images/alumni/' . $alumni->gambar))) {
-            unlink(public_path('assets/images/alumni/' . $alumni->gambar));
+        if ($alumni->gambar && file_exists($this->publicHtmlPath . '/' . $alumni->gambar)) {
+            unlink($this->publicHtmlPath . '/' . $alumni->gambar);
         }
 
         $alumni->delete();

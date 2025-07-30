@@ -10,8 +10,8 @@ class KegiatanController extends Controller
 
     public function __construct()
     {
-        // $this->publicHtmlPath = '/home/cicurug2.my.id/public_html/assets/images/kegiatan';
-        $this->publicHtmlPath = public_path('assets/images/kegiatan');
+        $this->publicHtmlPath = '/home/cicurug2.my.id/public_html/assets/images/kegiatan';
+        // $this->publicHtmlPath = public_path('assets/images/kegiatan');
     }
     
     public function index()
@@ -41,7 +41,7 @@ class KegiatanController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:500',
             'gambar.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'judul.required' => 'Judul tidak boleh kosong',
@@ -55,7 +55,7 @@ class KegiatanController extends Controller
         $filenames = [];
         if ($request->hasFile('gambar')) {
             foreach ($request->file('gambar') as $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $file->move($this->publicHtmlPath, $filename);
                 $filenames[] = $filename;
             }
@@ -68,7 +68,7 @@ class KegiatanController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Data created successfully');
+        return redirect()->back()->with('success', 'Kegiatan berhasil ditambahkan');
     }
 
     public function update(Request $request, string $id)
@@ -80,9 +80,10 @@ class KegiatanController extends Controller
         }
 
         $request->validate([
-            'judul' => 'required|string',
-            'deskripsi' => 'required|string',
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:500',
             'gambar.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'deleted_images' => 'nullable|string',
         ], [
             'judul.required' => 'Judul tidak boleh kosong',
             'deskripsi.required' => 'Deskripsi tidak boleh kosong',
@@ -91,36 +92,56 @@ class KegiatanController extends Controller
             'gambar.*.max' => 'Ukuran file maksimal 2MB',
         ]);
 
-        $filenames = [];
-        if ($request->hasFile('gambar')) {
-            // Delete old images
-            $oldImages = json_decode($data->gambar) ?? [];
-            foreach ($oldImages as $oldImage) {
-                $oldImagePath = $this->publicHtmlPath . '/' . $oldImage;
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
+        // Get existing images
+        $existingImages = json_decode($data->gambar) ?? [];
+        
+        // Handle deleted images
+        $deletedImages = [];
+        if ($request->has('deleted_images') && !empty($request->deleted_images)) {
+            $deletedImages = json_decode($request->deleted_images, true) ?? [];
+            
+            // Remove deleted images from filesystem
+            foreach ($deletedImages as $deletedImage) {
+                $imagePath = $this->publicHtmlPath . '/' . $deletedImage;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
                 }
             }
-
-            // Upload new images
-            foreach ($request->file('gambar') as $file) {
-                if ($file) {
-                    $filename = time() . '_' . $file->getClientOriginalName();
-                    $file->move($this->publicHtmlPath, $filename);
-                    $filenames[] = $filename;
-                }
-            }
-        } else {
-            $filenames = json_decode($data->gambar) ?? [];
+            
+            // Remove deleted images from existing images array
+            $existingImages = array_filter($existingImages, function($image) use ($deletedImages) {
+                return !in_array($image, $deletedImages);
+            });
         }
 
+        // Handle new uploaded images
+        $newImages = [];
+        if ($request->hasFile('gambar')) {
+            foreach ($request->file('gambar') as $file) {
+                if ($file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($this->publicHtmlPath, $filename);
+                    $newImages[] = $filename;
+                }
+            }
+        }
+
+        // Combine existing and new images
+        $finalImages = array_merge(array_values($existingImages), $newImages);
+        
+        // Validate that we have at least one image
+        if (empty($finalImages)) {
+            return redirect()->back()->withErrors(['gambar' => 'Minimal harus ada satu gambar untuk kegiatan']);
+        }
+
+        // Update data
         $data->judul = $request->input('judul');
         $data->deskripsi = $request->input('deskripsi');
-        $data->gambar = json_encode($filenames);
+        $data->gambar = json_encode($finalImages);
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Data berhasil diperbarui');
+        return redirect()->back()->with('success', 'Kegiatan berhasil diperbarui');
     }
 
     public function destroy(string $id)
@@ -128,14 +149,19 @@ class KegiatanController extends Controller
         $data = KegiatanModel::find($id);
 
         if (!$data) {
-            return redirect()->route('kegiatan.admin')->with('error', 'Data not found');
+            return redirect()->route('kegiatan.admin')->with('error', 'Data tidak ditemukan');
         }
 
-        // Hapus gambar jika ada
-        if ($data->gambar && file_exists($this->publicHtmlPath . '/' . $data->gambar)) {
-            unlink($this->publicHtmlPath . '/' . $data->gambar);
+        // Delete all images
+        $images = json_decode($data->gambar) ?? [];
+        foreach ($images as $image) {
+            $imagePath = $this->publicHtmlPath . '/' . $image;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
+
         $data->delete();
-        return redirect()->route('kegiatan.admin')->with('success', 'Data deleted successfully');
+        return redirect()->route('kegiatan.admin')->with('success', 'Kegiatan berhasil dihapus');
     }
 }

@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="min-h-screen">
-        <div class="max-w-4xl mx-auto">
+        <div class="mx-auto">
             <div class="flex items-center justify-between mb-8">
                 <a href="{{ route('siswa.admin') }}" class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -25,7 +25,7 @@
                                         <div class="flex text-sm text-gray-600">
                                             <label for="gambar" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                                 <span>Upload a file</span>
-                                                <input id="gambar" name="gambar" type="file" accept="image/*" class="sr-only" required>
+                                                <input id="gambar" name="gambar" type="file" accept="image/*" class="sr-only">
                                             </label>
                                             <p class="pl-1">or drag and drop</p>
                                         </div>
@@ -50,6 +50,14 @@
                                     <label for="nis" class="block text-sm font-medium text-gray-700">NIS</label>
                                     <input type="text" value="{{old('nis')}}" id="nis" name="nis" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     @error('nis')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="text" value="{{old('email')}}" id="email" name="email" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    @error('email')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>

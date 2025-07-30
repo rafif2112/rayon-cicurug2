@@ -7,6 +7,13 @@ use App\Models\StrukturModel;
 
 class StrukturController extends Controller
 {
+    private $publicHtmlPath;
+
+    public function __construct()
+    {
+        $this->publicHtmlPath = '/home/cicurug2.my.id/public_html/assets/images/struktur';
+        // $this->publicHtmlPath = public_path('assets/images/struktur'); //local
+    }
     public function index()
     {
         $data = StrukturModel::all();
@@ -35,7 +42,7 @@ class StrukturController extends Controller
         // Handle file upload
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('assets/images/struktur'), $filename);
+        $file->move($this->publicHtmlPath, $filename);
 
         // Insert data
         $data = new StrukturModel();
@@ -81,13 +88,13 @@ class StrukturController extends Controller
         if ($request->hasFile('gambar')) {
 
             // Hapus gambar lama jika ada
-            if ($data->gambar && file_exists(public_path('assets/images/struktur/' . $data->gambar))) {
-            unlink(public_path('assets/images/struktur/' . $data->gambar));
+            if ($data->gambar && file_exists($this->publicHtmlPath . $data->gambar)) {
+            unlink($this->publicHtmlPath . $data->gambar);
             }
 
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images/struktur'), $filename);
+            $file->move($this->publicHtmlPath, $filename);
             $data->gambar = $filename;
         }
 
@@ -112,8 +119,8 @@ class StrukturController extends Controller
         }
 
         // Hapus gambar jika ada
-        if ($data->gambar && file_exists(public_path('assets/images/struktur/' . $data->gambar))) {
-            unlink(public_path('assets/images/struktur/' . $data->gambar));
+        if ($data->gambar && file_exists($this->publicHtmlPath . $data->gambar)) {
+            unlink($this->publicHtmlPath . $data->gambar);
         }
 
         $data->delete();

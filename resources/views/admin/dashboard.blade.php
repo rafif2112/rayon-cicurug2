@@ -1,7 +1,7 @@
 <x-admin-layout>
     <!-- Main content -->
     <main class="flex-1 overflow-y-auto overflow-x-hidden bg-gray-100 dark:bg-gray-900">
-        <div class="container mx-auto px-6 py-8">
+        <div class="container mx-auto">
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 <div
                     class="flex transform items-center rounded-lg bg-indigo-600 p-6 shadow-lg transition duration-300 dark:bg-gray-800">
@@ -59,7 +59,7 @@
                         @csrf
                         <button type="button" onclick="confirmUpgrade()"
                             class="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                            Naikkan Semua Kelas
+                            Naik Kelas
                         </button>
                     </form>
                 </div>

@@ -1,53 +1,93 @@
 <x-admin-layout>
-    {{-- {{$errors}} --}}
     <div class="mx-auto max-w-7xl">
         <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
                 <form action="{{ route('prestasi.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Nama</label>
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Nama <span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="nama"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ old('nama') }}">
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            value="{{ old('nama') }}" placeholder="Masukkan Nama">
                         @error('nama')
-                            <span class="text-sm text-red-500">{{ $message }}</span>
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                        <textarea name="deskripsi" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Deskripsi <span
+                                class="text-red-500">*</span></label>
+                        <textarea name="deskripsi" rows="4"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            placeholder="Masukkan deskripsi prestasi">{{ old('deskripsi') }}</textarea>
                         @error('deskripsi')
-                            <span class="text-sm text-red-500">{{ $message }}</span>
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Tahun</label>
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Tahun <span
+                                class="text-red-500">*</span></label>
                         <input type="number" name="tahun"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ old('tahun') }}"
-                            min="2024" max="{{ date('Y') }}">
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            value="{{ old('tahun') }}" min="2024" max="{{ date('Y') }}"
+                            placeholder="Masukkan tahun">
                         @error('tahun')
-                            <span class="text-sm text-red-500">{{ $message }}</span>
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Gambar</label>
+                    <div class="mb-6">
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Gambar <span
+                                class="text-red-500">*</span></label>
                         <div class="mt-1" id="image-container">
-                            <div class="mb-2 flex items-center">
-                                <input type="file" name="gambar[]" class="block" accept="image/*">
-                                <button type="button" class="ml-2 rounded bg-blue-500 px-2 py-1 text-white"
-                                    onclick="addImageField()">+</button>
-                            </div>
+                            @if (old('gambar'))
+                                @foreach (old('gambar') as $index => $gambar)
+                                    <div class="mb-2 flex items-center">
+                                        <input type="file" name="gambar[]"
+                                            class="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+                                            accept="image/*">
+                                        @if ($index > 0)
+                                            <button type="button"
+                                                class="ml-2 rounded bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600"
+                                                onclick="this.parentElement.remove()">Hapus</button>
+                                        @else
+                                            <button type="button"
+                                                class="ml-2 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+                                                onclick="addImageField()">Tambah</button>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="mb-2 flex items-center">
+                                    <input type="file" name="gambar[]"
+                                        class="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+                                        accept="image/*">
+                                    <button type="button"
+                                        class="ml-2 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+                                        onclick="addImageField()">Tambah</button>
+                                </div>
+                            @endif
                         </div>
                         @error('gambar')
-                            <span class="text-sm text-red-500">{{ $message }}</span>
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
+                        @error('gambar.*')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-xs text-gray-500">Format yang didukung: JPEG, PNG, JPG. Maksimal 2MB per
+                            file.</p>
                     </div>
 
-                    <div class="flex justify-end">
-                        <button type="submit" class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">Simpan
+                    <div class="flex justify-end space-x-3">
+                        <a href="{{ route('prestasi.admin') }}"
+                            class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Batal
+                        </a>
+                        <button type="submit"
+                            class="rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Simpan Prestasi
                         </button>
                     </div>
                 </form>
@@ -61,9 +101,9 @@
             const div = document.createElement('div');
             div.className = 'flex items-center mb-2';
             div.innerHTML = `
-            <input type="file" name="gambar[]" class="block" accept="image/*">
-            <button type="button" class="ml-2 px-2 py-1 bg-red-500 text-white rounded" onclick="this.parentElement.remove()">-</button>
-        `;
+                <input type="file" name="gambar[]" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" accept="image/*">
+                <button type="button" class="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm" onclick="this.parentElement.remove()">Hapus</button>
+            `;
             container.appendChild(div);
         }
     </script>
@@ -98,5 +138,4 @@
             });
         @endif
     </script>
-
 </x-admin-layout>
