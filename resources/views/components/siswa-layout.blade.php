@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Siswa - Rayon Cicurug 2</title>
-    {{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 
-    <link rel="stylesheet" href="{{ asset('build/assets/app-B0a9OMnn.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-CsugfyOk.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-B0a9OMnn.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-CsugfyOk.css') }}"> --}}
     <script src="build/assets/app-D7BWGOZj.js"></script>
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">

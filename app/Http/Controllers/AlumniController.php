@@ -30,7 +30,7 @@ class AlumniController extends Controller
             $query->where('nama', 'like', '%' . $request->search . '%');
         }
 
-        $alumni = $query->get();
+        $alumni = $query->paginate(10);
 
         return view('admin.alumni.alumni-admin', ['alumni' => $alumni]);
     }

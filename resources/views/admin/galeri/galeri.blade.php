@@ -14,21 +14,20 @@
                         <div class="relative">
                             @if ($image->gambar && asset('assets/images/galeri/' . $image->gambar))
                                 <img src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image"
-                                class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
-                                loading="lazy"
-                                onclick="openModal(this)">
+                                    class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
+                                    onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
+                                    loading="lazy" onclick="openModal(this)">
                             @else
                                 <img src="{{ asset('assets/images/image.jpg') }}" alt="Image"
-                                class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
-                                loading="lazy"
-                                onclick="openModal(this)">
+                                    class="h-80 w-96 max-w-md cursor-pointer rounded-lg object-cover duration-300"
+                                    loading="lazy" onclick="openModal(this)">
                             @endif
                             <div class="absolute right-2 top-2">
                                 <ion-icon class="cursor-pointer rounded-full bg-black/50 p-1 text-3xl text-white/80"
                                     src="{{ asset('assets/images/icon/ellipsis-vertical-outline.svg') }}"
                                     onclick="toggleOptions(event, this)"></ion-icon>
                                 <div
-                                    class="dropdown-menu absolute right-0 hidden min-w-[100px] flex-col rounded-lg bg-white p-2 shadow-lg">
+                                    class="dropdown-menu absolute right-0 z-10 hidden min-w-[100px] flex-col rounded-lg bg-white p-2 shadow-lg">
                                     <a href="{{ route('galeri.edit', $image->id) }}"
                                         class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Edit</a>
                                     <form action="{{ route('galeri.destroy', $image->id) }}" method="POST"
@@ -53,52 +52,58 @@
         <img id="modalImage" class="max-h-full max-w-full opacity-0 transition-opacity duration-300 ease-in-out">
     </div>
 
-    @push('scripts')
     <script>
+        window.toggleOptions = function(event, button) {
+            event.stopPropagation();
+            const options = button.nextElementSibling;
+            const allDropdowns = document.querySelectorAll('.dropdown-menu');
+
+            allDropdowns.forEach(dropdown => {
+                if (dropdown !== options) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+
+            if (options.classList.contains('hidden')) {
+                options.classList.remove('hidden');
+                options.style.display = 'flex';
+            } else {
+                options.classList.add('hidden');
+                options.style.display = 'none';
+            }
+        };
+
+        // Modal functions
+        window.openModal = function(element) {
+            const modal = document.getElementById("lightboxModal");
+            const modalImage = document.getElementById("modalImage");
+            modalImage.src = element.src;
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            requestAnimationFrame(() => {
+                modalImage.classList.remove("opacity-0");
+            });
+        };
+
+        window.closeModal = function() {
+            const modal = document.getElementById("lightboxModal");
+            const modalImage = document.getElementById("modalImage");
+            modalImage.classList.add("opacity-0");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }, 200);
+        };
+
         // Optimized JavaScript - load only once DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle options function
-            window.toggleOptions = function(event, button) {
-                event.stopPropagation();
-                const options = button.nextElementSibling;
-                const allDropdowns = document.querySelectorAll('.dropdown-menu');
-
-                allDropdowns.forEach(dropdown => {
-                    if (dropdown !== options) {
-                        dropdown.classList.add('hidden');
-                    }
-                });
-
-                options.classList.toggle('hidden');
-            };
-
-            // Modal functions
-            window.openModal = function(element) {
-                const modal = document.getElementById("lightboxModal");
-                const modalImage = document.getElementById("modalImage");
-                modalImage.src = element.src;
-                modal.classList.remove("hidden");
-                modal.classList.add("flex");
-                requestAnimationFrame(() => {
-                    modalImage.classList.remove("opacity-0");
-                });
-            };
-
-            window.closeModal = function() {
-                const modal = document.getElementById("lightboxModal");
-                const modalImage = document.getElementById("modalImage");
-                modalImage.classList.add("opacity-0");
-                setTimeout(() => {
-                    modal.classList.add("hidden");
-                    modal.classList.remove("flex");
-                }, 200);
-            };
-
             // Click outside dropdown to close
             document.addEventListener('click', function(event) {
-                if (!event.target.closest('.dropdown-menu, ion-icon')) {
+                const target = event.target;
+                if (!target.closest('.dropdown-menu') && !target.closest('ion-icon')) {
                     document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
                         dropdown.classList.add('hidden');
+                        dropdown.style.display = 'none';
                     });
                 }
             });
@@ -108,7 +113,7 @@
                 button.addEventListener('click', function(event) {
                     event.preventDefault();
                     const form = this.closest('.delete-form');
-                    
+
                     // Load SweetAlert2 dynamically when needed
                     if (typeof Swal === 'undefined') {
                         const script = document.createElement('script');
@@ -139,5 +144,4 @@
             }
         });
     </script>
-    @endpush
 </x-admin-layout>

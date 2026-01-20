@@ -25,7 +25,8 @@ class SiswaAuthController extends Controller
 
     public function profile()
     {
-        $data = Auth::user()->siswa;
+        $user = Auth::user()->siswa;
+        $data = SiswaModel::with('user')->where('id', $user->id)->first();
         return view('siswa.profile', compact('data'));
     }
 

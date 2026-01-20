@@ -33,7 +33,7 @@
                                     <ion-icon name="person-outline" class="mr-2"></ion-icon>
                                     Nama Lengkap
                                 </label>
-                                <input type="text" value="{{ $data->siswa->nama }}" readonly
+                                <input type="text" value="{{ $data->nama }}" readonly
                                     class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-500">
                             </div>
 
@@ -43,7 +43,7 @@
                                     <ion-icon name="person-outline" class="mr-2"></ion-icon>
                                     Username
                                 </label>
-                                <input type="text" name="username" id="username" value="{{ old('username', $data->username) }}" required
+                                <input type="text" name="username" id="username" value="{{ old('username', $data->user->username) }}" required
                                     class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 bg-gray-50 focus:bg-white">
                                 @error('username')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -56,7 +56,7 @@
                                     <ion-icon name="mail-outline" class="mr-2"></ion-icon>
                                     Email
                                 </label>
-                                <input type="email" name="email" id="email" value="{{ old('email', $data->email) }}" required
+                                <input type="email" name="email" id="email" value="{{ old('email', $data->user->email) }}" required
                                     class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 bg-gray-50 focus:bg-white">
                                 @error('email')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -69,7 +69,7 @@
                                     <ion-icon name="card-outline" class="mr-2"></ion-icon>
                                     NIS
                                 </label>
-                                <input type="text" value="{{ $data->siswa->nis }}" readonly
+                                <input type="text" value="{{ $data->nis }}" readonly
                                     class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-500">
                             </div>
 
@@ -79,7 +79,7 @@
                                     <ion-icon name="school-outline" class="mr-2"></ion-icon>
                                     Kelas
                                 </label>
-                                <input type="text" value="{{ $data->siswa->kelas }}" readonly
+                                <input type="text" value="{{ $data->kelas }}" readonly
                                     class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-500">
                             </div>
 
@@ -89,7 +89,7 @@
                                     <ion-icon name="library-outline" class="mr-2"></ion-icon>
                                     Jurusan
                                 </label>
-                                <input type="text" value="{{ $data->siswa->jurusan }}" readonly
+                                <input type="text" value="{{ $data->jurusan }}" readonly
                                     class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-500">
                             </div>
 
@@ -99,7 +99,7 @@
                                     <ion-icon name="link-outline" class="mr-2"></ion-icon>
                                     Link Portofolio
                                 </label>
-                                <input type="url" name="link" id="link" value="{{ old('link', $data->siswa->link) }}"
+                                <input type="url" name="link" id="link" value="{{ old('link', $data->link) }}"
                                     class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 bg-gray-50 focus:bg-white"
                                     placeholder="https://drive.google.com/">
                                 @error('link')

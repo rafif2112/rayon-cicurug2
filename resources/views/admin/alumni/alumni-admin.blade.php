@@ -68,6 +68,7 @@
                             <td class="whitespace-nowrap px-2 py-4">
                                 @if ($lulusan->gambar)
                                     <img src="{{ asset('assets/images/alumni/' . $lulusan->gambar) }}"
+                                    onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                     alt="{{ $lulusan->nama }}" class="h-24 w-20 rounded-md object-cover" loading="lazy">
                                 @else
                                     <img src="{{ asset('assets/images/image.jpg') }}"

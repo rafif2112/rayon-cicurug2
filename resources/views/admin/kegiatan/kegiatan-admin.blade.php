@@ -35,6 +35,7 @@
                                             <img id="img-{{ $data->id }}-{{ $i }}"
                                                 class="absolute h-full w-full cursor-pointer object-cover"
                                                 src="{{ $image ? asset('assets/images/kegiatan/' . $image) : asset('assets/images/image.jpg') }}"
+                                                onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                                 alt="Kegiatan Image {{ $i + 1 }}"
                                                 loading="eager"
                                                 onclick="openModal(this)">
@@ -42,6 +43,7 @@
                                             <!-- Other images lazy load -->
                                             <img id="img-{{ $data->id }}-{{ $i }}"
                                                 class="absolute h-full w-full cursor-pointer object-cover opacity-0"
+                                                onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                                 data-src="{{ $image ? asset('assets/images/kegiatan/' . $image) : asset('assets/images/image.jpg') }}"
                                                 alt="Kegiatan Image {{ $i + 1 }}"
                                                 loading="lazy"
@@ -105,7 +107,7 @@
                         <!-- Content Section -->
                         <div class="p-6 h-32">
                             <h2 class="mb-3 text-xl font-bold text-gray-800 line-clamp-1">{{ $data->judul }}</h2>
-                            <p class="text-gray-600 line-clamp-3">{{ $data->deskripsi }}</p>
+                            <p class="text-gray-600 line-clamp-2">{{ $data->deskripsi }}</p>
                         </div>
                     </div>
                 @endforeach

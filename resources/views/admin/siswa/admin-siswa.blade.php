@@ -154,15 +154,15 @@
                                 <td class="whitespace-nowrap px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="h-24 w-20 flex-shrink-0">
-                                            @php
-                                                $imagePath = $murid->gambar 
-                                                    ? asset('assets/images/siswa/' . $murid->gambar)
-                                                    : asset('assets/images/image.jpg');
-                                            @endphp
-                                            <img class="h-24 w-20 rounded-lg object-cover lazyload"
-                                                data-src="{{ $imagePath }}"
-                                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='96' viewBox='0 0 80 96'%3E%3Crect width='80' height='96' fill='%23f3f4f6'/%3E%3C/svg%3E"
-                                                alt="{{ $murid->nama }}">
+                                            @if ($murid['gambar'] && asset('assets/images/siswa/' . $murid['gambar']))
+                                                <img class="h-24 w-20 rounded-lg object-cover lazyload" loading="lazy"
+                                                    src="{{ asset('assets/images/siswa/' . $murid['gambar']) }}"
+                                                    alt="{{ $murid['nama'] }}"
+                                                    onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';">
+                                            @else
+                                                <img src="{{ asset('assets/images/image.jpg') }}" alt="Foto Siswa"
+                                                    loading="lazy" class="h-48 w-full object-cover md:h-80">
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
@@ -188,7 +188,8 @@
                                 <td class="whitespace-nowrap px-6 py-4">
                                     <div class="text-sm text-gray-500 dark:text-gray-300">
                                         @if ($murid->link)
-                                            <a href="{{ $murid->link }}" target="_blank" class="text-blue-500 hover:text-blue-700">Lihat</a>
+                                            <a href="{{ $murid->link }}" target="_blank"
+                                                class="text-blue-500 hover:text-blue-700">Lihat</a>
                                         @else
                                             <span class="text-3xl">-</span>
                                         @endif
@@ -238,7 +239,7 @@
 
     <!-- Lazy loading library -->
     <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize lazy loading
@@ -290,7 +291,7 @@
             });
         @endif
     </script>
-    
+
     <!-- Load SweetAlert2 asynchronously -->
     <script>
         // Load SweetAlert2 only when needed

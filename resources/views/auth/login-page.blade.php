@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    {{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 
-    <link rel="stylesheet" href="{{ asset('build/assets/app-B0a9OMnn.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-CsugfyOk.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-B0a9OMnn.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-CsugfyOk.css') }}"> --}}
     <script src="build/assets/app-D7BWGOZj.js"></script>
 
     <link rel="icon" href="{{ asset('assets/images/icon/wikrama-logo.png') }}" type="image/x-icon">

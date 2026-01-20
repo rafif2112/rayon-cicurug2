@@ -113,18 +113,47 @@
 
     <script>
         let sertifikatIndex = {{ count(old('sertifikat', $siswa->sertifikat ?? [])) }};
+        
+        // Object untuk menyimpan file yang sudah dipilih per input
+        const selectedFiles = {};
 
         function previewMultipleImages(input, index) {
             const previewContainer = document.querySelector(`.preview-container-${index}`);
 
-            // Clear existing preview
+            // Initialize file array untuk index ini jika belum ada
+            if (!selectedFiles[index]) {
+                selectedFiles[index] = [];
+            }
+
+            // Tambahkan file baru ke array yang sudah ada
+            if (input.files && input.files.length > 0) {
+                Array.from(input.files).forEach(file => {
+                    // Cek apakah file sudah ada (berdasarkan nama dan ukuran)
+                    const isDuplicate = selectedFiles[index].some(
+                        existingFile => existingFile.name === file.name && existingFile.size === file.size
+                    );
+                    
+                    if (!isDuplicate) {
+                        selectedFiles[index].push(file);
+                    }
+                });
+            }
+
+            // Update file input dengan semua file yang sudah dipilih
+            const dataTransfer = new DataTransfer();
+            selectedFiles[index].forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            input.files = dataTransfer.files;
+
+            // Clear dan rebuild preview
             previewContainer.innerHTML = '';
 
-            if (input.files && input.files.length > 0) {
+            if (selectedFiles[index].length > 0) {
                 const imageGrid = document.createElement('div');
                 imageGrid.className = 'grid grid-cols-2 gap-2 md:grid-cols-3';
 
-                Array.from(input.files).forEach((file, fileIndex) => {
+                selectedFiles[index].forEach((file, fileIndex) => {
                     const reader = new FileReader();
 
                     reader.onload = function(e) {
@@ -142,9 +171,7 @@
                         removeBtn.className =
                             'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600';
                         removeBtn.onclick = function() {
-                            imageContainer.remove();
-                            // Remove file from input (this is complex, so we'll handle it differently)
-                            removeFileFromInput(input, fileIndex);
+                            removeFileFromSelection(input, index, fileIndex);
                         };
 
                         imageContainer.appendChild(img);
@@ -159,25 +186,56 @@
             }
         }
 
-        function removeFileFromInput(input, indexToRemove) {
-            const dt = new DataTransfer();
-            const {
-                files
-            } = input;
+        function removeFileFromSelection(input, index, fileIndex) {
+            // Remove file dari array
+            selectedFiles[index].splice(fileIndex, 1);
 
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                if (i !== indexToRemove) {
-                    dt.items.add(file);
-                }
-            }
-
-            input.files = dt.files;
+            // Update file input
+            const dataTransfer = new DataTransfer();
+            selectedFiles[index].forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            input.files = dataTransfer.files;
 
             // Refresh preview
-            const sertifikatItem = input.closest('.sertifikat-item');
-            const sertifikatIndex = Array.from(sertifikatItem.parentNode.children).indexOf(sertifikatItem);
-            previewMultipleImages(input, sertifikatIndex);
+            const previewContainer = document.querySelector(`.preview-container-${index}`);
+            previewContainer.innerHTML = '';
+
+            if (selectedFiles[index].length > 0) {
+                const imageGrid = document.createElement('div');
+                imageGrid.className = 'grid grid-cols-2 gap-2 md:grid-cols-3';
+
+                selectedFiles[index].forEach((file, idx) => {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'relative';
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = `Preview Sertifikat ${idx + 1}`;
+                        img.className = 'w-full h-32 object-cover rounded-lg shadow-md border';
+
+                        const removeBtn = document.createElement('button');
+                        removeBtn.innerHTML = '×';
+                        removeBtn.type = 'button';
+                        removeBtn.className =
+                            'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600';
+                        removeBtn.onclick = function() {
+                            removeFileFromSelection(input, index, idx);
+                        };
+
+                        imageContainer.appendChild(img);
+                        imageContainer.appendChild(removeBtn);
+                        imageGrid.appendChild(imageContainer);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+
+                previewContainer.appendChild(imageGrid);
+            }
         }
 
         function removeExistingImage(button, imageName, sertifikatIndex) {
@@ -229,7 +287,8 @@
                         title: 'Berhasil!',
                         text: 'Gambar akan dihapus saat form disimpan',
                         icon: 'success',
-                        showConfirmButton: true,
+                        timer: 1500,
+                        showConfirmButton: false
                     });
                 }
             }, 300);

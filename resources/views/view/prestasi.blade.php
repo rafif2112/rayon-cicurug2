@@ -63,6 +63,7 @@
                                         @if ($gambar && asset('assets/images/prestasi/' . $gambar))
                                             <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
                                                 data-carousel-item
+                                                onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                                 src="{{ asset('assets/images/prestasi/' . $gambar) }}"
                                                 alt="{{ $item->nama }}" onclick="openModal(this)">
                                         @else

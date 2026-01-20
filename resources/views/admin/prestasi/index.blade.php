@@ -22,6 +22,7 @@
                                     <img class="{{ $key === 0 ? 'opacity-100' : 'opacity-0' }} absolute h-full w-full object-cover transition-opacity duration-500 ease-in-out"
                                         data-carousel-item 
                                         src="{{ asset('assets/images/prestasi/' . $gambar) }}"
+                                        onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                         alt="{{ $item->nama }}"
                                         loading="lazy"
                                         decoding="async">
@@ -128,7 +129,6 @@
         </div>
     </div>
 
-    @push('scripts')
     <script>
         // Modal functions
         function openModal(deleteUrl, id) {
@@ -179,5 +179,4 @@
             slides[activeSlide].classList.remove('opacity-0');
         }
     </script>
-    @endpush
 </x-admin-layout>

@@ -57,6 +57,7 @@
                         </div>
                         <div id="image-preview" class="mt-4">
                             <img id="preview" class="h-96 max-w-full rounded-lg shadow-md"
+                                onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                 src="{{ asset('assets/images/galeri/' . $image->gambar) }}" alt="Image preview">
                         </div>
                         @error('gambar')

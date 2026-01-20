@@ -49,6 +49,7 @@
                                 @foreach ($prestasi->gambar as $image)
                                     <div class="group relative">
                                         <img src="{{ asset('assets/images/prestasi/' . $image) }}"
+                                            onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                             alt="Gambar Prestasi" class="h-32 w-full rounded-lg border object-cover">
                                         <button type="button"
                                             class="absolute right-1 top-1 rounded-full bg-red-500 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"

@@ -15,6 +15,7 @@
                                 <div class="flex items-center justify-center">
                                     <img id="preview" src="{{ asset('assets/images/alumni/' . $alumni->gambar) }}"
                                         class="max-h-48 rounded-lg shadow-lg transition-all duration-300 ease-in-out"
+                                        onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                         alt="Pratinjau foto alumni">
                                 </div>
                                 <div id="drop-area"

@@ -28,6 +28,7 @@
                                         @if ($siswa->gambar)
                                             <img id="preview" src="{{ asset('assets/images/siswa/' . $siswa->gambar) }}"
                                             class="max-h-48 rounded-lg shadow-lg transition-all duration-300 ease-in-out"
+                                            onerror="this.onerror=null; this.src='{{ asset('assets/images/image.jpg') }}';"
                                             alt="Pratinjau foto siswa">
                                         @else
                                             <img id="preview" src="{{ asset('assets/images/image.jpg') }}"
@@ -282,5 +283,50 @@
                 }
             });
         @endif
+    </script>
+    <script>
+        const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+
+        function validateFileSize(files) {
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].size > MAX_IMAGE_SIZE) return files[i].name;
+            }
+            return null;
+        }
+
+        // Validate on file select (edit)
+        document.getElementById('gambar')?.addEventListener('change', function (e) {
+            const invalid = validateFileSize(this.files);
+            if (invalid) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'File Terlalu Besar',
+                    text: `File "${invalid}" melebihi batas 2MB`,
+                    confirmButtonText: 'OK'
+                });
+                this.value = '';
+                const preview = document.getElementById('preview');
+                if (preview) {
+                    preview.src = '{{ asset("assets/images/image.jpg") }}';
+                }
+            }
+        });
+
+        // Validate on submit (edit)
+        document.getElementById('form')?.addEventListener('submit', function (e) {
+            const input = document.getElementById('gambar');
+            if (input && input.files && input.files.length > 0) {
+                const invalid = validateFileSize(input.files);
+                if (invalid) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'File Terlalu Besar',
+                        text: `File "${invalid}" melebihi batas 2MB`,
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        });
     </script>
 </x-admin-layout>
